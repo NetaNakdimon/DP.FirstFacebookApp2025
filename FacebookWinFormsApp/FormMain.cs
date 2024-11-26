@@ -35,7 +35,7 @@ namespace BasicFacebookFeatures
         {
             m_LoginResult = FacebookService.Login(
                 /// (This is Desig Patter's App ID. replace it with your own)
-                "1450160541956417",
+                "1834076264004728",
                 /// requested permissions:
                     "email",
                     "public_profile",
@@ -75,7 +75,17 @@ namespace BasicFacebookFeatures
 
         private void linkAlbums_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            fatchAlbums();
+        }
 
+        private void fatchAlbums()
+        {
+            ListBoxAlbums.Items.Clear();
+            ListBoxAlbums.DisplayMember = "Name";
+            foreach (Album album in m_LoginResult.LoggedInUser.Albums)
+            {
+                ListBoxAlbums.Items.Add(album);
+            }
         }
 
         private void pictureBoxAlbum_Click(object sender, EventArgs e)
