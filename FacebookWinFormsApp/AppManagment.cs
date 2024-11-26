@@ -10,35 +10,17 @@ using System.Windows.Forms;
 
 namespace BasicFacebookFeatures
 { 
-    public class AppManagment
+    internal class AppManagment
 
     {
-        private AppManagment()
-        {
 
-        }
-     
         private LoginResult m_LoginResult;
         private User m_LoggedInUser;
-        private static AppManagment m_AppMamgamentInstance = null;
 
         public User LoggedInUser {
             get {  return m_LoggedInUser; }}
         public LoginResult LoginResult {
             get { return m_LoginResult; }}
-
-        public static AppManagment Instance
-        {
-            get
-            {
-                if (m_AppMamgamentInstance == null)
-                {
-                    m_AppMamgamentInstance = new AppManagment();
-                }
-
-                return m_AppMamgamentInstance;
-            }
-        }
 
 
         private void loginAndInit()

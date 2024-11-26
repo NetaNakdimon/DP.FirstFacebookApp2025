@@ -13,7 +13,6 @@ namespace BasicFacebookFeatures
 {
     public partial class FormMain : Form
     {
-        private AppManagment m_AppMangament;
         public FormMain()
         {
             InitializeComponent();
@@ -36,7 +35,7 @@ namespace BasicFacebookFeatures
         {
             m_LoginResult = FacebookService.Login(
                 /// (This is Desig Patter's App ID. replace it with your own)
-                "1834076264004728",
+                "1450160541956417",
                 /// requested permissions:
                     "email",
                     "public_profile",
@@ -72,28 +71,6 @@ namespace BasicFacebookFeatures
             m_LoginResult = null;
             buttonLogin.Enabled = true;
             buttonLogout.Enabled = false;
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void FetchLikes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            //TODO:
-            fetchLikes();
-        }
-
-        private void FetchAlbums_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            //TODO:
-            FetchGroups();
-        }
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
