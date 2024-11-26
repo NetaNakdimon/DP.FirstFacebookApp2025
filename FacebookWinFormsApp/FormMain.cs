@@ -77,5 +77,10 @@ namespace BasicFacebookFeatures
         {
 
         }
+
+        private void pictureBoxAlbum_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
