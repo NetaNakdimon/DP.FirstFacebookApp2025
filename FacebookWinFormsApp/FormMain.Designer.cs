@@ -33,6 +33,7 @@
             this.buttonLogout = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.settingsButton = new System.Windows.Forms.Button();
             this.listBoxPostComments = new System.Windows.Forms.ListBox();
             this.FetchPosts = new System.Windows.Forms.LinkLabel();
             this.listBoxPosts = new System.Windows.Forms.ListBox();
@@ -51,7 +52,6 @@
             this.facebook_logo = new System.Windows.Forms.PictureBox();
             this.pictureBoxProfile = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.settingsButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvents)).BeginInit();
@@ -125,6 +125,16 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // settingsButton
+            // 
+            this.settingsButton.Location = new System.Drawing.Point(1129, 147);
+            this.settingsButton.Name = "settingsButton";
+            this.settingsButton.Size = new System.Drawing.Size(128, 40);
+            this.settingsButton.TabIndex = 72;
+            this.settingsButton.Text = "Settings";
+            this.settingsButton.UseVisualStyleBackColor = true;
+            this.settingsButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // listBoxPostComments
             // 
@@ -239,6 +249,7 @@
             this.LinkEvents.TabStop = true;
             this.LinkEvents.Text = "Fetch Events\r\n(Click on an event to view its cover picture)";
             this.LinkEvents.UseCompatibleTextRendering = true;
+            this.LinkEvents.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkEvents_LinkClicked);
             // 
             // LinkLikes
             // 
@@ -252,6 +263,7 @@
             this.LinkLikes.TabStop = true;
             this.LinkLikes.Text = "Fetch Likes\r\n(Click on a page to view its picture)";
             this.LinkLikes.UseCompatibleTextRendering = true;
+            this.LinkLikes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLikes_LinkClicked);
             // 
             // LinkAlbums
             // 
@@ -284,6 +296,7 @@
             this.ListBoxEvents.Name = "ListBoxEvents";
             this.ListBoxEvents.Size = new System.Drawing.Size(326, 186);
             this.ListBoxEvents.TabIndex = 59;
+            this.ListBoxEvents.SelectedIndexChanged += new System.EventHandler(this.ListBoxEvents_SelectedIndexChanged);
             // 
             // ListBoxLikes
             // 
@@ -302,6 +315,7 @@
             this.ListBoxAlbums.Name = "ListBoxAlbums";
             this.ListBoxAlbums.Size = new System.Drawing.Size(326, 160);
             this.ListBoxAlbums.TabIndex = 57;
+            this.ListBoxAlbums.SelectedIndexChanged += new System.EventHandler(this.ListBoxAlbums_SelectedIndexChanged);
             // 
             // facebook_logo
             // 
@@ -330,16 +344,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // settingsButton
-            // 
-            this.settingsButton.Location = new System.Drawing.Point(1129, 147);
-            this.settingsButton.Name = "settingsButton";
-            this.settingsButton.Size = new System.Drawing.Size(128, 40);
-            this.settingsButton.TabIndex = 72;
-            this.settingsButton.Text = "Settings";
-            this.settingsButton.UseVisualStyleBackColor = true;
-            this.settingsButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // FormMain
             // 
