@@ -33,6 +33,8 @@
             this.buttonLogout = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.SelectedFriendPicture = new System.Windows.Forms.PictureBox();
+            this.ListBoxFriendsBirthdays = new System.Windows.Forms.ListBox();
             this.settingsButton = new System.Windows.Forms.Button();
             this.listBoxPostComments = new System.Windows.Forms.ListBox();
             this.FetchPosts = new System.Windows.Forms.LinkLabel();
@@ -54,6 +56,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SelectedFriendPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvents)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGroups)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLikes)).BeginInit();
@@ -98,6 +101,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.SelectedFriendPicture);
+            this.tabPage1.Controls.Add(this.ListBoxFriendsBirthdays);
             this.tabPage1.Controls.Add(this.settingsButton);
             this.tabPage1.Controls.Add(this.listBoxPostComments);
             this.tabPage1.Controls.Add(this.FetchPosts);
@@ -125,6 +130,27 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // SelectedFriendPicture
+            // 
+            this.SelectedFriendPicture.BackColor = System.Drawing.Color.Gainsboro;
+            this.SelectedFriendPicture.Location = new System.Drawing.Point(1149, 345);
+            this.SelectedFriendPicture.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.SelectedFriendPicture.Name = "SelectedFriendPicture";
+            this.SelectedFriendPicture.Size = new System.Drawing.Size(74, 68);
+            this.SelectedFriendPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.SelectedFriendPicture.TabIndex = 74;
+            this.SelectedFriendPicture.TabStop = false;
+            // 
+            // ListBoxFriendsBirthdays
+            // 
+            this.ListBoxFriendsBirthdays.FormattingEnabled = true;
+            this.ListBoxFriendsBirthdays.ItemHeight = 26;
+            this.ListBoxFriendsBirthdays.Location = new System.Drawing.Point(916, 240);
+            this.ListBoxFriendsBirthdays.Name = "ListBoxFriendsBirthdays";
+            this.ListBoxFriendsBirthdays.Size = new System.Drawing.Size(272, 160);
+            this.ListBoxFriendsBirthdays.TabIndex = 73;
+            this.ListBoxFriendsBirthdays.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // settingsButton
             // 
@@ -205,24 +231,26 @@
             // pictureBoxLikes
             // 
             this.pictureBoxLikes.BackColor = System.Drawing.Color.Gainsboro;
-            this.pictureBoxLikes.Location = new System.Drawing.Point(695, 376);
+            this.pictureBoxLikes.Location = new System.Drawing.Point(749, 357);
             this.pictureBoxLikes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pictureBoxLikes.Name = "pictureBoxLikes";
             this.pictureBoxLikes.Size = new System.Drawing.Size(74, 68);
             this.pictureBoxLikes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxLikes.TabIndex = 66;
             this.pictureBoxLikes.TabStop = false;
+            this.pictureBoxLikes.Click += new System.EventHandler(this.pictureBoxLikes_Click);
             // 
             // pictureBoxAlbum
             // 
             this.pictureBoxAlbum.BackColor = System.Drawing.Color.Gainsboro;
-            this.pictureBoxAlbum.Location = new System.Drawing.Point(305, 376);
+            this.pictureBoxAlbum.Location = new System.Drawing.Point(305, 357);
             this.pictureBoxAlbum.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pictureBoxAlbum.Name = "pictureBoxAlbum";
             this.pictureBoxAlbum.Size = new System.Drawing.Size(74, 68);
             this.pictureBoxAlbum.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxAlbum.TabIndex = 65;
             this.pictureBoxAlbum.TabStop = false;
+            this.pictureBoxAlbum.Click += new System.EventHandler(this.pictureBoxAlbum_Click);
             // 
             // LinkGroups
             // 
@@ -288,6 +316,7 @@
             this.ListBoxGroups.Name = "ListBoxGroups";
             this.ListBoxGroups.Size = new System.Drawing.Size(356, 186);
             this.ListBoxGroups.TabIndex = 60;
+            this.ListBoxGroups.SelectedIndexChanged += new System.EventHandler(this.ListBoxGroups_SelectedIndexChanged);
             // 
             // ListBoxEvents
             // 
@@ -297,6 +326,7 @@
             this.ListBoxEvents.Name = "ListBoxEvents";
             this.ListBoxEvents.Size = new System.Drawing.Size(326, 186);
             this.ListBoxEvents.TabIndex = 59;
+            this.ListBoxEvents.SelectedIndexChanged += new System.EventHandler(this.ListBoxEvents_SelectedIndexChanged);
             // 
             // ListBoxLikes
             // 
@@ -306,6 +336,7 @@
             this.ListBoxLikes.Name = "ListBoxLikes";
             this.ListBoxLikes.Size = new System.Drawing.Size(356, 160);
             this.ListBoxLikes.TabIndex = 58;
+            this.ListBoxLikes.SelectedIndexChanged += new System.EventHandler(this.ListBoxLikes_SelectedIndexChanged);
             // 
             // ListBoxAlbums
             // 
@@ -359,6 +390,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SelectedFriendPicture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvents)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGroups)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLikes)).EndInit();
@@ -394,6 +426,8 @@
         private System.Windows.Forms.PictureBox pictureBoxGroups;
         private System.Windows.Forms.PictureBox pictureBoxLikes;
         private System.Windows.Forms.Button settingsButton;
+        private System.Windows.Forms.PictureBox SelectedFriendPicture;
+        private System.Windows.Forms.ListBox ListBoxFriendsBirthdays;
     }
 }
 

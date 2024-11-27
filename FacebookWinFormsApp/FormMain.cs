@@ -178,12 +178,30 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void LinkEvents_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void ListBoxLikes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            displayEvents();
+            DisplayLikedPagePicture();
         }
 
-        private void displayEvents()
+        private void DisplayLikedPagePicture()
+        {
+            Page selectedPage = ListBoxLikes.SelectedItem as Page;
+            if (selectedPage.PictureNormalURL != null)
+            {
+                pictureBoxLikes.LoadAsync(selectedPage.PictureNormalURL);
+            }
+            else
+            {
+                pictureBoxLikes.Image = pictureBoxLikes.ErrorImage;
+            }
+        }
+
+        private void LinkEvents_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            DisplayEvents();
+        }
+
+        private void DisplayEvents()
         {
             ListBoxEvents.Items.Clear();
             ListBoxEvents.DisplayMember = "Name";
@@ -194,6 +212,24 @@ namespace BasicFacebookFeatures
             if (m_AppManagment.LoggedInUser.Events.Count == 0)
             {
                 ListBoxEvents.Items.Add("No Events to show");
+            }
+        }
+
+        private void ListBoxEvents_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DisplayEventPicture();
+        }
+
+        private void DisplayEventPicture()
+        {
+            Event selectedEvent = ListBoxEvents.SelectedItem as Event;
+            if (selectedEvent.PictureNormalURL != null)
+            {
+                pictureBoxEvents.LoadAsync(selectedEvent.PictureNormalURL);
+            }
+            else
+            {
+                pictureBoxEvents.Image = pictureBoxEvents.ErrorImage;
             }
         }
 
@@ -215,12 +251,62 @@ namespace BasicFacebookFeatures
                 ListBoxGroups.Items.Add("No Groups to show");
             }
         }
+        private void ListBoxGroups_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DisplayGroupPicture();
+        }
 
+        private void DisplayGroupPicture()
+        {
+            Group selectedGroup = ListBoxGroups.SelectedItem as Group;
+            if (selectedGroup.PictureNormalURL != null)
+            {
+                pictureBoxGroups.LoadAsync(selectedGroup.PictureNormalURL);
+            }
+            else
+            {
+                pictureBoxGroups.Image = pictureBoxGroups.ErrorImage;
+            }
+        }
         private void settingsButton_Click(object sender, EventArgs e)
         {
 
         }
 
-     
+        private void pictureBoxLikes_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBoxAlbum_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListBoxFriendsBirthdays.Items.Clear();
+
+            if (m_AppManagment.LoggedInUser != null)
+            {
+                ListBoxFriendsBirthdays.DisplayMember = "Text";
+
+                foreach (User friend in m_AppManagment.LoggedInUser.Friends)
+                {
+                    string birthdayInfo = friend.Name + " - " + friend.Birthday.ToString("MMM dd");
+                    ListBoxFriendsBirthdays.Items.Add(birthdayInfo);
+                }
+
+                if (m_AppManagment.LoggedInUser.Friends.Count == 0)
+                {
+                    ListBoxFriendsBirthdays.Items.Add("No friends with birthdays to show.");
+                }
+            }
+            else
+            {
+                ListBoxFriendsBirthdays.Items.Add("No user is logged in. Please log in first.");
+            }
+        }
+    }
     }
 }
