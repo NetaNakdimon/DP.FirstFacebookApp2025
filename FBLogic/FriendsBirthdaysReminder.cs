@@ -12,15 +12,15 @@ namespace FBLogic
     class FriendsBirthdaysReminder
     {
         private AppManagment m_AppManagment;
-        public FriendsBirthdaysReminder()
+        public FriendsBirthdaysReminder(AppManagment i_AppManagment)
         {
 
-            m_AppManagment = AppManagment.Instance;
+            m_AppManagment = i_AppManagment;
         }
 
-   //     public List<string> GetFriendsBirthdays()
-   //     {
-   //         List<string> birthdaysList = new List<string>();
+//         public List<string> GetFriendsBirthdays()
+//        {
+//            List<string> birthdaysList = new List<string>();
 //
   //          if (m_AppManagment.LoggedInUser != null)
     //        {
@@ -28,15 +28,15 @@ namespace FBLogic
         //        {
           //          string birthdayInfo = friend.Name + " - " + friend.Birthday.ToString();
             //        birthdaysList.Add(birthdayInfo);
-        //        }
-        //    }
-         //   else
-          //  {
-           //     birthdaysList.Add("No user is logged in. Please log in first.");
-           // }
-
-           // return birthdaysList;
-      //  }
+              //  }
+ //           }
+   //         else
+     //       {
+       //         birthdaysList.Add("No user is logged in. Please log in first.");
+         //   }
+         //
+           //  return birthdaysList;
+        //}
     }
 
 }

@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="AppManagment.cs" />
     <Compile Include="FriendsBirthdaysReminder.cs" />
+    <Compile Include="GenderStatsCalculator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Facebook">
@@ -49,6 +50,7 @@
     <Reference Include="FbGraphApiWrapper">
       <HintPath>..\FBApi\FbGraphApiWrapper.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

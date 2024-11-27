@@ -55,6 +55,16 @@ namespace BasicFacebookFeatures
             this.facebook_logo = new System.Windows.Forms.PictureBox();
             this.pictureBoxProfile = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.labelGenderCount = new System.Windows.Forms.Label();
+            this.labelAvgAge = new System.Windows.Forms.Label();
+            this.buttonCalculateStats = new System.Windows.Forms.Button();
+            this.labelMaleCounter = new System.Windows.Forms.Label();
+            this.labelFemaleCounter = new System.Windows.Forms.Label();
+            this.labelAvgMales = new System.Windows.Forms.Label();
+            this.labelAvgFemales = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SelectedFriendPicture)).BeginInit();
@@ -64,6 +74,9 @@ namespace BasicFacebookFeatures
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAlbum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.facebook_logo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonLogin
@@ -97,7 +110,7 @@ namespace BasicFacebookFeatures
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1284, 701);
+            this.tabControl1.Size = new System.Drawing.Size(1365, 743);
             this.tabControl1.TabIndex = 54;
             // 
             // tabPage1
@@ -126,7 +139,7 @@ namespace BasicFacebookFeatures
             this.tabPage1.Location = new System.Drawing.Point(4, 35);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1276, 662);
+            this.tabPage1.Size = new System.Drawing.Size(1357, 704);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -164,7 +177,7 @@ namespace BasicFacebookFeatures
             this.listBoxPostComments.Location = new System.Drawing.Point(802, 147);
             this.listBoxPostComments.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listBoxPostComments.Name = "listBoxPostComments";
-            this.listBoxPostComments.Size = new System.Drawing.Size(277, 62);
+            this.listBoxPostComments.Size = new System.Drawing.Size(358, 62);
             this.listBoxPostComments.TabIndex = 71;
             // 
             // FetchPosts
@@ -192,7 +205,7 @@ namespace BasicFacebookFeatures
             this.listBoxPosts.Location = new System.Drawing.Point(472, 74);
             this.listBoxPosts.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.listBoxPosts.Name = "listBoxPosts";
-            this.listBoxPosts.Size = new System.Drawing.Size(546, 91);
+            this.listBoxPosts.Size = new System.Drawing.Size(627, 91);
             this.listBoxPosts.TabIndex = 69;
             this.listBoxPosts.SelectedIndexChanged += new System.EventHandler(this.listBoxPosts_SelectedIndexChanged);
             // 
@@ -356,20 +369,117 @@ namespace BasicFacebookFeatures
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.labelAvgFemales);
+            this.tabPage2.Controls.Add(this.labelAvgMales);
+            this.tabPage2.Controls.Add(this.labelFemaleCounter);
+            this.tabPage2.Controls.Add(this.labelMaleCounter);
+            this.tabPage2.Controls.Add(this.buttonCalculateStats);
+            this.tabPage2.Controls.Add(this.labelAvgAge);
+            this.tabPage2.Controls.Add(this.labelGenderCount);
+            this.tabPage2.Controls.Add(this.pictureBox2);
+            this.tabPage2.Controls.Add(this.pictureBox1);
+            this.tabPage2.Controls.Add(this.label1);
             this.tabPage2.Location = new System.Drawing.Point(4, 35);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1276, 662);
+            this.tabPage2.Size = new System.Drawing.Size(1357, 704);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(266, 78);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(220, 226);
+            this.pictureBox2.TabIndex = 2;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(97, 77);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(229, 227);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(201, 34);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(192, 26);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "User Gender Stats";
+            // 
+            // labelGenderCount
+            // 
+            this.labelGenderCount.AutoSize = true;
+            this.labelGenderCount.Location = new System.Drawing.Point(6, 362);
+            this.labelGenderCount.Name = "labelGenderCount";
+            this.labelGenderCount.Size = new System.Drawing.Size(95, 26);
+            this.labelGenderCount.TabIndex = 3;
+            this.labelGenderCount.Text = "Counter:";
+            // 
+            // labelAvgAge
+            // 
+            this.labelAvgAge.AutoSize = true;
+            this.labelAvgAge.Location = new System.Drawing.Point(3, 421);
+            this.labelAvgAge.Name = "labelAvgAge";
+            this.labelAvgAge.Size = new System.Drawing.Size(141, 26);
+            this.labelAvgAge.TabIndex = 4;
+            this.labelAvgAge.Text = "Avarage age:";
+            // 
+            // buttonCalculateStats
+            // 
+            this.buttonCalculateStats.Location = new System.Drawing.Point(206, 484);
+            this.buttonCalculateStats.Name = "buttonCalculateStats";
+            this.buttonCalculateStats.Size = new System.Drawing.Size(151, 36);
+            this.buttonCalculateStats.TabIndex = 6;
+            this.buttonCalculateStats.Text = "Calculate";
+            this.buttonCalculateStats.UseVisualStyleBackColor = true;
+            this.buttonCalculateStats.Click += new System.EventHandler(this.buttonCalculateStats_Click);
+            // 
+            // labelMaleCounter
+            // 
+            this.labelMaleCounter.AutoSize = true;
+            this.labelMaleCounter.Location = new System.Drawing.Point(189, 364);
+            this.labelMaleCounter.Name = "labelMaleCounter";
+            this.labelMaleCounter.Size = new System.Drawing.Size(0, 26);
+            this.labelMaleCounter.TabIndex = 7;
+            // 
+            // labelFemaleCounter
+            // 
+            this.labelFemaleCounter.AutoSize = true;
+            this.labelFemaleCounter.Location = new System.Drawing.Point(342, 364);
+            this.labelFemaleCounter.Name = "labelFemaleCounter";
+            this.labelFemaleCounter.Size = new System.Drawing.Size(0, 26);
+            this.labelFemaleCounter.TabIndex = 8;
+            // 
+            // labelAvgMales
+            // 
+            this.labelAvgMales.AutoSize = true;
+            this.labelAvgMales.Location = new System.Drawing.Point(189, 421);
+            this.labelAvgMales.Name = "labelAvgMales";
+            this.labelAvgMales.Size = new System.Drawing.Size(0, 26);
+            this.labelAvgMales.TabIndex = 9;
+            // 
+            // labelAvgFemales
+            // 
+            this.labelAvgFemales.AutoSize = true;
+            this.labelAvgFemales.Location = new System.Drawing.Point(342, 423);
+            this.labelAvgFemales.Name = "labelAvgFemales";
+            this.labelAvgFemales.Size = new System.Drawing.Size(0, 26);
+            this.labelAvgFemales.TabIndex = 10;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 26F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(87)))), ((int)(((byte)(176)))));
-            this.ClientSize = new System.Drawing.Size(1284, 701);
+            this.ClientSize = new System.Drawing.Size(1365, 743);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -386,6 +496,10 @@ namespace BasicFacebookFeatures
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAlbum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.facebook_logo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -416,6 +530,16 @@ namespace BasicFacebookFeatures
         private System.Windows.Forms.PictureBox pictureBoxLikes;
         private System.Windows.Forms.PictureBox SelectedFriendPicture;
         private System.Windows.Forms.ListBox ListBoxFriendsBirthdays;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label labelAvgAge;
+        private System.Windows.Forms.Label labelGenderCount;
+        private System.Windows.Forms.Label labelAvgFemales;
+        private System.Windows.Forms.Label labelAvgMales;
+        private System.Windows.Forms.Label labelFemaleCounter;
+        private System.Windows.Forms.Label labelMaleCounter;
+        private System.Windows.Forms.Button buttonCalculateStats;
     }
 }
 

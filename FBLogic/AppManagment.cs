@@ -47,36 +47,35 @@ namespace FBLogic
 
             public static AppManagment Instance { get; } = new AppManagment();
 
-            public void Login()
-            {
-                m_LoginResult = FacebookService.Login(
+        public void Login()
+        {
+            m_LoginResult = FacebookService.Login(
                     //App ID
                     "1834076264004728",
-                        /// requested permissions:
-                        "email",
-                        "public_profile",
-                        "user_age_range",
-                        "user_birthday",
-                        "user_events",
-                        "user_friends",
-                        "user_gender",
-                        "user_hometown",
-                        "user_likes",
-                        "user_link",
-                        "user_location",
-                        "user_photos",
-                        "user_posts",
-                        "user_videos"
-                        
-                    );
-                if (m_LoginResult != null && string.IsNullOrEmpty(m_LoginResult.ErrorMessage))
-                {
-                    m_LoggedInUser = m_LoginResult.LoggedInUser;
-                }
+                    /// requested permissions:
+                    "email",
+                    "public_profile",
+                    "user_age_range",
+                    "user_birthday",
+                    "user_events",
+                    "user_friends",
+                    "user_gender",
+                    "user_hometown",
+                    "user_likes",
+                    "user_link",
+                    "user_location",
+                    "user_photos",
+                    "user_posts",
+                    "user_videos"
+                     );
 
-
+            if (m_LoginResult != null && string.IsNullOrEmpty(m_LoginResult.ErrorMessage))
+            {
+                m_LoggedInUser = m_LoginResult.LoggedInUser;
             }
 
+
+        }
 
             public void Logout()
             {

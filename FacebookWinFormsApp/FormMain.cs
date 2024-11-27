@@ -12,6 +12,7 @@ using System.Drawing.Text;
 using FBLogic;
 
 
+
 namespace BasicFacebookFeatures
 {
     public partial class FormMain : Form
@@ -93,7 +94,7 @@ namespace BasicFacebookFeatures
         {
             displayAlbumPicture();
         }
-     
+
         private void displayAlbumPicture()
         {
             Album selectedAlbum = ListBoxAlbums.SelectedItem as Album;
@@ -113,7 +114,7 @@ namespace BasicFacebookFeatures
         {
             DisplayPosts();
         }
-        
+
         private void DisplayPosts()
         {
             listBoxPosts.Items.Clear();
@@ -216,12 +217,12 @@ namespace BasicFacebookFeatures
                 {
                     ListBoxEvents.Items.Add("No Name");
                 }
-               
+
 
             }
             if (m_AppManagment.LoggedInUser.Events.Count == 0)
             {
-               
+
                 ListBoxEvents.Items.Add("No Events to show");
             }
         }
@@ -246,7 +247,7 @@ namespace BasicFacebookFeatures
 
         private void LinkGroups_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            fetchUsersGroups();  
+            fetchUsersGroups();
         }
         //todo- check why not working
         private void fetchUsersGroups()
@@ -279,7 +280,7 @@ namespace BasicFacebookFeatures
                 pictureBoxGroups.Image = pictureBoxGroups.ErrorImage;
             }
         }
-   
+
 
         private void ListBoxFriendsBirthdays_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -291,8 +292,8 @@ namespace BasicFacebookFeatures
 
                 foreach (User friend in m_AppManagment.LoggedInUser.Friends)
                 {
-                   // string birthdayInfo = friend.Name + " - " + friend.Birthday.ToString("MMM dd");
-                   // ListBoxFriendsBirthdays.Items.Add(birthdayInfo);
+                    // string birthdayInfo = friend.Name + " - " + friend.Birthday.ToString("MMM dd");
+                    // ListBoxFriendsBirthdays.Items.Add(birthdayInfo);
                 }
 
                 if (m_AppManagment.LoggedInUser.Friends.Count == 0)
@@ -305,6 +306,23 @@ namespace BasicFacebookFeatures
                 ListBoxFriendsBirthdays.Items.Add("No user is logged in. Please log in first.");
             }
         }
+
+        private void buttonCalculateStats_Click(object sender, EventArgs e)
+        {
+           
+            GenderStatsCalculator genderStats = new GenderStatsCalculator(m_AppManagment);
+            genderStats.CalculateGenderStats();
+            DisplayGenderStats(genderStats);
+        }
+
+        private void DisplayGenderStats(GenderStatsCalculator genderStats)
+        {
+            labelMaleCounter.Text= genderStats.Males.ToString();
+            labelFemaleCounter.Text = genderStats.Female.ToString();
+            labelAvgMales.Text = genderStats.MaleAgeAvg().ToString();
+            labelAvgFemales.Text = genderStats.FemaleAgeAvg().ToString();
+
+        }
     }
-    }
+}
 
