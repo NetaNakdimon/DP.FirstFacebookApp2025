@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FacebookWrapper;
 using System.Drawing.Text;
-using FBAppLog;
+using FBLogic;
 
 
 namespace BasicFacebookFeatures
@@ -114,6 +114,7 @@ namespace BasicFacebookFeatures
         private void displayPosts()
         {
             listBoxPosts.Items.Clear();
+            //listBoxPosts.DisplayMember = "Message";
 
             foreach (Post post in m_AppManagment.LoggedInUser.Posts)
             {
@@ -127,7 +128,7 @@ namespace BasicFacebookFeatures
                 }
                 else
                 {
-                    listBoxPosts.Items.Add(string.Format("[{0}]", post.Type));*
+                    listBoxPosts.Items.Add(string.Format("[{0}]", post.Type));
                 }
             }
             if (m_AppManagment.LoggedInUser.Posts.Count == 0)
