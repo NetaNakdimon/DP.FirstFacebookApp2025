@@ -20,6 +20,7 @@ namespace BasicFacebookFeatures
         {
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
+            m_AppManagment = AppManagment.Instance;
         }
 
 
@@ -45,7 +46,6 @@ namespace BasicFacebookFeatures
             }
         }
 
-        //TODO- when logout remove the profile picture
 
         private void buttonLogout_Click(object sender, EventArgs e)
         {
@@ -63,8 +63,13 @@ namespace BasicFacebookFeatures
             ListBoxLikes.Items.Clear();
             ListBoxEvents.Items.Clear();
             ListBoxGroups.Items.Clear();
+            pictureBoxAlbum.Image = null;
+            pictureBoxEvents.Image = null;
+            pictureBoxGroups.Image = null;
+            pictureBoxLikes.Image = null;
         }
 
+        //Album methods:
         private void linkAlbums_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             DisplaySelectedAlbums();
@@ -78,14 +83,17 @@ namespace BasicFacebookFeatures
             {
                 ListBoxAlbums.Items.Add(album);
             }
+            if (m_AppManagment.LoggedInUser.Albums.Count == 0)
+            {
+                listBoxPosts.Items.Add("No albums to show");
+            }
         }
 
         private void ListBoxAlbums_SelectedIndexChanged(object sender, EventArgs e)
         {
             displayAlbumPicture();
         }
-
-        //Todo- add a picture box to display the selected album picture
+     
         private void displayAlbumPicture()
         {
             Album selectedAlbum = ListBoxAlbums.SelectedItem as Album;
@@ -99,22 +107,16 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void pictureBoxAlbum_Click(object sender, EventArgs e)
-        {
-            displayAlbumPicture();
-
-        }
-
+        //posts methods:
 
         private void FetchPosts_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            displayPosts();
+            DisplayPosts();
         }
-        //Todo- add a list box to display the posts
-        private void displayPosts()
+        
+        private void DisplayPosts()
         {
             listBoxPosts.Items.Clear();
-            //listBoxPosts.DisplayMember = "Message";
 
             foreach (Post post in m_AppManagment.LoggedInUser.Posts)
             {
@@ -138,11 +140,23 @@ namespace BasicFacebookFeatures
 
         }
 
-
-        //Todo-checkwhatthisis
-        private void button1_Click(object sender, EventArgs e)
+        private void listBoxPosts_SelectedIndexChanged(object sender, EventArgs e)
         {
+            DisplayPostComments();
+        }
 
+        private void DisplayPostComments()
+        {
+            listBoxPostComments.Items.Clear();
+            Post selectedPost = m_AppManagment.LoggedInUser.Posts[listBoxPosts.SelectedIndex];
+            foreach (Comment comment in selectedPost.Comments)
+            {
+                listBoxPostComments.Items.Add(comment.Message);
+            }
+            if (selectedPost.Comments.Count == 0)
+            {
+                listBoxPostComments.Items.Add("No Comments to show");
+            }
         }
 
         private void LinkLikes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -201,5 +215,12 @@ namespace BasicFacebookFeatures
                 ListBoxGroups.Items.Add("No Groups to show");
             }
         }
+
+        private void settingsButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+     
     }
 }

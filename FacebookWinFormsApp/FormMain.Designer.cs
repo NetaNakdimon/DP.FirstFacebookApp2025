@@ -134,7 +134,7 @@
             this.settingsButton.TabIndex = 72;
             this.settingsButton.Text = "Settings";
             this.settingsButton.UseVisualStyleBackColor = true;
-            this.settingsButton.Click += new System.EventHandler(this.button1_Click);
+            this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
             // 
             // listBoxPostComments
             // 
@@ -178,6 +178,7 @@
             this.listBoxPosts.Name = "listBoxPosts";
             this.listBoxPosts.Size = new System.Drawing.Size(546, 91);
             this.listBoxPosts.TabIndex = 69;
+            this.listBoxPosts.SelectedIndexChanged += new System.EventHandler(this.listBoxPosts_SelectedIndexChanged);
             // 
             // pictureBoxEvents
             // 
@@ -222,7 +223,6 @@
             this.pictureBoxAlbum.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxAlbum.TabIndex = 65;
             this.pictureBoxAlbum.TabStop = false;
-            this.pictureBoxAlbum.Click += new System.EventHandler(this.pictureBoxAlbum_Click);
             // 
             // LinkGroups
             // 

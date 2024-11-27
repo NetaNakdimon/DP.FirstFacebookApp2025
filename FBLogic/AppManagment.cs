@@ -16,7 +16,11 @@ namespace FBLogic
             private User m_LoggedInUser;
             public AppManagment m_AppManagmentInstance = null;
 
-            public LoginResult LoginResult
+        private AppManagment()
+        {
+        }
+
+        public LoginResult LoginResult
             {
                 get
                 {
@@ -40,9 +44,6 @@ namespace FBLogic
 
             }
 
-            private AppManagment()
-            {
-            }
 
             public static AppManagment Instance { get; } = new AppManagment();
 
@@ -50,7 +51,7 @@ namespace FBLogic
             {
                 m_LoginResult = FacebookService.Login(
                     //App ID
-                    "1450160541956417",
+                    "1834076264004728",
                         /// requested permissions:
                         "email",
                         "public_profile",
@@ -66,8 +67,7 @@ namespace FBLogic
                         "user_photos",
                         "user_posts",
                         "user_videos",
-                        "groups_access_member_info",
-                        "user_managed_groups"
+                        "pages_read_engagement"
                     );
                 if (m_LoginResult != null && string.IsNullOrEmpty(m_LoginResult.ErrorMessage))
                 {
