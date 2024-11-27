@@ -33,7 +33,7 @@ namespace BasicFacebookFeatures
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.buttonLogin = new System.Windows.Forms.Button();
             this.buttonLogout = new System.Windows.Forms.Button();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabControlOurFeatures = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.SelectedFriendPicture = new System.Windows.Forms.PictureBox();
             this.ListBoxFriendsBirthdays = new System.Windows.Forms.ListBox();
@@ -65,7 +65,7 @@ namespace BasicFacebookFeatures
             this.labelFemaleCounter = new System.Windows.Forms.Label();
             this.labelAvgMales = new System.Windows.Forms.Label();
             this.labelAvgFemales = new System.Windows.Forms.Label();
-            this.tabControl1.SuspendLayout();
+            this.tabControlOurFeatures.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SelectedFriendPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvents)).BeginInit();
@@ -102,16 +102,16 @@ namespace BasicFacebookFeatures
             this.buttonLogout.UseVisualStyleBackColor = true;
             this.buttonLogout.Click += new System.EventHandler(this.buttonLogout_Click);
             // 
-            // tabControl1
+            // tabControlOurFeatures
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1365, 743);
-            this.tabControl1.TabIndex = 54;
+            this.tabControlOurFeatures.Controls.Add(this.tabPage1);
+            this.tabControlOurFeatures.Controls.Add(this.tabPage2);
+            this.tabControlOurFeatures.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlOurFeatures.Location = new System.Drawing.Point(0, 0);
+            this.tabControlOurFeatures.Name = "tabControlOurFeatures";
+            this.tabControlOurFeatures.SelectedIndex = 0;
+            this.tabControlOurFeatures.Size = new System.Drawing.Size(1365, 743);
+            this.tabControlOurFeatures.TabIndex = 54;
             // 
             // tabPage1
             // 
@@ -480,13 +480,13 @@ namespace BasicFacebookFeatures
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(87)))), ((int)(((byte)(176)))));
             this.ClientSize = new System.Drawing.Size(1365, 743);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabControlOurFeatures);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
-            this.tabControl1.ResumeLayout(false);
+            this.tabControlOurFeatures.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SelectedFriendPicture)).EndInit();
@@ -508,7 +508,7 @@ namespace BasicFacebookFeatures
 
 		private System.Windows.Forms.Button buttonLogin;
 		private System.Windows.Forms.Button buttonLogout;
-		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabControl tabControlOurFeatures;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.PictureBox pictureBoxProfile;

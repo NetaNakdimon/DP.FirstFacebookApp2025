@@ -47,14 +47,13 @@ namespace FBLogic
 
              foreach (User friend in m_LoggedInUser.Friends)
                  {
-                try
-                {
-                    Console.WriteLine($"Processing friend: {friend.Name}, Gender: {friend.Gender}, Birthday: {friend.Birthday}");
 
-                    if (friend.Gender == User.eGender.male)
+                int? age = GetUserAge(friend);
+
+                if (friend.Gender == User.eGender.male)
                     {
                         m_MaleCounter++;
-                        int? age = GetUserAge(friend);
+                        
                         if (age.HasValue)
                         {
                             m_MaleAgeSum += age.Value;
@@ -63,20 +62,16 @@ namespace FBLogic
                     else if (friend.Gender == User.eGender.female)
                     {
                         m_FemaleCounter++;
-                        int? age = GetUserAge(friend);
+                        
                         if (age.HasValue)
                         {
                             m_FemaleAgeSum += age.Value;
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error processing friend {friend.Name}: {ex.Message}");
-                }
+                
+             
             }
         }
-
 
         public int? GetUserAge(User i_User)
         {

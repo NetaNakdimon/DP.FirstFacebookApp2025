@@ -51,6 +51,13 @@ namespace BasicFacebookFeatures
         private void buttonLogout_Click(object sender, EventArgs e)
         {
             m_AppManagment.Logout();
+            EraseWhenLogOut();
+
+
+        }
+
+        private void EraseWhenLogOut()
+        {
             buttonLogin.Text = "Login";
             buttonLogin.BackColor = buttonLogout.BackColor;
             buttonLogin.Enabled = true;
@@ -68,8 +75,11 @@ namespace BasicFacebookFeatures
             pictureBoxEvents.Image = null;
             pictureBoxGroups.Image = null;
             pictureBoxLikes.Image = null;
+            labelMaleCounter.Text = "";
+            labelFemaleCounter.Text = "";
+            labelAvgMales.Text = "";
+            labelAvgFemales.Text = "";
         }
-
         //Album methods:
         private void linkAlbums_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -311,7 +321,14 @@ namespace BasicFacebookFeatures
         {
            
             GenderStatsCalculator genderStats = new GenderStatsCalculator(m_AppManagment);
-            genderStats.CalculateGenderStats();
+            try
+            {
+                genderStats.CalculateGenderStats();
+            }
+            catch (Exception InvalidOperationException)
+            {
+                return;
+            }
             DisplayGenderStats(genderStats);
         }
 
