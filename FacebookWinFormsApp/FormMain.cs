@@ -200,17 +200,28 @@ namespace BasicFacebookFeatures
         {
             DisplayEvents();
         }
-
+        //todo- check why not working
         private void DisplayEvents()
         {
             ListBoxEvents.Items.Clear();
             ListBoxEvents.DisplayMember = "Name";
+
             foreach (Event fbEvent in m_AppManagment.LoggedInUser.Events)
             {
-                ListBoxEvents.Items.Add(fbEvent);
+                if (fbEvent.Name != null)
+                {
+                    ListBoxEvents.Items.Add(fbEvent.Name);
+                }
+                else
+                {
+                    ListBoxEvents.Items.Add("No Name");
+                }
+               
+
             }
             if (m_AppManagment.LoggedInUser.Events.Count == 0)
             {
+               
                 ListBoxEvents.Items.Add("No Events to show");
             }
         }
@@ -237,7 +248,7 @@ namespace BasicFacebookFeatures
         {
             fetchUsersGroups();  
         }
-
+        //todo- check why not working
         private void fetchUsersGroups()
         {
             ListBoxGroups.Items.Clear();
@@ -255,7 +266,7 @@ namespace BasicFacebookFeatures
         {
             DisplayGroupPicture();
         }
-
+        //todo- try-catch
         private void DisplayGroupPicture()
         {
             Group selectedGroup = ListBoxGroups.SelectedItem as Group;
@@ -268,22 +279,9 @@ namespace BasicFacebookFeatures
                 pictureBoxGroups.Image = pictureBoxGroups.ErrorImage;
             }
         }
-        private void settingsButton_Click(object sender, EventArgs e)
-        {
+   
 
-        }
-
-        private void pictureBoxLikes_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBoxAlbum_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListBoxFriendsBirthdays_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListBoxFriendsBirthdays.Items.Clear();
 
@@ -293,8 +291,8 @@ namespace BasicFacebookFeatures
 
                 foreach (User friend in m_AppManagment.LoggedInUser.Friends)
                 {
-                    string birthdayInfo = friend.Name + " - " + friend.Birthday.ToString("MMM dd");
-                    ListBoxFriendsBirthdays.Items.Add(birthdayInfo);
+                   // string birthdayInfo = friend.Name + " - " + friend.Birthday.ToString("MMM dd");
+                   // ListBoxFriendsBirthdays.Items.Add(birthdayInfo);
                 }
 
                 if (m_AppManagment.LoggedInUser.Friends.Count == 0)
@@ -309,4 +307,4 @@ namespace BasicFacebookFeatures
         }
     }
     }
-}
+

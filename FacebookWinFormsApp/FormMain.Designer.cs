@@ -1,4 +1,6 @@
-﻿namespace BasicFacebookFeatures
+﻿using System.Drawing;
+
+namespace BasicFacebookFeatures
 {
     partial class FormMain
     {
@@ -35,7 +37,6 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.SelectedFriendPicture = new System.Windows.Forms.PictureBox();
             this.ListBoxFriendsBirthdays = new System.Windows.Forms.ListBox();
-            this.settingsButton = new System.Windows.Forms.Button();
             this.listBoxPostComments = new System.Windows.Forms.ListBox();
             this.FetchPosts = new System.Windows.Forms.LinkLabel();
             this.listBoxPosts = new System.Windows.Forms.ListBox();
@@ -103,7 +104,6 @@
             // 
             this.tabPage1.Controls.Add(this.SelectedFriendPicture);
             this.tabPage1.Controls.Add(this.ListBoxFriendsBirthdays);
-            this.tabPage1.Controls.Add(this.settingsButton);
             this.tabPage1.Controls.Add(this.listBoxPostComments);
             this.tabPage1.Controls.Add(this.FetchPosts);
             this.tabPage1.Controls.Add(this.listBoxPosts);
@@ -134,7 +134,7 @@
             // SelectedFriendPicture
             // 
             this.SelectedFriendPicture.BackColor = System.Drawing.Color.Gainsboro;
-            this.SelectedFriendPicture.Location = new System.Drawing.Point(1149, 345);
+            this.SelectedFriendPicture.Location = new System.Drawing.Point(1139, 357);
             this.SelectedFriendPicture.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.SelectedFriendPicture.Name = "SelectedFriendPicture";
             this.SelectedFriendPicture.Size = new System.Drawing.Size(74, 68);
@@ -146,21 +146,11 @@
             // 
             this.ListBoxFriendsBirthdays.FormattingEnabled = true;
             this.ListBoxFriendsBirthdays.ItemHeight = 26;
-            this.ListBoxFriendsBirthdays.Location = new System.Drawing.Point(916, 240);
+            this.ListBoxFriendsBirthdays.Location = new System.Drawing.Point(870, 253);
             this.ListBoxFriendsBirthdays.Name = "ListBoxFriendsBirthdays";
-            this.ListBoxFriendsBirthdays.Size = new System.Drawing.Size(272, 160);
+            this.ListBoxFriendsBirthdays.Size = new System.Drawing.Size(324, 160);
             this.ListBoxFriendsBirthdays.TabIndex = 73;
-            this.ListBoxFriendsBirthdays.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
-            // 
-            // settingsButton
-            // 
-            this.settingsButton.Location = new System.Drawing.Point(1129, 147);
-            this.settingsButton.Name = "settingsButton";
-            this.settingsButton.Size = new System.Drawing.Size(128, 40);
-            this.settingsButton.TabIndex = 72;
-            this.settingsButton.Text = "Settings";
-            this.settingsButton.UseVisualStyleBackColor = true;
-            this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
+            this.ListBoxFriendsBirthdays.SelectedIndexChanged += new System.EventHandler(this.ListBoxFriendsBirthdays_SelectedIndexChanged);
             // 
             // listBoxPostComments
             // 
@@ -238,7 +228,6 @@
             this.pictureBoxLikes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxLikes.TabIndex = 66;
             this.pictureBoxLikes.TabStop = false;
-            this.pictureBoxLikes.Click += new System.EventHandler(this.pictureBoxLikes_Click);
             // 
             // pictureBoxAlbum
             // 
@@ -250,7 +239,6 @@
             this.pictureBoxAlbum.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxAlbum.TabIndex = 65;
             this.pictureBoxAlbum.TabStop = false;
-            this.pictureBoxAlbum.Click += new System.EventHandler(this.pictureBoxAlbum_Click);
             // 
             // LinkGroups
             // 
@@ -380,6 +368,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 26F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(87)))), ((int)(((byte)(176)))));
             this.ClientSize = new System.Drawing.Size(1284, 701);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -425,7 +414,6 @@
         private System.Windows.Forms.PictureBox pictureBoxEvents;
         private System.Windows.Forms.PictureBox pictureBoxGroups;
         private System.Windows.Forms.PictureBox pictureBoxLikes;
-        private System.Windows.Forms.Button settingsButton;
         private System.Windows.Forms.PictureBox SelectedFriendPicture;
         private System.Windows.Forms.ListBox ListBoxFriendsBirthdays;
     }

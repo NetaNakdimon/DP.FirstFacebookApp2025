@@ -66,8 +66,8 @@ namespace FBLogic
                         "user_location",
                         "user_photos",
                         "user_posts",
-                        "user_videos",
-                        "pages_read_engagement"
+                        "user_videos"
+                        
                     );
                 if (m_LoginResult != null && string.IsNullOrEmpty(m_LoginResult.ErrorMessage))
                 {
