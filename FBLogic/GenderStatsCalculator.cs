@@ -42,8 +42,8 @@ namespace FBLogic
         {
              if (m_LoggedInUser?.Friends == null || m_LoggedInUser.Friends.Count == 0)
                 {
-                    throw new InvalidOperationException("No friends data available. Ensure the user has granted the required permissions.");
-                 }
+                  return;
+                }
 
              foreach (User friend in m_LoggedInUser.Friends)
                  {

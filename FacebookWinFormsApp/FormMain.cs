@@ -39,6 +39,7 @@ namespace BasicFacebookFeatures
                 if (string.IsNullOrEmpty(m_AppManagment.LoginResult.ErrorMessage))
                 {
                     buttonLogin.Text = $"Logged in as {m_AppManagment.LoginResult.LoggedInUser.Name}";
+                    labelUserName.Text = m_AppManagment.LoginResult.LoggedInUser.Name;
                     buttonLogin.BackColor = Color.LightGreen;
                     pictureBoxProfile.ImageLocation = m_AppManagment.LoginResult.LoggedInUser.PictureNormalURL;
                     buttonLogin.Enabled = false;
@@ -79,6 +80,7 @@ namespace BasicFacebookFeatures
             labelFemaleCounter.Text = "";
             labelAvgMales.Text = "";
             labelAvgFemales.Text = "";
+            labelUserName.Text = "";
         }
         //Album methods:
         private void linkAlbums_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -319,7 +321,7 @@ namespace BasicFacebookFeatures
 
         private void buttonCalculateStats_Click(object sender, EventArgs e)
         {
-           
+
             GenderStatsCalculator genderStats = new GenderStatsCalculator(m_AppManagment);
             try
             {
@@ -334,12 +336,14 @@ namespace BasicFacebookFeatures
 
         private void DisplayGenderStats(GenderStatsCalculator genderStats)
         {
-            labelMaleCounter.Text= genderStats.Males.ToString();
+            labelMaleCounter.Text = genderStats.Males.ToString();
             labelFemaleCounter.Text = genderStats.Female.ToString();
             labelAvgMales.Text = genderStats.MaleAgeAvg().ToString();
             labelAvgFemales.Text = genderStats.FemaleAgeAvg().ToString();
 
         }
+
+
     }
 }
 
