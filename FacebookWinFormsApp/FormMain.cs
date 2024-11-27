@@ -55,6 +55,14 @@ namespace BasicFacebookFeatures
             buttonLogin.Enabled = true;
             buttonLogout.Enabled = false;
             m_AppManagment.LoginResult = null;
+            m_AppManagment.LoggedInUser = null;
+            pictureBoxProfile.Image = null;
+            listBoxPosts.Items.Clear();
+            listBoxPostComments.Items.Clear();
+            ListBoxAlbums.Items.Clear();
+            ListBoxLikes.Items.Clear();
+            ListBoxEvents.Items.Clear();
+            ListBoxGroups.Items.Clear();
         }
 
         private void linkAlbums_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -119,7 +127,7 @@ namespace BasicFacebookFeatures
                 }
                 else
                 {
-                    listBoxPosts.Items.Add(string.Format("[{0}]", post.Type));
+                    listBoxPosts.Items.Add(string.Format("[{0}]", post.Type));*
                 }
             }
             if (m_AppManagment.LoggedInUser.Posts.Count == 0)
@@ -174,6 +182,23 @@ namespace BasicFacebookFeatures
             }
         }
 
-    
+        private void LinkGroups_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            fetchUsersGroups();  
+        }
+
+        private void fetchUsersGroups()
+        {
+            ListBoxGroups.Items.Clear();
+            ListBoxGroups.DisplayMember = "Name";
+            foreach (Group group in m_AppManagment.LoggedInUser.Groups)
+            {
+                ListBoxGroups.Items.Add(group);
+            }
+            if (m_AppManagment.LoggedInUser.Groups.Count == 0)
+            {
+                ListBoxGroups.Items.Add("No Groups to show");
+            }
+        }
     }
 }

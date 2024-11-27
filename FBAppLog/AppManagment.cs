@@ -32,7 +32,11 @@ namespace FBAppLog
             {
                 return m_LoggedInUser;
             }
-         
+            set
+            {
+                m_LoggedInUser = value;
+            }
+
         }
 
         private AppManagment()
@@ -60,12 +64,17 @@ namespace FBAppLog
                     "user_location",
                     "user_photos",
                     "user_posts",
-                    "user_videos"
+                    "user_videos",
+                    "groups_access_member_info",
+                    "user_managed_groups"
                 );
-
-
-
+            if (m_LoginResult != null && string.IsNullOrEmpty(m_LoginResult.ErrorMessage))
+            {
+                m_LoggedInUser = m_LoginResult.LoggedInUser;
             }
+
+
+        }
         
 
          public void Logout()

@@ -116,5 +116,11 @@
       <Version>87.1.132</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FBAppLog\FBAppLog.csproj">
+      <Project>{2630e105-bded-420b-8084-b40489da3856}</Project>
+      <Name>FBAppLog</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

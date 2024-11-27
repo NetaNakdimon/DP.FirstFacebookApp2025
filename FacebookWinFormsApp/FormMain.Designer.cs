@@ -236,6 +236,7 @@
             this.LinkGroups.TabStop = true;
             this.LinkGroups.Text = "Fetch Groups \r\n(Click on a group to view its picture)";
             this.LinkGroups.UseCompatibleTextRendering = true;
+            this.LinkGroups.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkGroups_LinkClicked);
             // 
             // LinkEvents
             // 
@@ -296,7 +297,6 @@
             this.ListBoxEvents.Name = "ListBoxEvents";
             this.ListBoxEvents.Size = new System.Drawing.Size(326, 186);
             this.ListBoxEvents.TabIndex = 59;
-            this.ListBoxEvents.SelectedIndexChanged += new System.EventHandler(this.ListBoxEvents_SelectedIndexChanged);
             // 
             // ListBoxLikes
             // 
