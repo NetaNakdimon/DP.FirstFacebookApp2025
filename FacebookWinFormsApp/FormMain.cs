@@ -319,12 +319,12 @@ namespace BasicFacebookFeatures
             DisplayGenderStats(genderStats);
         }
 
-        private void DisplayGenderStats(GenderStatsCalculator genderStats)
+        private void DisplayGenderStats(GenderStatsCalculator i_genderStats)
         {
-            labelMaleCounter.Text = genderStats.Males.ToString();
-            labelFemaleCounter.Text = genderStats.Female.ToString();
-            labelAvgMales.Text = genderStats.MaleAgeAvg().ToString();
-            labelAvgFemales.Text = genderStats.FemaleAgeAvg().ToString();
+            labelMaleCounter.Text = i_genderStats.Males.ToString();
+            labelFemaleCounter.Text = i_genderStats.Female.ToString();
+            labelAvgMales.Text = i_genderStats.MaleAgeAvg().ToString();
+            labelAvgFemales.Text = i_genderStats.FemaleAgeAvg().ToString();
 
         }
 
