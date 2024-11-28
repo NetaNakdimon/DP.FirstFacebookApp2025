@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppManagment.cs" />
-    <Compile Include="FriendsBirthdaysReminder.cs" />
+    <Compile Include="DistanceCalculator.cs" />
     <Compile Include="GenderStatsCalculator.cs" />
   </ItemGroup>
   <ItemGroup>
