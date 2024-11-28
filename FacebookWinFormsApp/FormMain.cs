@@ -10,6 +10,7 @@ using FacebookWrapper.ObjectModel;
 using FacebookWrapper;
 using System.Drawing.Text;
 using FBLogic;
+using System.Diagnostics.Eventing.Reader;
 
 
 
@@ -39,15 +40,25 @@ namespace BasicFacebookFeatures
                 if (string.IsNullOrEmpty(m_AppManagment.LoginResult.ErrorMessage))
                 {
                     buttonLogin.Text = $"Logged in as {m_AppManagment.LoginResult.LoggedInUser.Name}";
-                    labelUserName.Text = m_AppManagment.LoginResult.LoggedInUser.Name;
                     buttonLogin.BackColor = Color.LightGreen;
+                    buttonLogout.BackColor = Color.Red;
                     pictureBoxProfile.ImageLocation = m_AppManagment.LoginResult.LoggedInUser.PictureNormalURL;
                     buttonLogin.Enabled = false;
                     buttonLogout.Enabled = true;
+                    displayUserInfo();
                 }
             }
         }
 
+        private void displayUserInfo()
+        {
+            labelUserName.Text = m_AppManagment.LoginResult.LoggedInUser.Name;
+            labelBirthday.Text = m_AppManagment.LoggedInUser.Birthday;
+            labelCity.Text = m_AppManagment.LoggedInUser.Hometown?.Name;
+            labelEmail.Text = m_AppManagment.LoggedInUser.Email;
+            linkNumOfFriends.Text = m_AppManagment.LoggedInUser.Friends.Count.ToString();
+
+        }
 
         private void buttonLogout_Click(object sender, EventArgs e)
         {
@@ -59,7 +70,8 @@ namespace BasicFacebookFeatures
         private void EraseWhenLogOut()
         {
             buttonLogin.Text = "Login";
-            buttonLogin.BackColor = buttonLogout.BackColor;
+            buttonLogin.BackColor = buttonCalculateStats.BackColor;
+            buttonLogout.BackColor = buttonCalculateStats.BackColor;
             buttonLogin.Enabled = true;
             buttonLogout.Enabled = false;
             m_AppManagment.LoginResult = null;
@@ -71,6 +83,10 @@ namespace BasicFacebookFeatures
             ListBoxLikes.Items.Clear();
             ListBoxEvents.Items.Clear();
             ListBoxGroups.Items.Clear();
+            listBoxFriends.Items.Clear();
+            ListBoxFriendsCityStats.Items.Clear();
+            pictureBoxCloseFriend.Image = null;
+            pictureBoxFriends.Image = null;
             pictureBoxAlbum.Image = null;
             pictureBoxEvents.Image = null;
             pictureBoxGroups.Image = null;
@@ -80,11 +96,25 @@ namespace BasicFacebookFeatures
             labelAvgMales.Text = "";
             labelAvgFemales.Text = "";
             labelUserName.Text = "";
+            labelBirthday.Text = "";
+            labelCity.Text = "";
+            labelEmail.Text = "";
+            labelUserName.Text = "";
+            linkNumOfFriends.Text = "0";
         }
         //Album methods:
         private void linkAlbums_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DisplaySelectedAlbums();
+            if (m_AppManagment.LoggedInUser != null)
+            {
+                DisplaySelectedAlbums();
+            }
+            else
+            {
+                MessageBox.Show("Please log in for this option");
+                return;
+            }
+
         }
 
         private void DisplaySelectedAlbums()
@@ -125,12 +155,21 @@ namespace BasicFacebookFeatures
 
         private void FetchPosts_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DisplayPosts();
+            if (m_AppManagment.LoggedInUser != null)
+            {
+                DisplayPosts();
+            }
+            else
+            {
+                MessageBox.Show("Please log in for this option");
+                return;
+            }
         }
 
         private void DisplayPosts()
         {
             listBoxPosts.Items.Clear();
+
 
             foreach (Post post in m_AppManagment.LoggedInUser.Posts)
             {
@@ -155,6 +194,7 @@ namespace BasicFacebookFeatures
                 listBoxPosts.Items.Add("No Posts to show");
             }
 
+
         }
 
         private void listBoxPosts_SelectedIndexChanged(object sender, EventArgs e)
@@ -162,24 +202,46 @@ namespace BasicFacebookFeatures
             DisplayPostComments();
         }
 
+
         private void DisplayPostComments()
         {
             listBoxPostComments.Items.Clear();
-            Post selectedPost = m_AppManagment.LoggedInUser.Posts[listBoxPosts.SelectedIndex];
-            foreach (Comment comment in selectedPost.Comments)
+
+            if (listBoxPosts.SelectedIndex < 0 || listBoxPosts.SelectedIndex >= m_AppManagment.LoggedInUser.Posts.Count)
             {
-                listBoxPostComments.Items.Add(comment.Message);
+                listBoxPostComments.Items.Add("No post selected");
+                return;
             }
 
-            if (selectedPost.Comments.Count == 0)
+            Post selectedPost = m_AppManagment.LoggedInUser.Posts[listBoxPosts.SelectedIndex];
+
+            if (selectedPost.Comments.Count > 0)
+            {
+                foreach (Comment comment in selectedPost.Comments)
+                {
+                    listBoxPostComments.Items.Add(comment.Message);
+                }
+            }
+            else
             {
                 listBoxPostComments.Items.Add("No Comments to show");
             }
         }
 
+
         private void LinkLikes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            fetchLikedPages();
+            if (m_AppManagment.LoginResult != null)
+            {
+                fetchLikedPages();
+            }
+            else
+            {
+                MessageBox.Show("Please log in for this option");
+                return;
+            }
+
+
         }
 
         private void fetchLikedPages()
@@ -205,12 +267,18 @@ namespace BasicFacebookFeatures
         private void DisplayLikedPagePicture()
         {
             Page selectedPage = ListBoxLikes.SelectedItem as Page;
-            if (selectedPage.PictureNormalURL != null)
+
+            if (selectedPage == null || string.IsNullOrEmpty(selectedPage.PictureNormalURL))
+            {
+                pictureBoxLikes.Image = pictureBoxLikes.ErrorImage;
+                return;
+            }
+
+            try
             {
                 pictureBoxLikes.LoadAsync(selectedPage.PictureNormalURL);
             }
-
-            else
+            catch
             {
                 pictureBoxLikes.Image = pictureBoxLikes.ErrorImage;
             }
@@ -218,7 +286,18 @@ namespace BasicFacebookFeatures
 
         private void LinkEvents_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            DisplayEvents();
+            if (m_AppManagment.LoggedInUser != null)
+            {
+                DisplayEvents();
+            }
+
+            else
+            {
+                MessageBox.Show("Please log in for this option");
+                return;
+            }
+
+
         }
         private void DisplayEvents()
         {
@@ -254,21 +333,42 @@ namespace BasicFacebookFeatures
 
         private void DisplayEventPicture()
         {
+
             Event selectedEvent = ListBoxEvents.SelectedItem as Event;
-            if (selectedEvent.PictureNormalURL != null)
+
+            if (selectedEvent == null || string.IsNullOrEmpty(selectedEvent.PictureNormalURL))
             {
+                pictureBoxEvents.Image = null;
+                return;
+            }
+
+            try
+            {
+
                 pictureBoxEvents.LoadAsync(selectedEvent.PictureNormalURL);
+            }
+            catch (Exception ex)
+            {
+
+                pictureBoxEvents.Image = null;
+                Console.WriteLine($"Error loading image: {ex.Message}");
+            }
+        }
+
+
+        private void LinkGroups_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (m_AppManagment.LoggedInUser != null)
+            {
+                fetchUsersGroups();
             }
 
             else
             {
-                pictureBoxEvents.Image = pictureBoxEvents.ErrorImage;
+                MessageBox.Show("Please log in for this option");
+                return;
             }
-        }
 
-        private void LinkGroups_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            fetchUsersGroups();
         }
 
         private void fetchUsersGroups()
@@ -289,20 +389,33 @@ namespace BasicFacebookFeatures
         {
             DisplayGroupPicture();
         }
-        //todo- try-catch
+
         private void DisplayGroupPicture()
         {
+
             Group selectedGroup = ListBoxGroups.SelectedItem as Group;
-            if (selectedGroup.PictureNormalURL != null)
+
+            if (selectedGroup == null || string.IsNullOrEmpty(selectedGroup.PictureNormalURL))
             {
-                pictureBoxGroups.LoadAsync(selectedGroup.PictureNormalURL);
+
+                pictureBoxGroups.Image = null;
+                return;
             }
 
-            else
+            try
             {
+
+                pictureBoxGroups.LoadAsync(selectedGroup.PictureNormalURL);
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine($"Error loading group picture: {ex.Message}");
+
                 pictureBoxGroups.Image = pictureBoxGroups.ErrorImage;
             }
         }
+
 
         private void buttonCalculateStats_Click(object sender, EventArgs e)
         {
@@ -378,14 +491,52 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void linkNumOfFriends_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
+            if (m_AppManagment.LoggedInUser != null)
+            {
+                DisplayFriends();
+            }
+            else
+            {
+                MessageBox.Show("Please log in for this option");
+                return;
+            }
         }
 
-        private void pictureBox3_Click(object sender, EventArgs e)
+        private void DisplayFriends()
         {
+            listBoxFriends.Items.Clear();
+            listBoxFriends.DisplayMember = "Name";
 
+
+            foreach (User friend in m_AppManagment.LoggedInUser.Friends)
+            {
+                listBoxFriends.Items.Add(friend);
+
+            }
+            if (m_AppManagment.LoggedInUser.Friends.Count == 0)
+            {
+                listBoxFriends.Items.Add("No Friends to show");
+            }
+        }
+
+        private void listBoxFriends_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DisplayFriendsPicture();
+        }
+
+        private void DisplayFriendsPicture()
+        {
+            User selectedFriend = listBoxFriends.SelectedItem as User;
+            if (selectedFriend.PictureNormalURL != null)
+            {
+                pictureBoxFriends.LoadAsync(selectedFriend.PictureNormalURL);
+            }
+            else
+            {
+                pictureBoxEvents.Image = pictureBoxEvents.ErrorImage;
+            }
         }
     }
 }
