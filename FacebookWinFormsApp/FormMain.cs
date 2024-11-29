@@ -63,11 +63,11 @@ namespace BasicFacebookFeatures
         private void buttonLogout_Click(object sender, EventArgs e)
         {
             m_AppManagment.Logout();
-            EraseWhenLogOut();
+            eraseWhenLogOut();
 
         }
 
-        private void EraseWhenLogOut()
+        private void eraseWhenLogOut()
         {
             buttonLogin.Text = "Login";
             buttonLogin.BackColor = buttonCalculateStats.BackColor;
@@ -107,7 +107,7 @@ namespace BasicFacebookFeatures
         {
             if (m_AppManagment.LoggedInUser != null)
             {
-                DisplaySelectedAlbums();
+                displaySelectedAlbums();
             }
             else
             {
@@ -117,7 +117,7 @@ namespace BasicFacebookFeatures
 
         }
 
-        private void DisplaySelectedAlbums()
+        private void displaySelectedAlbums()
         {
             ListBoxAlbums.Items.Clear();
             ListBoxAlbums.DisplayMember = "Name";
@@ -199,11 +199,11 @@ namespace BasicFacebookFeatures
 
         private void listBoxPosts_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DisplayPostComments();
+            displayPostComments();
         }
 
 
-        private void DisplayPostComments()
+        private void displayPostComments()
         {
             listBoxPostComments.Items.Clear();
 
@@ -261,10 +261,10 @@ namespace BasicFacebookFeatures
 
         private void ListBoxLikes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DisplayLikedPagePicture();
+            displayLikedPagePicture();
         }
 
-        private void DisplayLikedPagePicture()
+        private void displayLikedPagePicture()
         {
             Page selectedPage = ListBoxLikes.SelectedItem as Page;
 
@@ -288,7 +288,7 @@ namespace BasicFacebookFeatures
         {
             if (m_AppManagment.LoggedInUser != null)
             {
-                DisplayEvents();
+                displayEvents();
             }
 
             else
@@ -299,7 +299,7 @@ namespace BasicFacebookFeatures
 
 
         }
-        private void DisplayEvents()
+        private void displayEvents()
         {
             ListBoxEvents.Items.Clear();
             ListBoxEvents.DisplayMember = "Name";
@@ -328,10 +328,10 @@ namespace BasicFacebookFeatures
 
         private void ListBoxEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DisplayEventPicture();
+            displayEventPicture();
         }
 
-        private void DisplayEventPicture()
+        private void displayEventPicture()
         {
 
             Event selectedEvent = ListBoxEvents.SelectedItem as Event;
@@ -387,10 +387,10 @@ namespace BasicFacebookFeatures
         }
         private void ListBoxGroups_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DisplayGroupPicture();
+            displayGroupPicture();
         }
 
-        private void DisplayGroupPicture()
+        private void displayGroupPicture()
         {
 
             Group selectedGroup = ListBoxGroups.SelectedItem as Group;
@@ -429,10 +429,10 @@ namespace BasicFacebookFeatures
             {
                 return;
             }
-            DisplayGenderStats(genderStats);
+            displayGenderStats(genderStats);
         }
 
-        private void DisplayGenderStats(GenderStatsCalculator i_genderStats)
+        private void displayGenderStats(GenderStatsCalculator i_genderStats)
         {
             labelMaleCounter.Text = i_genderStats.Males.ToString();
             labelFemaleCounter.Text = i_genderStats.Female.ToString();
@@ -441,12 +441,12 @@ namespace BasicFacebookFeatures
 
         }
 
-        private void FetchCityStats_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void fetchCityStats_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            FetchFriendsCityStats();
+            fetchFriendsCityStats();
         }
 
-        private void FetchFriendsCityStats()
+        private void fetchFriendsCityStats()
         {
             if (m_AppManagment.LoggedInUser == null)
             {
@@ -474,10 +474,10 @@ namespace BasicFacebookFeatures
 
         private void ListBoxFriendsCityStats_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DisplayFriendPicture();
+            displayFriendPicture();
         }
 
-        private void DisplayFriendPicture()
+        private void displayFriendPicture()
         {
             User selectedFriend = ListBoxFriendsCityStats.SelectedItem as User;
             if (selectedFriend.PictureNormalURL != null)
@@ -495,7 +495,7 @@ namespace BasicFacebookFeatures
         {
             if (m_AppManagment.LoggedInUser != null)
             {
-                DisplayFriends();
+                displayFriends();
             }
             else
             {
@@ -504,7 +504,7 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void DisplayFriends()
+        private void displayFriends()
         {
             listBoxFriends.Items.Clear();
             listBoxFriends.DisplayMember = "Name";
@@ -523,10 +523,10 @@ namespace BasicFacebookFeatures
 
         private void listBoxFriends_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DisplayFriendsPicture();
+            displayFriendsPicture();
         }
 
-        private void DisplayFriendsPicture()
+        private void displayFriendsPicture()
         {
             User selectedFriend = listBoxFriends.SelectedItem as User;
             if (selectedFriend.PictureNormalURL != null)

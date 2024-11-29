@@ -19,7 +19,7 @@ namespace FBLogic
 
         private static readonly Dictionary<Tuple<eCity, eCity>, int> r_CityDistances = new Dictionary<Tuple<eCity, eCity>, int>();
 
-        public static eCity? ConvertToECity(FacebookWrapper.ObjectModel.City i_city)
+        private static eCity? convertToECity(FacebookWrapper.ObjectModel.City i_city)
         {
             if (i_city == null || string.IsNullOrEmpty(i_city.Name))
             {
@@ -49,7 +49,7 @@ namespace FBLogic
 
             foreach (User friend in i_friends)
             { 
-                eCity? friendCity = ConvertToECity(friend.Hometown);
+                eCity? friendCity = convertToECity(friend.Hometown);
 
                 if (friendCity != null)
                 {
@@ -86,7 +86,7 @@ namespace FBLogic
         }
 
         // Method to check if two cities are "close" (30 minutes drive)
-        public static bool AreCitiesClose(eCity i_UserCity, eCity i_FriendCity)
+        private static bool areCitiesClose(eCity i_UserCity, eCity i_FriendCity)
         {
             Tuple<eCity, eCity> cityPair = Tuple.Create(i_UserCity, i_FriendCity);
 
@@ -105,16 +105,16 @@ namespace FBLogic
             return false;
         }
 
-        public static List<User> GetCloseFriends(List<User> i_FriendsList, eCity i_UserCity)
+        private static List<User> getCloseFriends(List<User> i_FriendsList, eCity i_UserCity)
         {
             List<User> closeFriends = new List<User>();
 
             for (int i = 0; i < i_FriendsList.Count; i++)
             {
                 User friend = i_FriendsList[i];
-                eCity? friendCity = ConvertToECity(friend.Hometown);
+                eCity? friendCity = convertToECity(friend.Hometown);
 
-                if (friendCity.HasValue && AreCitiesClose(i_UserCity, friendCity.Value))
+                if (friendCity.HasValue && areCitiesClose(i_UserCity, friendCity.Value))
                 {
                     closeFriends.Add(friend);
                 }
