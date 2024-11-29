@@ -19,14 +19,14 @@ namespace FBLogic
 
         private static readonly Dictionary<Tuple<eCity, eCity>, int> r_CityDistances = new Dictionary<Tuple<eCity, eCity>, int>();
 
-        public static eCity? ConvertToECity(FacebookWrapper.ObjectModel.City city)
+        public static eCity? ConvertToECity(FacebookWrapper.ObjectModel.City i_city)
         {
-            if (city == null || string.IsNullOrEmpty(city.Name))
+            if (i_city == null || string.IsNullOrEmpty(i_city.Name))
             {
                 return null;
             }
 
-            switch (city.Name)
+            switch (i_city.Name)
             {
                 case "Tel Aviv":
                     return eCity.TelAviv;
@@ -43,11 +43,11 @@ namespace FBLogic
             }
         }
 
-        public static Dictionary<string, int> GetCityStatistics(List<User> friends)
+        public static Dictionary<string, int> GetCityStatistics(List<User> i_friends)
         {
             Dictionary<string, int> cityStatistics = new Dictionary<string, int>();
 
-            foreach (User friend in friends)
+            foreach (User friend in i_friends)
             { 
                 eCity? friendCity = ConvertToECity(friend.Hometown);
 

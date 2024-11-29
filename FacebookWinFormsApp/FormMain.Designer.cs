@@ -35,6 +35,7 @@ namespace BasicFacebookFeatures
             this.buttonLogout = new System.Windows.Forms.Button();
             this.tabControlOurFeatures = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.pictureBoxFriends = new System.Windows.Forms.PictureBox();
             this.linkNumOfFriends = new System.Windows.Forms.LinkLabel();
             this.labelNumOfFriends = new System.Windows.Forms.Label();
             this.listBoxFriends = new System.Windows.Forms.ListBox();
@@ -76,9 +77,9 @@ namespace BasicFacebookFeatures
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBoxFriends = new System.Windows.Forms.PictureBox();
             this.tabControlOurFeatures.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFriends)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvents)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGroups)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLikes)).BeginInit();
@@ -90,7 +91,6 @@ namespace BasicFacebookFeatures
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseFriend)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFriends)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonLogin
@@ -162,8 +162,16 @@ namespace BasicFacebookFeatures
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(1238, 704);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "Profile";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // pictureBoxFriends
+            // 
+            this.pictureBoxFriends.Location = new System.Drawing.Point(242, 530);
+            this.pictureBoxFriends.Name = "pictureBoxFriends";
+            this.pictureBoxFriends.Size = new System.Drawing.Size(135, 123);
+            this.pictureBoxFriends.TabIndex = 83;
+            this.pictureBoxFriends.TabStop = false;
             // 
             // linkNumOfFriends
             // 
@@ -467,7 +475,7 @@ namespace BasicFacebookFeatures
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(1238, 704);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Extras";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // pictureBox3
@@ -475,7 +483,7 @@ namespace BasicFacebookFeatures
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
             this.pictureBox3.Location = new System.Drawing.Point(775, 466);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(408, 191);
+            this.pictureBox3.Size = new System.Drawing.Size(277, 183);
             this.pictureBox3.TabIndex = 15;
             this.pictureBox3.TabStop = false;
             // 
@@ -603,14 +611,6 @@ namespace BasicFacebookFeatures
             this.label1.TabIndex = 0;
             this.label1.Text = "User Gender Stats";
             // 
-            // pictureBoxFriends
-            // 
-            this.pictureBoxFriends.Location = new System.Drawing.Point(242, 530);
-            this.pictureBoxFriends.Name = "pictureBoxFriends";
-            this.pictureBoxFriends.Size = new System.Drawing.Size(135, 123);
-            this.pictureBoxFriends.TabIndex = 83;
-            this.pictureBoxFriends.TabStop = false;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 26F);
@@ -626,6 +626,7 @@ namespace BasicFacebookFeatures
             this.tabControlOurFeatures.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFriends)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvents)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGroups)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLikes)).EndInit();
@@ -638,7 +639,6 @@ namespace BasicFacebookFeatures
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseFriend)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFriends)).EndInit();
             this.ResumeLayout(false);
 
         }
