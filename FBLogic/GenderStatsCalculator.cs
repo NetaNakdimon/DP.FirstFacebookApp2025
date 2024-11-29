@@ -73,7 +73,7 @@ namespace FBLogic
             }
         }
 
-        public int? GetUserAge(User i_User)
+        private int? GetUserAge(User i_User)
         {
             if (DateTime.TryParse(i_User.Birthday, out DateTime birthDate))
             {
