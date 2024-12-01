@@ -512,7 +512,6 @@ namespace BasicFacebookFeatures
             this.FetchCityStats.TabIndex = 12;
             this.FetchCityStats.TabStop = true;
             this.FetchCityStats.Text = "Fetch Friends City Stats";
-            
             // 
             // ListBoxFriendsCityStats
             // 

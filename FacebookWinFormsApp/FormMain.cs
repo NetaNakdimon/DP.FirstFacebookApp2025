@@ -27,6 +27,7 @@ namespace BasicFacebookFeatures
 
 
         private AppManagment m_AppManagment;
+        private GenderStatsCalculator m_genderStats;
 
 
         private void buttonLogin_Click(object sender, EventArgs e)
@@ -420,16 +421,16 @@ namespace BasicFacebookFeatures
         private void buttonCalculateStats_Click(object sender, EventArgs e)
         {
 
-            GenderStatsCalculator genderStats = new GenderStatsCalculator(m_AppManagment);
+             m_genderStats = new GenderStatsCalculator(m_AppManagment);
             try
             {
-                genderStats.CalculateGenderStats();
+                m_genderStats.CalculateGenderStats();
             }
             catch (Exception InvalidOperationException)
             {
                 return;
             }
-            displayGenderStats(genderStats);
+            displayGenderStats(m_genderStats);
         }
 
         private void displayGenderStats(GenderStatsCalculator i_genderStats)
