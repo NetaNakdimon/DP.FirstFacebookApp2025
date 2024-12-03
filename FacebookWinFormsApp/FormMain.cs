@@ -18,11 +18,12 @@ namespace BasicFacebookFeatures
 {
     public partial class FormMain : Form
     {
-        public FormMain()
+        public FormMain(AppManagment i_appManagment)
         {
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
-            m_AppManagment = AppManagment.Instance;
+            m_AppManagment = i_appManagment;
+            displayUserInfoWhenLogin();
         }
 
 
@@ -33,21 +34,25 @@ namespace BasicFacebookFeatures
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             Clipboard.SetText("design.patterns");
-
             if (m_AppManagment.LoginResult == null)
             {
                 m_AppManagment.Login();
+                displayUserInfoWhenLogin();
+            }
 
-                if (string.IsNullOrEmpty(m_AppManagment.LoginResult.ErrorMessage))
-                {
-                    buttonLogin.Text = $"Logged in as {m_AppManagment.LoginResult.LoggedInUser.Name}";
-                    buttonLogin.BackColor = Color.LightGreen;
-                    buttonLogout.BackColor = Color.Red;
-                    pictureBoxProfile.ImageLocation = m_AppManagment.LoginResult.LoggedInUser.PictureNormalURL;
-                    buttonLogin.Enabled = false;
-                    buttonLogout.Enabled = true;
-                    displayUserInfo();
-                }
+        }
+
+        private void displayUserInfoWhenLogin()
+        {
+            if (string.IsNullOrEmpty(m_AppManagment.LoginResult.ErrorMessage))
+            {
+                buttonLogin.Text = $"Logged in as {m_AppManagment.LoginResult.LoggedInUser.Name}";
+                buttonLogin.BackColor = Color.LightGreen;
+                buttonLogout.BackColor = Color.Red;
+                pictureBoxProfile.ImageLocation = m_AppManagment.LoginResult.LoggedInUser.PictureNormalURL;
+                buttonLogin.Enabled = false;
+                buttonLogout.Enabled = true;
+                displayUserInfo();
             }
         }
 
