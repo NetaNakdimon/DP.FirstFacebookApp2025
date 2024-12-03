@@ -426,7 +426,7 @@ namespace BasicFacebookFeatures
             {
                 m_genderStats.CalculateGenderStats();
             }
-            catch (Exception InvalidOperationException)
+            catch (Exception)
             {
                 return;
             }
