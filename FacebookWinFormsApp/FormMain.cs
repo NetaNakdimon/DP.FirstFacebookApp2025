@@ -62,7 +62,7 @@ namespace BasicFacebookFeatures
             labelBirthday.Text = m_AppManagment.LoggedInUser.Birthday;
             labelCity.Text = m_AppManagment.LoggedInUser.Hometown?.Name;
             labelEmail.Text = m_AppManagment.LoggedInUser.Email;
-            linkNumOfFriends.Text = m_AppManagment.LoggedInUser.Friends.Count.ToString();
+            linkNumOfFriends.Text = m_AppManagment.LoggedInUser.Friends.Count.ToString()+" (click to see them)";
 
         }
 
@@ -334,31 +334,7 @@ namespace BasicFacebookFeatures
 
         private void ListBoxEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
-            displayEventPicture();
-        }
-
-        private void displayEventPicture()
-        {
-
-            Event selectedEvent = ListBoxEvents.SelectedItem as Event;
-
-            if (selectedEvent == null || string.IsNullOrEmpty(selectedEvent.PictureNormalURL))
-            {
-                pictureBoxEvents.Image = null;
-                return;
-            }
-
-            try
-            {
-
-                pictureBoxEvents.LoadAsync(selectedEvent.PictureNormalURL);
-            }
-            catch (Exception ex)
-            {
-
-                pictureBoxEvents.Image = null;
-                Console.WriteLine($"Error loading image: {ex.Message}");
-            }
+            displayPicture(pictureBoxEvents, ListBoxEvents);
         }
 
 
@@ -393,33 +369,7 @@ namespace BasicFacebookFeatures
         }
         private void ListBoxGroups_SelectedIndexChanged(object sender, EventArgs e)
         {
-            displayGroupPicture();
-        }
-
-        private void displayGroupPicture()
-        {
-
-            Group selectedGroup = ListBoxGroups.SelectedItem as Group;
-
-            if (selectedGroup == null || string.IsNullOrEmpty(selectedGroup.PictureNormalURL))
-            {
-
-                pictureBoxGroups.Image = null;
-                return;
-            }
-
-            try
-            {
-
-                pictureBoxGroups.LoadAsync(selectedGroup.PictureNormalURL);
-            }
-            catch (Exception ex)
-            {
-
-                Console.WriteLine($"Error loading group picture: {ex.Message}");
-
-                pictureBoxGroups.Image = pictureBoxGroups.ErrorImage;
-            }
+            displayPicture(pictureBoxGroups, ListBoxGroups);
         }
 
 
@@ -480,21 +430,7 @@ namespace BasicFacebookFeatures
 
         private void ListBoxFriendsCityStats_SelectedIndexChanged(object sender, EventArgs e)
         {
-            displayFriendPicture();
-        }
-
-        private void displayFriendPicture()
-        {
-            User selectedFriend = ListBoxFriendsCityStats.SelectedItem as User;
-            if (selectedFriend.PictureNormalURL != null)
-            {
-                pictureBoxCloseFriend.LoadAsync(selectedFriend.PictureNormalURL);
-            }
-
-            else
-            {
-                pictureBoxEvents.Image = pictureBoxEvents.ErrorImage;
-            }
+            displayPicture(pictureBoxCloseFriend,ListBoxFriendsCityStats);
         }
 
         private void linkNumOfFriends_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -529,19 +465,20 @@ namespace BasicFacebookFeatures
 
         private void listBoxFriends_SelectedIndexChanged(object sender, EventArgs e)
         {
-            displayFriendsPicture();
+            displayPicture(pictureBoxFriends,listBoxFriends);
         }
 
-        private void displayFriendsPicture()
+        private void displayPicture(PictureBox i_pictureBox, ListBox i_listBox)
         {
-            User selectedFriend = listBoxFriends.SelectedItem as User;
-            if (selectedFriend.PictureNormalURL != null)
+            OwnerObject selectedObject = i_listBox.SelectedItem as OwnerObject;
+            if (selectedObject == null || selectedObject.PictureNormalURL == null)
             {
-                pictureBoxFriends.LoadAsync(selectedFriend.PictureNormalURL);
+                i_pictureBox.Image = pictureBoxEvents.ErrorImage;
             }
             else
             {
-                pictureBoxEvents.Image = pictureBoxEvents.ErrorImage;
+                i_pictureBox.LoadAsync(selectedObject.PictureNormalURL);
+               
             }
         }
 

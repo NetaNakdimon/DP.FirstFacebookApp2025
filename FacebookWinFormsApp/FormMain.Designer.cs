@@ -63,7 +63,6 @@ namespace BasicFacebookFeatures
             this.pictureBoxProfile = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBoxCloseFriend = new System.Windows.Forms.PictureBox();
             this.FetchCityStats = new System.Windows.Forms.LinkLabel();
             this.ListBoxFriendsCityStats = new System.Windows.Forms.ListBox();
@@ -77,6 +76,7 @@ namespace BasicFacebookFeatures
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.labelShow = new System.Windows.Forms.Label();
             this.tabControlOurFeatures.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFriends)).BeginInit();
@@ -455,8 +455,8 @@ namespace BasicFacebookFeatures
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.labelShow);
             this.tabPage2.Controls.Add(this.pictureBox3);
-            this.tabPage2.Controls.Add(this.textBox1);
             this.tabPage2.Controls.Add(this.pictureBoxCloseFriend);
             this.tabPage2.Controls.Add(this.FetchCityStats);
             this.tabPage2.Controls.Add(this.ListBoxFriendsCityStats);
@@ -486,14 +486,6 @@ namespace BasicFacebookFeatures
             this.pictureBox3.Size = new System.Drawing.Size(277, 183);
             this.pictureBox3.TabIndex = 15;
             this.pictureBox3.TabStop = false;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(738, 34);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(345, 32);
-            this.textBox1.TabIndex = 14;
-            this.textBox1.Text = "Find friends who live next to me";
             // 
             // pictureBoxCloseFriend
             // 
@@ -610,6 +602,15 @@ namespace BasicFacebookFeatures
             this.label1.TabIndex = 0;
             this.label1.Text = "User Gender Stats";
             // 
+            // labelShow
+            // 
+            this.labelShow.AutoSize = true;
+            this.labelShow.Location = new System.Drawing.Point(770, 34);
+            this.labelShow.Name = "labelShow";
+            this.labelShow.Size = new System.Drawing.Size(318, 26);
+            this.labelShow.TabIndex = 16;
+            this.labelShow.Text = "Find friends who live next to me";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 26F);
@@ -678,7 +679,6 @@ namespace BasicFacebookFeatures
         private System.Windows.Forms.Button buttonCalculateStats;
         private System.Windows.Forms.Label labelUserName;
         private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox pictureBoxCloseFriend;
         private System.Windows.Forms.LinkLabel FetchCityStats;
         private System.Windows.Forms.ListBox ListBoxFriendsCityStats;
@@ -690,6 +690,7 @@ namespace BasicFacebookFeatures
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.LinkLabel linkNumOfFriends;
         private System.Windows.Forms.PictureBox pictureBoxFriends;
+        private System.Windows.Forms.Label labelShow;
     }
 }
 

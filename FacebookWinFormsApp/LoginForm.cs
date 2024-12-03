@@ -22,11 +22,11 @@ namespace BasicFacebookFeatures
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-            while (m_appManagment.LoginResult == null)
+            while (m_appManagment.LoggedInUser == null)
             {
                 m_appManagment.Login();
 
-                if (m_appManagment.LoginResult != null)
+                if (m_appManagment.LoggedInUser != null)
                 {
                     FormMain formMain = new FormMain(m_appManagment);
                     this.Hide();
@@ -35,8 +35,15 @@ namespace BasicFacebookFeatures
                 }
                 else
                 {
-                    MessageBox.Show("Login failed");
+                    DialogResult result = MessageBox.Show("Do you want to try again?","Login Failed",MessageBoxButtons.YesNo,MessageBoxIcon.Error);
+
+                    if (result == DialogResult.No)
+                    {
+                        this.Close();
+                        break;
+                    }
                 }
+            
             }
         }
     }
