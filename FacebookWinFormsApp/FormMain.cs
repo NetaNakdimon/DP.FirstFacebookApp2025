@@ -482,6 +482,38 @@ namespace BasicFacebookFeatures
             }
         }
 
+        private void comboBoxBGColor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBoxBGColor.SelectedIndex)
+            {
+                
+                case 0:
+                    this.tabPage1.BackColor = Color.LightBlue;
+                    this.tabPage2.BackColor = Color.LightBlue;
+                    break;
+                case 1:
+                    this.tabPage1.BackColor = Color.LightGreen;
+                    this.tabPage2.BackColor = Color.LightGreen;
+                    break;
+                case 2:
+                    this.tabPage1.BackColor = Color.LightPink;
+                    this.tabPage2.BackColor = Color.LightPink;
+                    break;
+                case 3:
+                    this.tabPage1.BackColor = Color.LightYellow;
+                    this.tabPage2.BackColor = Color.LightYellow;
+                    break;
+                case 4:
+                    this.tabPage1.BackColor = Color.White;
+                    this.tabPage2.BackColor = Color.White;
+                    break;
+                default:
+                    this.tabPage1.BackColor = Color.LightBlue;
+                    this.tabPage2.BackColor = Color.LightBlue;
+                    break;
+            }
+
+        }
     }
 }
 
