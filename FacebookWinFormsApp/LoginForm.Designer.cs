@@ -28,23 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             System.Windows.Forms.Label labelWelcome;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.buttonLogin = new System.Windows.Forms.Button();
             labelWelcome = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(29, 103);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(224, 225);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // labelWelcome
             // 
@@ -52,17 +42,30 @@
             labelWelcome.Font = new System.Drawing.Font("Segoe UI", 19F, System.Drawing.FontStyle.Bold);
             labelWelcome.ForeColor = System.Drawing.Color.Cornsilk;
             labelWelcome.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
-            labelWelcome.Location = new System.Drawing.Point(261, 148);
+            labelWelcome.Location = new System.Drawing.Point(551, 274);
+            labelWelcome.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             labelWelcome.Name = "labelWelcome";
             labelWelcome.Size = new System.Drawing.Size(548, 51);
             labelWelcome.TabIndex = 1;
             labelWelcome.Text = "Welcome to Facebook Viewer\r\n";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(61, 191);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(473, 416);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
             // buttonLogin
             // 
-            this.buttonLogin.Location = new System.Drawing.Point(440, 212);
+            this.buttonLogin.Location = new System.Drawing.Point(929, 392);
+            this.buttonLogin.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.buttonLogin.Name = "buttonLogin";
-            this.buttonLogin.Size = new System.Drawing.Size(122, 41);
+            this.buttonLogin.Size = new System.Drawing.Size(258, 76);
             this.buttonLogin.TabIndex = 2;
             this.buttonLogin.Text = "Login";
             this.buttonLogin.UseVisualStyleBackColor = true;
@@ -70,15 +73,17 @@
             // 
             // LoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(19F, 37F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ClientSize = new System.Drawing.Size(836, 450);
+            this.ClientSize = new System.Drawing.Size(1765, 833);
             this.Controls.Add(this.buttonLogin);
             this.Controls.Add(labelWelcome);
             this.Controls.Add(this.pictureBox1);
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "LoginForm";
             this.Text = "Login Form";
+            this.Load += new System.EventHandler(this.LoginForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
