@@ -9,8 +9,10 @@ using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FacebookWrapper;
 using System.Drawing.Text;
+using System.Media;
 using FBLogic;
 using System.Diagnostics.Eventing.Reader;
+using System.Deployment.Application;
 
 
 
@@ -62,7 +64,7 @@ namespace BasicFacebookFeatures
             labelBirthday.Text = m_AppManagment.LoggedInUser.Birthday;
             labelCity.Text = m_AppManagment.LoggedInUser.Hometown?.Name;
             labelEmail.Text = m_AppManagment.LoggedInUser.Email;
-            linkNumOfFriends.Text = m_AppManagment.LoggedInUser.Friends.Count.ToString();
+            linkNumOfFriends.Text = m_AppManagment.LoggedInUser.Friends.Count.ToString() + " (click to see them)";
 
         }
 
@@ -334,31 +336,7 @@ namespace BasicFacebookFeatures
 
         private void ListBoxEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
-            displayEventPicture();
-        }
-
-        private void displayEventPicture()
-        {
-
-            Event selectedEvent = ListBoxEvents.SelectedItem as Event;
-
-            if (selectedEvent == null || string.IsNullOrEmpty(selectedEvent.PictureNormalURL))
-            {
-                pictureBoxEvents.Image = null;
-                return;
-            }
-
-            try
-            {
-
-                pictureBoxEvents.LoadAsync(selectedEvent.PictureNormalURL);
-            }
-            catch (Exception ex)
-            {
-
-                pictureBoxEvents.Image = null;
-                Console.WriteLine($"Error loading image: {ex.Message}");
-            }
+            displayPicture(pictureBoxEvents, ListBoxEvents);
         }
 
 
@@ -393,40 +371,14 @@ namespace BasicFacebookFeatures
         }
         private void ListBoxGroups_SelectedIndexChanged(object sender, EventArgs e)
         {
-            displayGroupPicture();
-        }
-
-        private void displayGroupPicture()
-        {
-
-            Group selectedGroup = ListBoxGroups.SelectedItem as Group;
-
-            if (selectedGroup == null || string.IsNullOrEmpty(selectedGroup.PictureNormalURL))
-            {
-
-                pictureBoxGroups.Image = null;
-                return;
-            }
-
-            try
-            {
-
-                pictureBoxGroups.LoadAsync(selectedGroup.PictureNormalURL);
-            }
-            catch (Exception ex)
-            {
-
-                Console.WriteLine($"Error loading group picture: {ex.Message}");
-
-                pictureBoxGroups.Image = pictureBoxGroups.ErrorImage;
-            }
+            displayPicture(pictureBoxGroups, ListBoxGroups);
         }
 
 
         private void buttonCalculateStats_Click(object sender, EventArgs e)
         {
 
-             m_genderStats = new GenderStatsCalculator(m_AppManagment);
+            m_genderStats = new GenderStatsCalculator(m_AppManagment);
             try
             {
                 m_genderStats.CalculateGenderStats();
@@ -480,21 +432,7 @@ namespace BasicFacebookFeatures
 
         private void ListBoxFriendsCityStats_SelectedIndexChanged(object sender, EventArgs e)
         {
-            displayFriendPicture();
-        }
-
-        private void displayFriendPicture()
-        {
-            User selectedFriend = ListBoxFriendsCityStats.SelectedItem as User;
-            if (selectedFriend.PictureNormalURL != null)
-            {
-                pictureBoxCloseFriend.LoadAsync(selectedFriend.PictureNormalURL);
-            }
-
-            else
-            {
-                pictureBoxEvents.Image = pictureBoxEvents.ErrorImage;
-            }
+            displayPicture(pictureBoxCloseFriend, ListBoxFriendsCityStats);
         }
 
         private void linkNumOfFriends_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -529,22 +467,171 @@ namespace BasicFacebookFeatures
 
         private void listBoxFriends_SelectedIndexChanged(object sender, EventArgs e)
         {
-            displayFriendsPicture();
+            displayPicture(pictureBoxFriends, listBoxFriends);
         }
 
-        private void displayFriendsPicture()
+        private void displayPicture(PictureBox i_pictureBox, ListBox i_listBox)
         {
-            User selectedFriend = listBoxFriends.SelectedItem as User;
-            if (selectedFriend.PictureNormalURL != null)
+            OwnerObject selectedObject = i_listBox.SelectedItem as OwnerObject;
+            if (selectedObject == null || selectedObject.PictureNormalURL == null)
             {
-                pictureBoxFriends.LoadAsync(selectedFriend.PictureNormalURL);
+                i_pictureBox.Image = pictureBoxEvents.ErrorImage;
             }
             else
             {
-                pictureBoxEvents.Image = pictureBoxEvents.ErrorImage;
+                i_pictureBox.LoadAsync(selectedObject.PictureNormalURL);
+
             }
         }
 
+        private void comboBoxBGColor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBoxBGColor.SelectedIndex)
+            {
+
+                case 0:
+                    this.tabPage1.BackColor = Color.LightBlue;
+                    this.tabPage2.BackColor = Color.LightBlue;
+                    break;
+                case 1:
+                    this.tabPage1.BackColor = Color.LightGreen;
+                    this.tabPage2.BackColor = Color.LightGreen;
+                    break;
+                case 2:
+                    this.tabPage1.BackColor = Color.LightPink;
+                    this.tabPage2.BackColor = Color.LightPink;
+                    break;
+                case 3:
+                    this.tabPage1.BackColor = Color.LightYellow;
+                    this.tabPage2.BackColor = Color.LightYellow;
+                    break;
+                case 4:
+                    this.tabPage1.BackColor = Color.White;
+                    this.tabPage2.BackColor = Color.White;
+                    break;
+                default:
+                    this.tabPage1.BackColor = Color.LightBlue;
+                    this.tabPage2.BackColor = Color.LightBlue;
+                    break;
+            }
+
+        }
+
+        private void buttonFetchBirthdays_Click(object sender, EventArgs e)
+        {
+            fetchAndDisplayBirthdays();
+        }
+        List<User> m_friendsWithBirthdays;
+        private void fetchAndDisplayBirthdays()
+        {
+            if (m_AppManagment.LoggedInUser == null)
+            {
+                MessageBox.Show("Please log in to fetch birthdays.");
+                return;
+            }
+            listBoxBirthdays.Items.Clear();
+            BirthdayManager birthdayManager = new BirthdayManager(m_AppManagment.LoggedInUser);
+            m_friendsWithBirthdays = birthdayManager.GetTodayBirthdays();
+
+            if (m_friendsWithBirthdays.Count == 0)
+            {
+                listBoxBirthdays.Items.Add("No friends have birthdays today. :(");
+                return;
+            }
+
+            foreach (User friend in m_friendsWithBirthdays)
+            {
+                listBoxBirthdays.Items.Add(friend.Name); 
+            }
+        }
+        private void listBoxBirthdays_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            displayPicture(pictureBoxBirthdays, listBoxBirthdays);
+        }
+
+        //TODO- FIX THE SONG PLAYING BY FINDING THE RIGHT PATH
+        private void PlayHappyBirthdaySong(object sender, EventArgs e)
+        {
+            try
+            {
+
+                string soundFilePath = "..\\sounds\\happybirthday.wav";
+
+
+                using (SoundPlayer player = new SoundPlayer(soundFilePath))
+                {
+                    player.Play();
+                }
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+        }
+        private void buttonPost_Click(object sender, EventArgs e)
+        {
+            try 
+            { 
+                sendBirthdayMessage(getThisFriend(listBoxBirthdays.SelectedIndex), comboBoxOptionalMsg.Text);
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+        }
+        private void buttonAddMassage_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                sendBirthdayMessage(getThisFriend(listBoxBirthdays.SelectedIndex), textBoxAddedMassage.Text);
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+        }
+
+        private User getThisFriend(int i_Index)
+        {
+            if (m_friendsWithBirthdays.Count == 0)
+            {
+                return null;
+            }
+            return m_friendsWithBirthdays[i_Index];
+        }
+        
+        private void sendBirthdayMessage(User i_Friend, string i_Message)
+        {
+            if (i_Message.Length == 0 || i_Message== "Write here your costumized massage")
+            {
+                MessageBox.Show("Please enter a massage");
+            }
+            
+            try
+            {
+                if (m_friendsWithBirthdays.Count == 0)
+                {
+                    MessageBox.Show("No Friend selected");
+                    return;
+                }
+                BirthdayManager birthdayManager = new BirthdayManager(m_AppManagment.LoggedInUser);
+
+                if (birthdayManager.SendBirthdayMessage(i_Friend, i_Message))
+                {
+                    MessageBox.Show($"Successfully sent a birthday message to {i_Friend.Name}!");
+                }
+                else
+                {
+                    MessageBox.Show($"Failed to send a birthday message to {i_Friend.Name}.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+        }
+
+       
     }
 }
 

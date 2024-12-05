@@ -35,6 +35,7 @@ namespace BasicFacebookFeatures
             this.buttonLogout = new System.Windows.Forms.Button();
             this.tabControlOurFeatures = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.comboBoxBGColor = new System.Windows.Forms.ComboBox();
             this.pictureBoxFriends = new System.Windows.Forms.PictureBox();
             this.linkNumOfFriends = new System.Windows.Forms.LinkLabel();
             this.labelNumOfFriends = new System.Windows.Forms.Label();
@@ -62,8 +63,8 @@ namespace BasicFacebookFeatures
             this.facebook_logo = new System.Windows.Forms.PictureBox();
             this.pictureBoxProfile = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.labelShow = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBoxCloseFriend = new System.Windows.Forms.PictureBox();
             this.FetchCityStats = new System.Windows.Forms.LinkLabel();
             this.ListBoxFriendsCityStats = new System.Windows.Forms.ListBox();
@@ -77,6 +78,16 @@ namespace BasicFacebookFeatures
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.comboBoxOptionalMsg = new System.Windows.Forms.ComboBox();
+            this.buttonPost = new System.Windows.Forms.Button();
+            this.labelSendMsg = new System.Windows.Forms.Label();
+            this.buttonFetchBirthdays = new System.Windows.Forms.Button();
+            this.pictureBoxBirthdays = new System.Windows.Forms.PictureBox();
+            this.listBoxBirthdays = new System.Windows.Forms.ListBox();
+            this.labelTodayIs = new System.Windows.Forms.Label();
+            this.textBoxAddedMassage = new System.Windows.Forms.TextBox();
+            this.buttonAddMassage = new System.Windows.Forms.Button();
             this.tabControlOurFeatures.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFriends)).BeginInit();
@@ -91,6 +102,8 @@ namespace BasicFacebookFeatures
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseFriend)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBirthdays)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonLogin
@@ -120,15 +133,18 @@ namespace BasicFacebookFeatures
             // 
             this.tabControlOurFeatures.Controls.Add(this.tabPage1);
             this.tabControlOurFeatures.Controls.Add(this.tabPage2);
+            this.tabControlOurFeatures.Controls.Add(this.tabPage3);
             this.tabControlOurFeatures.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlOurFeatures.Location = new System.Drawing.Point(0, 0);
             this.tabControlOurFeatures.Name = "tabControlOurFeatures";
             this.tabControlOurFeatures.SelectedIndex = 0;
-            this.tabControlOurFeatures.Size = new System.Drawing.Size(1246, 743);
+            this.tabControlOurFeatures.Size = new System.Drawing.Size(1246, 780);
             this.tabControlOurFeatures.TabIndex = 54;
             // 
             // tabPage1
             // 
+            this.tabPage1.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.tabPage1.Controls.Add(this.comboBoxBGColor);
             this.tabPage1.Controls.Add(this.pictureBoxFriends);
             this.tabPage1.Controls.Add(this.linkNumOfFriends);
             this.tabPage1.Controls.Add(this.labelNumOfFriends);
@@ -160,10 +176,26 @@ namespace BasicFacebookFeatures
             this.tabPage1.Location = new System.Drawing.Point(4, 35);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1238, 704);
+            this.tabPage1.Size = new System.Drawing.Size(1238, 741);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Profile";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxBGColor
+            // 
+            this.comboBoxBGColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F);
+            this.comboBoxBGColor.FormattingEnabled = true;
+            this.comboBoxBGColor.Items.AddRange(new object[] {
+            "Light Blue(default)",
+            "Light Green",
+            "Pink",
+            "Yellow",
+            "White"});
+            this.comboBoxBGColor.Location = new System.Drawing.Point(1056, 59);
+            this.comboBoxBGColor.Name = "comboBoxBGColor";
+            this.comboBoxBGColor.Size = new System.Drawing.Size(174, 23);
+            this.comboBoxBGColor.TabIndex = 84;
+            this.comboBoxBGColor.Text = "Choose Background Color";
+            this.comboBoxBGColor.SelectedIndexChanged += new System.EventHandler(this.comboBoxBGColor_SelectedIndexChanged);
             // 
             // pictureBoxFriends
             // 
@@ -298,10 +330,10 @@ namespace BasicFacebookFeatures
             // pictureBoxEvents
             // 
             this.pictureBoxEvents.BackColor = System.Drawing.Color.Gainsboro;
-            this.pictureBoxEvents.Location = new System.Drawing.Point(1136, 530);
+            this.pictureBoxEvents.Location = new System.Drawing.Point(1044, 614);
             this.pictureBoxEvents.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pictureBoxEvents.Name = "pictureBoxEvents";
-            this.pictureBoxEvents.Size = new System.Drawing.Size(95, 97);
+            this.pictureBoxEvents.Size = new System.Drawing.Size(80, 82);
             this.pictureBoxEvents.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxEvents.TabIndex = 68;
             this.pictureBoxEvents.TabStop = false;
@@ -309,10 +341,10 @@ namespace BasicFacebookFeatures
             // pictureBoxGroups
             // 
             this.pictureBoxGroups.BackColor = System.Drawing.Color.Gainsboro;
-            this.pictureBoxGroups.Location = new System.Drawing.Point(1136, 311);
+            this.pictureBoxGroups.Location = new System.Drawing.Point(1043, 498);
             this.pictureBoxGroups.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pictureBoxGroups.Name = "pictureBoxGroups";
-            this.pictureBoxGroups.Size = new System.Drawing.Size(93, 97);
+            this.pictureBoxGroups.Size = new System.Drawing.Size(80, 82);
             this.pictureBoxGroups.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxGroups.TabIndex = 67;
             this.pictureBoxGroups.TabStop = false;
@@ -320,10 +352,10 @@ namespace BasicFacebookFeatures
             // pictureBoxLikes
             // 
             this.pictureBoxLikes.BackColor = System.Drawing.Color.Gainsboro;
-            this.pictureBoxLikes.Location = new System.Drawing.Point(727, 530);
+            this.pictureBoxLikes.Location = new System.Drawing.Point(1043, 379);
             this.pictureBoxLikes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pictureBoxLikes.Name = "pictureBoxLikes";
-            this.pictureBoxLikes.Size = new System.Drawing.Size(93, 97);
+            this.pictureBoxLikes.Size = new System.Drawing.Size(80, 82);
             this.pictureBoxLikes.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxLikes.TabIndex = 66;
             this.pictureBoxLikes.TabStop = false;
@@ -331,10 +363,10 @@ namespace BasicFacebookFeatures
             // pictureBoxAlbum
             // 
             this.pictureBoxAlbum.BackColor = System.Drawing.Color.Gainsboro;
-            this.pictureBoxAlbum.Location = new System.Drawing.Point(727, 311);
+            this.pictureBoxAlbum.Location = new System.Drawing.Point(1044, 268);
             this.pictureBoxAlbum.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pictureBoxAlbum.Name = "pictureBoxAlbum";
-            this.pictureBoxAlbum.Size = new System.Drawing.Size(93, 97);
+            this.pictureBoxAlbum.Size = new System.Drawing.Size(80, 82);
             this.pictureBoxAlbum.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxAlbum.TabIndex = 65;
             this.pictureBoxAlbum.TabStop = false;
@@ -343,7 +375,7 @@ namespace BasicFacebookFeatures
             // 
             this.LinkGroups.AutoSize = true;
             this.LinkGroups.LinkArea = new System.Windows.Forms.LinkArea(0, 13);
-            this.LinkGroups.Location = new System.Drawing.Point(890, 265);
+            this.LinkGroups.Location = new System.Drawing.Point(445, 464);
             this.LinkGroups.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LinkGroups.Name = "LinkGroups";
             this.LinkGroups.Size = new System.Drawing.Size(145, 31);
@@ -357,7 +389,7 @@ namespace BasicFacebookFeatures
             // 
             this.LinkEvents.AutoSize = true;
             this.LinkEvents.LinkArea = new System.Windows.Forms.LinkArea(0, 13);
-            this.LinkEvents.Location = new System.Drawing.Point(890, 477);
+            this.LinkEvents.Location = new System.Drawing.Point(445, 584);
             this.LinkEvents.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LinkEvents.Name = "LinkEvents";
             this.LinkEvents.Size = new System.Drawing.Size(140, 31);
@@ -371,7 +403,7 @@ namespace BasicFacebookFeatures
             // 
             this.LinkLikes.AutoSize = true;
             this.LinkLikes.LinkArea = new System.Windows.Forms.LinkArea(0, 13);
-            this.LinkLikes.Location = new System.Drawing.Point(482, 477);
+            this.LinkLikes.Location = new System.Drawing.Point(445, 354);
             this.LinkLikes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LinkLikes.Name = "LinkLikes";
             this.LinkLikes.Size = new System.Drawing.Size(124, 31);
@@ -385,7 +417,7 @@ namespace BasicFacebookFeatures
             // 
             this.LinkAlbums.AutoSize = true;
             this.LinkAlbums.LinkArea = new System.Windows.Forms.LinkArea(0, 13);
-            this.LinkAlbums.Location = new System.Drawing.Point(482, 265);
+            this.LinkAlbums.Location = new System.Drawing.Point(445, 240);
             this.LinkAlbums.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LinkAlbums.Name = "LinkAlbums";
             this.LinkAlbums.Size = new System.Drawing.Size(146, 31);
@@ -399,9 +431,9 @@ namespace BasicFacebookFeatures
             // 
             this.ListBoxGroups.FormattingEnabled = true;
             this.ListBoxGroups.ItemHeight = 26;
-            this.ListBoxGroups.Location = new System.Drawing.Point(865, 299);
+            this.ListBoxGroups.Location = new System.Drawing.Point(445, 498);
             this.ListBoxGroups.Name = "ListBoxGroups";
-            this.ListBoxGroups.Size = new System.Drawing.Size(264, 134);
+            this.ListBoxGroups.Size = new System.Drawing.Size(591, 82);
             this.ListBoxGroups.TabIndex = 60;
             this.ListBoxGroups.SelectedIndexChanged += new System.EventHandler(this.ListBoxGroups_SelectedIndexChanged);
             // 
@@ -409,9 +441,9 @@ namespace BasicFacebookFeatures
             // 
             this.ListBoxEvents.FormattingEnabled = true;
             this.ListBoxEvents.ItemHeight = 26;
-            this.ListBoxEvents.Location = new System.Drawing.Point(865, 521);
+            this.ListBoxEvents.Location = new System.Drawing.Point(445, 614);
             this.ListBoxEvents.Name = "ListBoxEvents";
-            this.ListBoxEvents.Size = new System.Drawing.Size(264, 134);
+            this.ListBoxEvents.Size = new System.Drawing.Size(591, 82);
             this.ListBoxEvents.TabIndex = 59;
             this.ListBoxEvents.SelectedIndexChanged += new System.EventHandler(this.ListBoxEvents_SelectedIndexChanged);
             // 
@@ -419,9 +451,9 @@ namespace BasicFacebookFeatures
             // 
             this.ListBoxLikes.FormattingEnabled = true;
             this.ListBoxLikes.ItemHeight = 26;
-            this.ListBoxLikes.Location = new System.Drawing.Point(447, 521);
+            this.ListBoxLikes.Location = new System.Drawing.Point(445, 379);
             this.ListBoxLikes.Name = "ListBoxLikes";
-            this.ListBoxLikes.Size = new System.Drawing.Size(273, 134);
+            this.ListBoxLikes.Size = new System.Drawing.Size(591, 82);
             this.ListBoxLikes.TabIndex = 58;
             this.ListBoxLikes.SelectedIndexChanged += new System.EventHandler(this.ListBoxLikes_SelectedIndexChanged);
             // 
@@ -429,16 +461,16 @@ namespace BasicFacebookFeatures
             // 
             this.ListBoxAlbums.FormattingEnabled = true;
             this.ListBoxAlbums.ItemHeight = 26;
-            this.ListBoxAlbums.Location = new System.Drawing.Point(447, 299);
+            this.ListBoxAlbums.Location = new System.Drawing.Point(446, 268);
             this.ListBoxAlbums.Name = "ListBoxAlbums";
-            this.ListBoxAlbums.Size = new System.Drawing.Size(273, 134);
+            this.ListBoxAlbums.Size = new System.Drawing.Size(591, 82);
             this.ListBoxAlbums.TabIndex = 57;
             this.ListBoxAlbums.SelectedIndexChanged += new System.EventHandler(this.ListBoxAlbums_SelectedIndexChanged);
             // 
             // facebook_logo
             // 
             this.facebook_logo.Image = ((System.Drawing.Image)(resources.GetObject("facebook_logo.Image")));
-            this.facebook_logo.Location = new System.Drawing.Point(-86, -8);
+            this.facebook_logo.Location = new System.Drawing.Point(-86, -13);
             this.facebook_logo.Name = "facebook_logo";
             this.facebook_logo.Size = new System.Drawing.Size(226, 155);
             this.facebook_logo.TabIndex = 56;
@@ -455,8 +487,9 @@ namespace BasicFacebookFeatures
             // 
             // tabPage2
             // 
+            this.tabPage2.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.tabPage2.Controls.Add(this.labelShow);
             this.tabPage2.Controls.Add(this.pictureBox3);
-            this.tabPage2.Controls.Add(this.textBox1);
             this.tabPage2.Controls.Add(this.pictureBoxCloseFriend);
             this.tabPage2.Controls.Add(this.FetchCityStats);
             this.tabPage2.Controls.Add(this.ListBoxFriendsCityStats);
@@ -473,10 +506,18 @@ namespace BasicFacebookFeatures
             this.tabPage2.Location = new System.Drawing.Point(4, 35);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1238, 704);
+            this.tabPage2.Size = new System.Drawing.Size(1238, 741);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Extras";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // labelShow
+            // 
+            this.labelShow.AutoSize = true;
+            this.labelShow.Location = new System.Drawing.Point(770, 34);
+            this.labelShow.Name = "labelShow";
+            this.labelShow.Size = new System.Drawing.Size(318, 26);
+            this.labelShow.TabIndex = 16;
+            this.labelShow.Text = "Find friends who live next to me";
             // 
             // pictureBox3
             // 
@@ -486,14 +527,6 @@ namespace BasicFacebookFeatures
             this.pictureBox3.Size = new System.Drawing.Size(277, 183);
             this.pictureBox3.TabIndex = 15;
             this.pictureBox3.TabStop = false;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(738, 34);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(345, 32);
-            this.textBox1.TabIndex = 14;
-            this.textBox1.Text = "Find friends who live next to me";
             // 
             // pictureBoxCloseFriend
             // 
@@ -610,12 +643,140 @@ namespace BasicFacebookFeatures
             this.label1.TabIndex = 0;
             this.label1.Text = "User Gender Stats";
             // 
+            // tabPage3
+            // 
+            this.tabPage3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabPage3.BackgroundImage")));
+            this.tabPage3.Controls.Add(this.buttonAddMassage);
+            this.tabPage3.Controls.Add(this.textBoxAddedMassage);
+            this.tabPage3.Controls.Add(this.comboBoxOptionalMsg);
+            this.tabPage3.Controls.Add(this.buttonPost);
+            this.tabPage3.Controls.Add(this.labelSendMsg);
+            this.tabPage3.Controls.Add(this.buttonFetchBirthdays);
+            this.tabPage3.Controls.Add(this.pictureBoxBirthdays);
+            this.tabPage3.Controls.Add(this.listBoxBirthdays);
+            this.tabPage3.Controls.Add(this.labelTodayIs);
+            this.tabPage3.Location = new System.Drawing.Point(4, 35);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(1238, 741);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Birthdays";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxOptionalMsg
+            // 
+            this.comboBoxOptionalMsg.FormattingEnabled = true;
+            this.comboBoxOptionalMsg.Items.AddRange(new object[] {
+            "🎉 Happy Birthday! Wishing you endless joy, love, and laughter today and always! " +
+                "🎂",
+            "🎈",
+            "",
+            "🎁 May your special day be as amazing as you are! Cheers to another fabulous year" +
+                "! 🥳",
+            "✨",
+            "",
+            "🌟 Happy Birthday! Here’s to a year full of adventures, dreams come true, and hap" +
+                "piness! 🎉🎂",
+            "",
+            "",
+            "🎈 Wishing you a day filled with cake, smiles, and all your favorite things! 🥳",
+            "🍰",
+            "",
+            "🥂 Happy Birthday! Let’s celebrate you and all the amazing moments ahead! 🎁🎊"});
+            this.comboBoxOptionalMsg.Location = new System.Drawing.Point(92, 504);
+            this.comboBoxOptionalMsg.Name = "comboBoxOptionalMsg";
+            this.comboBoxOptionalMsg.Size = new System.Drawing.Size(977, 34);
+            this.comboBoxOptionalMsg.TabIndex = 6;
+            this.comboBoxOptionalMsg.Text = "Choose your massage";
+            // 
+            // buttonPost
+            // 
+            this.buttonPost.BackColor = System.Drawing.Color.Aquamarine;
+            this.buttonPost.Location = new System.Drawing.Point(1075, 504);
+            this.buttonPost.Name = "buttonPost";
+            this.buttonPost.Size = new System.Drawing.Size(123, 34);
+            this.buttonPost.TabIndex = 5;
+            this.buttonPost.Text = "Post!";
+            this.buttonPost.UseVisualStyleBackColor = false;
+            this.buttonPost.Click += new System.EventHandler(this.buttonPost_Click);
+            // 
+            // labelSendMsg
+            // 
+            this.labelSendMsg.AutoSize = true;
+            this.labelSendMsg.Font = new System.Drawing.Font("Comic Sans MS", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSendMsg.Location = new System.Drawing.Point(492, 449);
+            this.labelSendMsg.Name = "labelSendMsg";
+            this.labelSendMsg.Size = new System.Drawing.Size(295, 30);
+            this.labelSendMsg.TabIndex = 4;
+            this.labelSendMsg.Text = "Let\'s send them a massage!";
+            // 
+            // buttonFetchBirthdays
+            // 
+            this.buttonFetchBirthdays.BackColor = System.Drawing.Color.Aquamarine;
+            this.buttonFetchBirthdays.Location = new System.Drawing.Point(527, 195);
+            this.buttonFetchBirthdays.Name = "buttonFetchBirthdays";
+            this.buttonFetchBirthdays.Size = new System.Drawing.Size(195, 32);
+            this.buttonFetchBirthdays.TabIndex = 3;
+            this.buttonFetchBirthdays.Text = "Show me!";
+            this.buttonFetchBirthdays.UseVisualStyleBackColor = false;
+            this.buttonFetchBirthdays.Click += new System.EventHandler(this.buttonFetchBirthdays_Click);
+            // 
+            // pictureBoxBirthdays
+            // 
+            this.pictureBoxBirthdays.Location = new System.Drawing.Point(661, 249);
+            this.pictureBoxBirthdays.Name = "pictureBoxBirthdays";
+            this.pictureBoxBirthdays.Size = new System.Drawing.Size(192, 186);
+            this.pictureBoxBirthdays.TabIndex = 2;
+            this.pictureBoxBirthdays.TabStop = false;
+            // 
+            // listBoxBirthdays
+            // 
+            this.listBoxBirthdays.FormattingEnabled = true;
+            this.listBoxBirthdays.ItemHeight = 26;
+            this.listBoxBirthdays.Location = new System.Drawing.Point(309, 249);
+            this.listBoxBirthdays.Name = "listBoxBirthdays";
+            this.listBoxBirthdays.Size = new System.Drawing.Size(356, 186);
+            this.listBoxBirthdays.TabIndex = 1;
+            this.listBoxBirthdays.SelectedIndexChanged += new System.EventHandler(this.listBoxBirthdays_SelectedIndexChanged);
+            // 
+            // labelTodayIs
+            // 
+            this.labelTodayIs.AutoSize = true;
+            this.labelTodayIs.Font = new System.Drawing.Font("Comic Sans MS", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTodayIs.Location = new System.Drawing.Point(247, 12);
+            this.labelTodayIs.Name = "labelTodayIs";
+            this.labelTodayIs.Size = new System.Drawing.Size(863, 67);
+            this.labelTodayIs.TabIndex = 0;
+            this.labelTodayIs.Text = "Wish Your Friends Happy Birthday!!";
+            // 
+            // textBoxAddedMassage
+            // 
+            this.textBoxAddedMassage.Location = new System.Drawing.Point(92, 547);
+            this.textBoxAddedMassage.Multiline = true;
+            this.textBoxAddedMassage.Name = "textBoxAddedMassage";
+            this.textBoxAddedMassage.Size = new System.Drawing.Size(921, 104);
+            this.textBoxAddedMassage.TabIndex = 7;
+            this.textBoxAddedMassage.Text = "Write here your costumized massage";
+            // 
+            // buttonAddMassage
+            // 
+            this.buttonAddMassage.BackColor = System.Drawing.Color.Aquamarine;
+            this.buttonAddMassage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
+            this.buttonAddMassage.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.buttonAddMassage.Location = new System.Drawing.Point(1019, 544);
+            this.buttonAddMassage.Name = "buttonAddMassage";
+            this.buttonAddMassage.Size = new System.Drawing.Size(179, 107);
+            this.buttonAddMassage.TabIndex = 8;
+            this.buttonAddMassage.Text = "Post your massage!";
+            this.buttonAddMassage.UseVisualStyleBackColor = false;
+            this.buttonAddMassage.Click += new System.EventHandler(this.buttonAddMassage_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 26F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(87)))), ((int)(((byte)(176)))));
-            this.ClientSize = new System.Drawing.Size(1246, 743);
+            this.ClientSize = new System.Drawing.Size(1246, 780);
             this.Controls.Add(this.tabControlOurFeatures);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -638,6 +799,9 @@ namespace BasicFacebookFeatures
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseFriend)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBirthdays)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -678,7 +842,6 @@ namespace BasicFacebookFeatures
         private System.Windows.Forms.Button buttonCalculateStats;
         private System.Windows.Forms.Label labelUserName;
         private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox pictureBoxCloseFriend;
         private System.Windows.Forms.LinkLabel FetchCityStats;
         private System.Windows.Forms.ListBox ListBoxFriendsCityStats;
@@ -690,6 +853,18 @@ namespace BasicFacebookFeatures
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.LinkLabel linkNumOfFriends;
         private System.Windows.Forms.PictureBox pictureBoxFriends;
+        private System.Windows.Forms.Label labelShow;
+        private System.Windows.Forms.ComboBox comboBoxBGColor;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Label labelTodayIs;
+        private System.Windows.Forms.ListBox listBoxBirthdays;
+        private System.Windows.Forms.PictureBox pictureBoxBirthdays;
+        private System.Windows.Forms.Button buttonFetchBirthdays;
+        private System.Windows.Forms.Label labelSendMsg;
+        private System.Windows.Forms.Button buttonPost;
+        private System.Windows.Forms.ComboBox comboBoxOptionalMsg;
+        private System.Windows.Forms.Button buttonAddMassage;
+        private System.Windows.Forms.TextBox textBoxAddedMassage;
     }
 }
 
