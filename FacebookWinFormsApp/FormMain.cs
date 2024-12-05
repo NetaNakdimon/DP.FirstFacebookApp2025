@@ -31,6 +31,8 @@ namespace BasicFacebookFeatures
 
         private AppManagment m_AppManagment;
         private GenderStatsCalculator m_genderStats;
+        private List<Photo> cachedPhotos = new List<Photo>();
+        private Random random = new Random();
 
 
         private void buttonLogin_Click(object sender, EventArgs e)
@@ -165,7 +167,7 @@ namespace BasicFacebookFeatures
         {
             if (m_AppManagment.LoggedInUser != null)
             {
-                DisplayPosts();
+                displayPosts();
             }
             else
             {
@@ -174,7 +176,7 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void DisplayPosts()
+        private void displayPosts()
         {
             listBoxPosts.Items.Clear();
 
@@ -399,37 +401,6 @@ namespace BasicFacebookFeatures
 
         }
 
-        private void fetchCityStats_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            fetchFriendsCityStats();
-        }
-
-        private void fetchFriendsCityStats()
-        {
-            if (m_AppManagment.LoggedInUser == null)
-            {
-                MessageBox.Show("Please log in to fetch city statistics.");
-                return;
-            }
-
-            ListBoxFriendsCityStats.Items.Clear();
-            ListBoxFriendsCityStats.DisplayMember = "Name";
-            Dictionary<string, int> cityStatistics = DistanceCalculator.GetCityStatistics(m_AppManagment.LoggedInUser.Friends.ToList());
-
-            if (cityStatistics.Count == 0)
-            {
-                ListBoxFriendsCityStats.Items.Add("No city statistics to display.");
-            }
-
-            else
-            {
-                foreach (KeyValuePair<string, int> cityStat in cityStatistics)
-                {
-                    ListBoxFriendsCityStats.Items.Add($"{cityStat.Key}: {cityStat.Value} friends");
-                }
-            }
-        }
-
         private void ListBoxFriendsCityStats_SelectedIndexChanged(object sender, EventArgs e)
         {
             displayPicture(pictureBoxCloseFriend, ListBoxFriendsCityStats);
@@ -541,7 +512,7 @@ namespace BasicFacebookFeatures
 
             foreach (User friend in m_friendsWithBirthdays)
             {
-                listBoxBirthdays.Items.Add(friend.Name); 
+                listBoxBirthdays.Items.Add(friend.Name);
             }
         }
         private void listBoxBirthdays_SelectedIndexChanged(object sender, EventArgs e)
@@ -570,8 +541,8 @@ namespace BasicFacebookFeatures
         }
         private void buttonPost_Click(object sender, EventArgs e)
         {
-            try 
-            { 
+            try
+            {
                 sendBirthdayMessage(getThisFriend(listBoxBirthdays.SelectedIndex), comboBoxOptionalMsg.Text);
             }
             catch (Exception ex)
@@ -599,14 +570,14 @@ namespace BasicFacebookFeatures
             }
             return m_friendsWithBirthdays[i_Index];
         }
-        
+
         private void sendBirthdayMessage(User i_Friend, string i_Message)
         {
-            if (i_Message.Length == 0 || i_Message== "Write here your costumized massage")
+            if (i_Message.Length == 0 || i_Message == "Write here your costumized massage")
             {
                 MessageBox.Show("Please enter a massage");
             }
-            
+
             try
             {
                 if (m_friendsWithBirthdays.Count == 0)
@@ -631,7 +602,170 @@ namespace BasicFacebookFeatures
             }
         }
 
-       
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void prefetchPhotos()
+        {
+            try
+            {
+                cachedPhotos.Clear();
+
+                // Fetch all albums and their photos
+                foreach (Album album in m_AppManagment.LoggedInUser.Albums)
+                {
+                    if (album.Photos != null)
+                    {
+                        cachedPhotos.AddRange(album.Photos);
+                    }
+                }
+
+                if (cachedPhotos.Count == 0)
+                {
+                    MessageBox.Show("No photos available to display.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fetching Memories...");
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+
+
+        private void displayRandomPhoto()
+        {
+            if (cachedPhotos.Count == 0)
+            {
+                MessageBox.Show("No photos available. Please log in and try again.");
+                return;
+            }
+
+            try
+            {
+                // Pick a random photo
+                int randomIndex = random.Next(cachedPhotos.Count);
+                Photo randomPhoto = cachedPhotos[randomIndex];
+
+                // Display the photo in the PictureBox
+                pictureBoxSlideshow.LoadAsync(randomPhoto.PictureNormalURL);
+                pictureBoxSlideshow.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error displaying the photo.");
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+
+        private void pictureBoxPhotosMemories_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            prefetchPhotos();
+            displayRandomPhoto(); // Display the first random photo
+            //A timer to change the photo every few seconds
+            Timer slideshowTimer = new Timer();
+            slideshowTimer.Interval = 5000;
+            slideshowTimer.Tick += (s, args) => displayRandomPhoto();
+            slideshowTimer.Start();
+        }
+
+        private void FetchCityStats_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            fetchFriendsCityStats();
+        }
+
+        private void fetchFriendsCityStats()
+        {
+            ListBoxFriendsCityStats.Items.Clear();
+            ListBoxFriendsCityStats.DisplayMember = "Name";
+
+            Dictionary<string, int> cityStatistics;
+
+            try
+            {
+                // Attempt to fetch real city statistics
+                cityStatistics = DistanceCalculator.GetCityStatistics(m_AppManagment.LoggedInUser.Friends.ToList());
+            }
+            catch
+            {
+                // Use simulated data if permissions are missing
+                MessageBox.Show("Using simulated data due to missing permissions.");
+            }
+                cityStatistics = DistanceCalculator.GetSimulatedCityStatistics();
+                foreach (KeyValuePair<string, int> cityStat in cityStatistics)
+                {
+                    ListBoxFriendsCityStats.Items.Add($"{cityStat.Key}: {cityStat.Value} friends");
+                }
+
+                string topCity = DistanceCalculator.GetCityWithMostFriends(cityStatistics);
+                labelTopCity.Text = $"Top City: {topCity}";
+
+                double averageDistance = DistanceCalculator.CalculateSimulatedAverageDistance();
+                labelAverageDistanceToFriends.Text = $"Average Distance To Friends: {averageDistance:F1} km";
+            }
+
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBoxFriendsByCity_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonFindCloseFriends_Click(object sender, EventArgs e)
+        {
+            displayNearbyFriends();
+        }
+
+        private void displayNearbyFriends()
+        {
+            if (m_AppManagment.LoggedInUser == null)
+            {
+                MessageBox.Show("Please log in to view nearby friends.");
+                return;
+            }
+
+            FBLogic.DistanceCalculator.eCity? userCity = FBLogic.DistanceCalculator.ConvertToECity(m_AppManagment.LoggedInUser.hometow);
+
+            if (!userCity.HasValue)
+            {
+                MessageBox.Show("Your hometown is unavailable. Cannot calculate close friends.");
+                return;
+            }
+
+            List<User> closeFriends = FBLogic.DistanceCalculator.GetCloseFriends(
+                m_AppManagment.LoggedInUser.Friends.ToList(),
+                userCity.Value
+            );
+
+            if (closeFriends.Count > 0)
+            {
+                MessageBox.Show($"You have {closeFriends.Count} close friends nearby!");
+                listBoxCloseFriends.Items.Clear();
+                foreach (User friend in closeFriends)
+                {
+                    listBoxCloseFriends.Items.Add(friend.Name);
+                }
+            }
+            else
+            {
+                MessageBox.Show("You have no close friends nearby.");
+            }
+        }
+
+
     }
 }
 

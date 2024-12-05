@@ -61,12 +61,11 @@ namespace FBLogic
                     "user_friends",
                     "user_gender",
                     "user_hometown",
+                    "user_location",
                     "user_likes",
                     "user_link",
-                    "user_location",
                     "user_photos",
-                    "user_posts",
-                    "user_videos"
+                    "user_posts"
                      );
 
             if (m_LoginResult != null && string.IsNullOrEmpty(m_LoginResult.ErrorMessage))
