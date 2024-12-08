@@ -280,7 +280,7 @@ namespace BasicFacebookFeatures
             // labelBirthday
             // 
             this.labelBirthday.AutoSize = true;
-            this.labelBirthday.ForeColor = System.Drawing.Color.Green;
+            this.labelBirthday.ForeColor = System.Drawing.Color.Blue;
             this.labelBirthday.Location = new System.Drawing.Point(22, 359);
             this.labelBirthday.Name = "labelBirthday";
             this.labelBirthday.Size = new System.Drawing.Size(0, 26);

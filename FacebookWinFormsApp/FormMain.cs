@@ -737,7 +737,7 @@ namespace BasicFacebookFeatures
                 return;
             }
 
-            FBLogic.DistanceCalculator.eCity? userCity = FBLogic.DistanceCalculator.ConvertToECity(m_AppManagment.LoggedInUser.hometow);
+            FBLogic.DistanceCalculator.eCity? userCity = FBLogic.DistanceCalculator.ConvertToECity(m_AppManagment.LoggedInUser.);
 
             if (!userCity.HasValue)
             {
