@@ -15,7 +15,6 @@ using System.Diagnostics.Eventing.Reader;
 using System.Deployment.Application;
 
 
-
 namespace BasicFacebookFeatures
 {
     public partial class FormMain : Form
@@ -28,13 +27,13 @@ namespace BasicFacebookFeatures
             displayUserInfoWhenLogin();
         }
 
-
+        // Fields
         private AppManagment m_AppManagment;
         private GenderStatsCalculator m_genderStats;
         private List<Photo> cachedPhotos = new List<Photo>();
         private Random random = new Random();
 
-
+        // Login methods
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             Clipboard.SetText("design.patterns");
@@ -112,7 +111,8 @@ namespace BasicFacebookFeatures
             labelUserName.Text = "";
             linkNumOfFriends.Text = "0";
         }
-        //Album methods:
+
+        // Album methods
         private void linkAlbums_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (m_AppManagment.LoggedInUser != null)
@@ -161,8 +161,7 @@ namespace BasicFacebookFeatures
             }
         }
 
-        //posts methods:
-
+        // Posts methods
         private void FetchPosts_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (m_AppManagment.LoggedInUser != null)
@@ -238,7 +237,7 @@ namespace BasicFacebookFeatures
             }
         }
 
-
+        // Likes methods
         private void LinkLikes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (m_AppManagment.LoginResult != null)
@@ -294,6 +293,7 @@ namespace BasicFacebookFeatures
             }
         }
 
+        // Events methods
         private void LinkEvents_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (m_AppManagment.LoggedInUser != null)
@@ -342,6 +342,7 @@ namespace BasicFacebookFeatures
         }
 
 
+        // Groups methods
         private void LinkGroups_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (m_AppManagment.LoggedInUser != null)
@@ -377,6 +378,7 @@ namespace BasicFacebookFeatures
         }
 
 
+        // Gender statistics methods
         private void buttonCalculateStats_Click(object sender, EventArgs e)
         {
 
@@ -401,6 +403,7 @@ namespace BasicFacebookFeatures
 
         }
 
+        // City statistics methods
         private void ListBoxFriendsCityStats_SelectedIndexChanged(object sender, EventArgs e)
         {
             displayPicture(pictureBoxCloseFriend, ListBoxFriendsCityStats);
@@ -455,6 +458,7 @@ namespace BasicFacebookFeatures
             }
         }
 
+        // Background color methods
         private void comboBoxBGColor_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (comboBoxBGColor.SelectedIndex)
@@ -488,10 +492,12 @@ namespace BasicFacebookFeatures
 
         }
 
+        // Birthday methods
         private void buttonFetchBirthdays_Click(object sender, EventArgs e)
         {
             fetchAndDisplayBirthdays();
         }
+
         List<User> m_friendsWithBirthdays;
         private void fetchAndDisplayBirthdays()
         {
@@ -515,20 +521,17 @@ namespace BasicFacebookFeatures
                 listBoxBirthdays.Items.Add(friend.Name);
             }
         }
+
         private void listBoxBirthdays_SelectedIndexChanged(object sender, EventArgs e)
         {
             displayPicture(pictureBoxBirthdays, listBoxBirthdays);
         }
 
-        //TODO- FIX THE SONG PLAYING BY FINDING THE RIGHT PATH
         private void PlayHappyBirthdaySong(object sender, EventArgs e)
         {
             try
             {
-
                 string soundFilePath = "..\\sounds\\happybirthday.wav";
-
-
                 using (SoundPlayer player = new SoundPlayer(soundFilePath))
                 {
                     player.Play();
@@ -539,6 +542,7 @@ namespace BasicFacebookFeatures
                 return;
             }
         }
+
         private void buttonPost_Click(object sender, EventArgs e)
         {
             try
@@ -550,6 +554,7 @@ namespace BasicFacebookFeatures
                 return;
             }
         }
+
         private void buttonAddMassage_Click(object sender, EventArgs e)
         {
             try
@@ -602,13 +607,7 @@ namespace BasicFacebookFeatures
             }
         }
 
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-
+        // Photo slideshow methods
         private void prefetchPhotos()
         {
             try
@@ -635,7 +634,6 @@ namespace BasicFacebookFeatures
                 Console.WriteLine($"Error: {ex.Message}");
             }
         }
-
 
         private void displayRandomPhoto()
         {
@@ -666,13 +664,14 @@ namespace BasicFacebookFeatures
         {
             prefetchPhotos();
             displayRandomPhoto(); // Display the first random photo
-            //A timer to change the photo every few seconds
+            // A timer to change the photo every few seconds
             Timer slideshowTimer = new Timer();
             slideshowTimer.Interval = 5000;
             slideshowTimer.Tick += (s, args) => displayRandomPhoto();
             slideshowTimer.Start();
         }
 
+        // City statistics methods
         private void FetchCityStats_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
         {
             fetchFriendsCityStats();
@@ -695,33 +694,18 @@ namespace BasicFacebookFeatures
                 // Use simulated data if permissions are missing
                 MessageBox.Show("Using simulated data due to missing permissions.");
             }
-                cityStatistics = DistanceCalculator.GetSimulatedCityStatistics();
-                foreach (KeyValuePair<string, int> cityStat in cityStatistics)
-                {
-                    ListBoxFriendsCityStats.Items.Add($"{cityStat.Key}: {cityStat.Value} friends");
-                }
 
-                string topCity = DistanceCalculator.GetCityWithMostFriends(cityStatistics);
-                labelTopCity.Text = $"Top City: {topCity}";
-
-                double averageDistance = DistanceCalculator.CalculateSimulatedAverageDistance();
-                labelAverageDistanceToFriends.Text = $"Average Distance To Friends: {averageDistance:F1} km";
+            cityStatistics = DistanceCalculator.GetSimulatedCityStatistics();
+            foreach (KeyValuePair<string, int> cityStat in cityStatistics)
+            {
+                ListBoxFriendsCityStats.Items.Add($"{cityStat.Key}: {cityStat.Value} friends");
             }
 
+            string topCity = DistanceCalculator.GetCityWithMostFriends(cityStatistics);
+            labelTopCity.Text = $"Top City: {topCity}";
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listBoxFriendsByCity_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click_1(object sender, EventArgs e)
-        {
-
+            double averageDistance = DistanceCalculator.CalculateSimulatedAverageDistance();
+            labelAverageDistanceToFriends.Text = $"Average Distance To Friends: {averageDistance:F1} km";
         }
 
         private void buttonFindCloseFriends_Click(object sender, EventArgs e)
@@ -745,7 +729,7 @@ namespace BasicFacebookFeatures
                 return;
             }
 
-            List<User> closeFriends =DistanceCalculator.GetCloseFriends(
+            List<User> closeFriends = DistanceCalculator.GetCloseFriends(
                 m_AppManagment.LoggedInUser.Friends.ToList(),
                 userCity.Value
             );

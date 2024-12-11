@@ -22,7 +22,7 @@ namespace FBAppLogic
 
         static DistanceCalculator()
         {
-            // Initialize distances (both directions)
+            // Initialize distances between cities
             addDistance(eCity.TelAviv, eCity.Jerusalem, 45);
             addDistance(eCity.TelAviv, eCity.Haifa, 60);
             addDistance(eCity.TelAviv, eCity.Beersheba, 90);
@@ -38,6 +38,7 @@ namespace FBAppLogic
 
         private static void addDistance(eCity i_city1, eCity i_city2, int distance)
         {
+            // Add distance in both directions for symmetry
             r_CityDistances[Tuple.Create(i_city1, i_city2)] = distance;
             r_CityDistances[Tuple.Create(i_city2, i_city1)] = distance;
         }
@@ -48,7 +49,7 @@ namespace FBAppLogic
 
             foreach (User friend in i_friends)
             {
-                eCity? friendCity = ConvertToECity(friend.Hometown);
+                eCity? friendCity = ConvertToECity(friend.Hometown); // Convert friend's hometown to eCity enum
 
                 if (friendCity.HasValue)
                 {
@@ -75,7 +76,7 @@ namespace FBAppLogic
 
             foreach (User friend in i_FriendsList)
             {
-                eCity? friendCity = ConvertToECity(friend.Hometown);
+                eCity? friendCity = ConvertToECity(friend.Hometown); // Determine friend's city
 
                 if (friendCity.HasValue)
                 {
@@ -83,13 +84,13 @@ namespace FBAppLogic
 
                     if (r_CityDistances.ContainsKey(cityPair))
                     {
-                        totalDistance += r_CityDistances[cityPair];
+                        totalDistance += r_CityDistances[cityPair]; // Add distance to total
                         count++;
                     }
                 }
             }
 
-            return count > 0 ? totalDistance / count : 0.0;
+            return count > 0 ? totalDistance / count : 0.0; // Return average distance or 0 if no valid data
         }
 
         public static List<User> GetFriendsWithinDistance(List<User> i_FriendsList, eCity i_UserCity, int i_MaxDistance)
@@ -98,7 +99,7 @@ namespace FBAppLogic
 
             foreach (User friend in i_FriendsList)
             {
-                eCity? friendCity = ConvertToECity(friend.Hometown);
+                eCity? friendCity = ConvertToECity(friend.Hometown); // Get friend's city
 
                 if (friendCity.HasValue)
                 {
@@ -106,7 +107,7 @@ namespace FBAppLogic
 
                     if (r_CityDistances.ContainsKey(cityPair) && r_CityDistances[cityPair] <= i_MaxDistance)
                     {
-                        closeFriends.Add(friend);
+                        closeFriends.Add(friend); // Add friend if within distance
                     }
                 }
             }
@@ -138,6 +139,7 @@ namespace FBAppLogic
                 return null;
             }
 
+            // Map city names to eCity enum
             if (i_city.Name.Equals("Tel Aviv", StringComparison.OrdinalIgnoreCase))
             {
                 return eCity.TelAviv;
@@ -167,7 +169,7 @@ namespace FBAppLogic
                 return eCity.Ashdod;
             }
 
-            return null;
+            return null; // Return null if city is not recognized
         }
 
         private static bool areCitiesClose(eCity i_UserCity, eCity i_FriendCity)
@@ -176,7 +178,7 @@ namespace FBAppLogic
 
             if (r_CityDistances.ContainsKey(cityPair))
             {
-                return r_CityDistances[cityPair] <= 30;
+                return r_CityDistances[cityPair] <= 30; // Consider cities close if distance is <= 30
             }
 
             return false;
@@ -188,37 +190,34 @@ namespace FBAppLogic
 
             foreach (User friend in i_FriendsList)
             {
-                eCity? friendCity = ConvertToECity(friend.Hometown);
+                eCity? friendCity = ConvertToECity(friend.Hometown); // Get friend's city
 
                 if (friendCity.HasValue && areCitiesClose(i_UserCity, friendCity.Value))
                 {
-                    closeFriends.Add(friend);
+                    closeFriends.Add(friend); // Add friend if their city is close
                 }
             }
 
             return closeFriends;
         }
 
-        //Mockup Data because no persmission to friends hometowns
+        // Mockup data for simulated statistics
         public static Dictionary<string, int> GetSimulatedCityStatistics()
         {
-            // Simulate city statistics data
             Dictionary<string, int> simulatedData = new Dictionary<string, int>
-    {
-        { "Tel Aviv", 5 },
-        { "Jerusalem", 3 },
-        { "Haifa", 2 },
-        { "Eilat", 1 }
-    };
+            {
+                { "Tel Aviv", 5 },
+                { "Jerusalem", 3 },
+                { "Haifa", 2 },
+                { "Eilat", 1 }
+            };
 
             return simulatedData;
         }
 
-
         public static double CalculateSimulatedAverageDistance()
         {
-            return 70.5; 
+            return 70.5; // Return a fixed average distance for simulation purposes
         }
-
     }
 }

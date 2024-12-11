@@ -189,7 +189,6 @@ namespace BasicFacebookFeatures
             this.tabPage1.Size = new System.Drawing.Size(1238, 741);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Profile";
-            this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
             // 
             // linklabelPhotosMemories
             // 
@@ -591,7 +590,6 @@ namespace BasicFacebookFeatures
             this.labelAverageDistanceToFriends.Size = new System.Drawing.Size(344, 32);
             this.labelAverageDistanceToFriends.TabIndex = 18;
             this.labelAverageDistanceToFriends.Text = "Average Distance To Friends:";
-            this.labelAverageDistanceToFriends.Click += new System.EventHandler(this.label2_Click_1);
             // 
             // labelTopCity
             // 
