@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FacebookWrapper.ObjectModel;
 using FacebookWrapper;
 
-namespace FBLogic
+namespace FBAppLogic
 {
     public class GenderStatsCalculator
     {

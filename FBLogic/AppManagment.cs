@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
 
-namespace FBLogic
+namespace FBAppLogic
 {
 
     

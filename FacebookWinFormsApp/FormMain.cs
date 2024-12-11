@@ -10,7 +10,7 @@ using FacebookWrapper.ObjectModel;
 using FacebookWrapper;
 using System.Drawing.Text;
 using System.Media;
-using FBLogic;
+using FBAppLogic;
 using System.Diagnostics.Eventing.Reader;
 using System.Deployment.Application;
 
@@ -737,7 +737,7 @@ namespace BasicFacebookFeatures
                 return;
             }
 
-            FBLogic.DistanceCalculator.eCity? userCity = FBLogic.DistanceCalculator.ConvertToECity(m_AppManagment.LoggedInUser.);
+            DistanceCalculator.eCity? userCity = DistanceCalculator.ConvertToECity(m_AppManagment.LoggedInUser.Hometown);
 
             if (!userCity.HasValue)
             {
@@ -745,7 +745,7 @@ namespace BasicFacebookFeatures
                 return;
             }
 
-            List<User> closeFriends = FBLogic.DistanceCalculator.GetCloseFriends(
+            List<User> closeFriends =DistanceCalculator.GetCloseFriends(
                 m_AppManagment.LoggedInUser.Friends.ToList(),
                 userCity.Value
             );
