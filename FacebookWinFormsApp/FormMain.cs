@@ -527,21 +527,8 @@ namespace BasicFacebookFeatures
             displayPicture(pictureBoxBirthdays, listBoxBirthdays);
         }
 
-        private void PlayHappyBirthdaySong(object sender, EventArgs e)
-        {
-            try
-            {
-                string soundFilePath = "..\\sounds\\happybirthday.wav";
-                using (SoundPlayer player = new SoundPlayer(soundFilePath))
-                {
-                    player.Play();
-                }
-            }
-            catch (Exception ex)
-            {
-                return;
-            }
-        }
+       
+       
 
         private void buttonPost_Click(object sender, EventArgs e)
         {
