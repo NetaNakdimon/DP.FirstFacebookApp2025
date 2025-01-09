@@ -43,7 +43,7 @@ namespace FBAppLogic
             r_CityDistances[Tuple.Create(i_city2, i_city1)] = distance;
         }
 
-        public static Dictionary<string, int> GetCityStatistics(List<User> i_friends)
+        public Dictionary<string, int> GetCityStatistics(List<User> i_friends)
         {
             Dictionary<string, int> cityStatistics = new Dictionary<string, int>();
 
@@ -115,7 +115,7 @@ namespace FBAppLogic
             return closeFriends;
         }
 
-        public static string GetCityWithMostFriends(Dictionary<string, int> i_CityStatistics)
+        public string GetCityWithMostFriends(Dictionary<string, int> i_CityStatistics)
         {
             string topCity = null;
             int maxFriends = 0;
@@ -132,7 +132,7 @@ namespace FBAppLogic
             return topCity != null ? topCity + " with " + maxFriends + " friends" : "No friends found.";
         }
 
-        public static eCity? ConvertToECity(FacebookWrapper.ObjectModel.City i_city)
+        public eCity? ConvertToECity(FacebookWrapper.ObjectModel.City i_city)
         {
             if (i_city == null || string.IsNullOrEmpty(i_city.Name))
             {
@@ -184,13 +184,13 @@ namespace FBAppLogic
             return false;
         }
 
-        public static List<User> GetCloseFriends(List<User> i_FriendsList, eCity i_UserCity)
+        public List<User> GetCloseFriends(List<User> i_FriendsList, eCity i_UserCity)
         {
             List<User> closeFriends = new List<User>();
 
             foreach (User friend in i_FriendsList)
             {
-                eCity? friendCity = ConvertToECity(friend.Hometown); // Get friend's city
+                eCity? friendCity = AppManagment.Instance.ConvertToeCity(friend.Hometown); // Get friend's city
 
                 if (friendCity.HasValue && areCitiesClose(i_UserCity, friendCity.Value))
                 {
@@ -202,7 +202,7 @@ namespace FBAppLogic
         }
 
         // Mockup data for simulated statistics
-        public static Dictionary<string, int> GetSimulatedCityStatistics()
+        public Dictionary<string, int> GetSimulatedCityStatistics()
         {
             Dictionary<string, int> simulatedData = new Dictionary<string, int>
             {
@@ -215,7 +215,7 @@ namespace FBAppLogic
             return simulatedData;
         }
 
-        public static double CalculateSimulatedAverageDistance()
+        public double CalculateSimulatedAverageDistance()
         {
             return 70.5; // Return a fixed average distance for simulation purposes
         }

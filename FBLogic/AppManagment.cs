@@ -160,7 +160,35 @@ namespace FBAppLogic
             m_GenderStatsCalculator.CalculateGenderStats();
         }
 
+        public Dictionary<string, int> GetCityStatistics(List <User> i_Friends)
+        {
+           return m_DistanceCalculator.GetCityStatistics(i_Friends);
+        }
 
+        public Dictionary<string, int> GetSimulatedCityStatistics()
+        {
+            return m_DistanceCalculator.GetSimulatedCityStatistics();
+        }
+
+        public string GetCityWithMostFriends(Dictionary<string, int> i_CityStatistics)
+        {
+            return m_DistanceCalculator.GetCityWithMostFriends(i_CityStatistics);
+        }
+
+        public double CalculateSimulatedAverageDistance()
+        {
+            return m_DistanceCalculator.CalculateSimulatedAverageDistance();
+        }
+
+        public DistanceCalculator.eCity? ConvertToeCity(City i_City)
+        {
+            return m_DistanceCalculator.ConvertToECity(i_City);
+        }
+
+        public List<User> GetCloseFriends(List<User> i_FriendsList, DistanceCalculator.eCity i_UserCity)
+        {
+            return m_DistanceCalculator.GetCloseFriends(i_FriendsList, i_UserCity);
+        }
     }
 }
 

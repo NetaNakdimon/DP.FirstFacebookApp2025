@@ -672,7 +672,7 @@ namespace BasicFacebookFeatures
             try
             {
                 // Attempt to fetch real city statistics
-                cityStatistics = DistanceCalculator.GetCityStatistics(AppManagment.Instance.LoggedInUser.Friends.ToList());
+                cityStatistics = AppManagment.Instance.GetCityStatistics(AppManagment.Instance.LoggedInUser.Friends.ToList());
             }
             catch
             {
@@ -680,16 +680,16 @@ namespace BasicFacebookFeatures
                 MessageBox.Show("Using simulated data due to missing permissions.");
             }
 
-            cityStatistics = DistanceCalculator.GetSimulatedCityStatistics();
+            cityStatistics = AppManagment.Instance.GetSimulatedCityStatistics();
             foreach (KeyValuePair<string, int> cityStat in cityStatistics)
             {
                 ListBoxFriendsCityStats.Items.Add($"{cityStat.Key}: {cityStat.Value} friends");
             }
 
-            string topCity = DistanceCalculator.GetCityWithMostFriends(cityStatistics);
+            string topCity = AppManagment.Instance.GetCityWithMostFriends(cityStatistics);
             labelTopCity.Text = $"Top City: {topCity}";
 
-            double averageDistance = DistanceCalculator.CalculateSimulatedAverageDistance();
+            double averageDistance = AppManagment.Instance.CalculateSimulatedAverageDistance();
             labelAverageDistanceToFriends.Text = $"Average Distance To Friends: {averageDistance:F1} km";
         }
 
@@ -705,8 +705,8 @@ namespace BasicFacebookFeatures
                 MessageBox.Show("Please log in to view nearby friends.");
                 return;
             }
-
-            DistanceCalculator.eCity? userCity = DistanceCalculator.ConvertToECity(AppManagment.Instance.LoggedInUser.Hometown);
+            //consult with joel
+            DistanceCalculator.eCity? userCity = AppManagment.Instance.ConvertToeCity(AppManagment.Instance.LoggedInUser.Hometown);
 
             if (!userCity.HasValue)
             {
@@ -714,7 +714,7 @@ namespace BasicFacebookFeatures
                 return;
             }
 
-            List<User> closeFriends = DistanceCalculator.GetCloseFriends(
+            List<User> closeFriends = AppManagment.Instance.GetCloseFriends(
                 AppManagment.Instance.LoggedInUser.Friends.ToList(),
                 userCity.Value
             );
