@@ -19,16 +19,13 @@ namespace BasicFacebookFeatures
 {
     public partial class FormMain : Form
     {
-        public FormMain(AppManagment i_appManagment)
+        public FormMain()
         {
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
-            m_AppManagment = i_appManagment;
             displayUserInfoWhenLogin();
         }
-
-        // Fields
-        private AppManagment m_AppManagment;
+        
         private GenderStatsCalculator m_genderStats;
         private List<Photo> cachedPhotos = new List<Photo>();
         private Random random = new Random();
@@ -37,9 +34,9 @@ namespace BasicFacebookFeatures
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             Clipboard.SetText("design.patterns");
-            if (m_AppManagment.LoginResult == null)
+            if (AppManagment.Instance.LoginResult == null)
             {
-                m_AppManagment.Login();
+                AppManagment.Instance.Login();
                 displayUserInfoWhenLogin();
             }
 
@@ -47,12 +44,12 @@ namespace BasicFacebookFeatures
 
         private void displayUserInfoWhenLogin()
         {
-            if (string.IsNullOrEmpty(m_AppManagment.LoginResult.ErrorMessage))
+            if (string.IsNullOrEmpty(AppManagment.Instance.LoginResult.ErrorMessage))
             {
-                buttonLogin.Text = $"Logged in as {m_AppManagment.LoginResult.LoggedInUser.Name}";
+                buttonLogin.Text = $"Logged in as {AppManagment.Instance.LoginResult.LoggedInUser.Name}";
                 buttonLogin.BackColor = Color.LightGreen;
                 buttonLogout.BackColor = Color.Red;
-                pictureBoxProfile.ImageLocation = m_AppManagment.LoginResult.LoggedInUser.PictureNormalURL;
+                pictureBoxProfile.ImageLocation = AppManagment.Instance.LoginResult.LoggedInUser.PictureNormalURL;
                 buttonLogin.Enabled = false;
                 buttonLogout.Enabled = true;
                 displayUserInfo();
@@ -61,17 +58,17 @@ namespace BasicFacebookFeatures
 
         private void displayUserInfo()
         {
-            labelUserName.Text = m_AppManagment.LoginResult.LoggedInUser.Name;
-            labelBirthday.Text = m_AppManagment.LoggedInUser.Birthday;
-            labelCity.Text = m_AppManagment.LoggedInUser.Hometown?.Name;
-            labelEmail.Text = m_AppManagment.LoggedInUser.Email;
-            linkNumOfFriends.Text = m_AppManagment.LoggedInUser.Friends.Count.ToString() + " (click to see them)";
+            labelUserName.Text = AppManagment.Instance.LoginResult.LoggedInUser.Name;
+            labelBirthday.Text = AppManagment.Instance.LoggedInUser.Birthday;
+            labelCity.Text = AppManagment.Instance.LoggedInUser.Hometown?.Name;
+            labelEmail.Text = AppManagment.Instance.LoggedInUser.Email;
+            linkNumOfFriends.Text = AppManagment.Instance.LoggedInUser.Friends.Count.ToString() + " (click to see them)";
 
         }
 
         private void buttonLogout_Click(object sender, EventArgs e)
         {
-            m_AppManagment.Logout();
+            AppManagment.Instance.Logout();
             eraseWhenLogOut();
 
         }
@@ -83,8 +80,8 @@ namespace BasicFacebookFeatures
             buttonLogout.BackColor = buttonCalculateStats.BackColor;
             buttonLogin.Enabled = true;
             buttonLogout.Enabled = false;
-            m_AppManagment.LoginResult = null;
-            m_AppManagment.LoggedInUser = null;
+            AppManagment.Instance.LoginResult = null;
+            AppManagment.Instance.LoggedInUser = null;
             pictureBoxProfile.Image = null;
             listBoxPosts.Items.Clear();
             listBoxPostComments.Items.Clear();
@@ -115,7 +112,7 @@ namespace BasicFacebookFeatures
         // Album methods
         private void linkAlbums_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (m_AppManagment.LoggedInUser != null)
+            if (AppManagment.Instance.LoggedInUser != null)
             {
                 displaySelectedAlbums();
             }
@@ -131,12 +128,12 @@ namespace BasicFacebookFeatures
         {
             ListBoxAlbums.Items.Clear();
             ListBoxAlbums.DisplayMember = "Name";
-            foreach (Album album in m_AppManagment.LoggedInUser.Albums)
+            foreach (Album album in AppManagment.Instance.LoggedInUser.Albums)
             {
                 ListBoxAlbums.Items.Add(album);
             }
 
-            if (m_AppManagment.LoggedInUser.Albums.Count == 0)
+            if (AppManagment.Instance.LoggedInUser.Albums.Count == 0)
             {
                 listBoxPosts.Items.Add("No albums to show");
             }
@@ -164,7 +161,7 @@ namespace BasicFacebookFeatures
         // Posts methods
         private void FetchPosts_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (m_AppManagment.LoggedInUser != null)
+            if (AppManagment.Instance.LoggedInUser != null)
             {
                 displayPosts();
             }
@@ -180,7 +177,7 @@ namespace BasicFacebookFeatures
             listBoxPosts.Items.Clear();
 
 
-            foreach (Post post in m_AppManagment.LoggedInUser.Posts)
+            foreach (Post post in AppManagment.Instance.LoggedInUser.Posts)
             {
                 if (post.Message != null)
                 {
@@ -198,7 +195,7 @@ namespace BasicFacebookFeatures
                 }
             }
 
-            if (m_AppManagment.LoggedInUser.Posts.Count == 0)
+            if (AppManagment.Instance.LoggedInUser.Posts.Count == 0)
             {
                 listBoxPosts.Items.Add("No Posts to show");
             }
@@ -216,13 +213,13 @@ namespace BasicFacebookFeatures
         {
             listBoxPostComments.Items.Clear();
 
-            if (listBoxPosts.SelectedIndex < 0 || listBoxPosts.SelectedIndex >= m_AppManagment.LoggedInUser.Posts.Count)
+            if (listBoxPosts.SelectedIndex < 0 || listBoxPosts.SelectedIndex >= AppManagment.Instance.LoggedInUser.Posts.Count)
             {
                 listBoxPostComments.Items.Add("No post selected");
                 return;
             }
 
-            Post selectedPost = m_AppManagment.LoggedInUser.Posts[listBoxPosts.SelectedIndex];
+            Post selectedPost = AppManagment.Instance.LoggedInUser.Posts[listBoxPosts.SelectedIndex];
 
             if (selectedPost.Comments.Count > 0)
             {
@@ -240,7 +237,7 @@ namespace BasicFacebookFeatures
         // Likes methods
         private void LinkLikes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (m_AppManagment.LoginResult != null)
+            if (AppManagment.Instance.LoginResult != null)
             {
                 fetchLikedPages();
             }
@@ -257,12 +254,12 @@ namespace BasicFacebookFeatures
         {
             ListBoxLikes.Items.Clear();
             ListBoxLikes.DisplayMember = "Name";
-            foreach (Page page in m_AppManagment.LoggedInUser.LikedPages)
+            foreach (Page page in AppManagment.Instance.LoggedInUser.LikedPages)
             {
                 ListBoxLikes.Items.Add(page);
             }
 
-            if (m_AppManagment.LoggedInUser.LikedPages.Count == 0)
+            if (AppManagment.Instance.LoggedInUser.LikedPages.Count == 0)
             {
                 ListBoxLikes.Items.Add("No Liked Pages to show");
             }
@@ -296,7 +293,7 @@ namespace BasicFacebookFeatures
         // Events methods
         private void LinkEvents_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (m_AppManagment.LoggedInUser != null)
+            if (AppManagment.Instance.LoggedInUser != null)
             {
                 displayEvents();
             }
@@ -314,7 +311,7 @@ namespace BasicFacebookFeatures
             ListBoxEvents.Items.Clear();
             ListBoxEvents.DisplayMember = "Name";
 
-            foreach (Event fbEvent in m_AppManagment.LoggedInUser.Events)
+            foreach (Event fbEvent in AppManagment.Instance.LoggedInUser.Events)
             {
                 if (fbEvent.Name != null)
                 {
@@ -329,7 +326,7 @@ namespace BasicFacebookFeatures
 
             }
 
-            if (m_AppManagment.LoggedInUser.Events.Count == 0)
+            if (AppManagment.Instance.LoggedInUser.Events.Count == 0)
             {
 
                 ListBoxEvents.Items.Add("No Events to show");
@@ -345,7 +342,7 @@ namespace BasicFacebookFeatures
         // Groups methods
         private void LinkGroups_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (m_AppManagment.LoggedInUser != null)
+            if (AppManagment.Instance.LoggedInUser != null)
             {
                 fetchUsersGroups();
             }
@@ -362,12 +359,12 @@ namespace BasicFacebookFeatures
         {
             ListBoxGroups.Items.Clear();
             ListBoxGroups.DisplayMember = "Name";
-            foreach (Group group in m_AppManagment.LoggedInUser.Groups)
+            foreach (Group group in AppManagment.Instance.LoggedInUser.Groups)
             {
                 ListBoxGroups.Items.Add(group);
             }
 
-            if (m_AppManagment.LoggedInUser.Groups.Count == 0)
+            if (AppManagment.Instance.LoggedInUser.Groups.Count == 0)
             {
                 ListBoxGroups.Items.Add("No Groups to show");
             }
@@ -382,7 +379,7 @@ namespace BasicFacebookFeatures
         private void buttonCalculateStats_Click(object sender, EventArgs e)
         {
 
-            m_genderStats = new GenderStatsCalculator(m_AppManagment);
+            m_genderStats = new GenderStatsCalculator();
             try
             {
                 m_genderStats.CalculateGenderStats();
@@ -411,7 +408,7 @@ namespace BasicFacebookFeatures
 
         private void linkNumOfFriends_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (m_AppManagment.LoggedInUser != null)
+            if (AppManagment.Instance.LoggedInUser != null)
             {
                 displayFriends();
             }
@@ -428,12 +425,12 @@ namespace BasicFacebookFeatures
             listBoxFriends.DisplayMember = "Name";
 
 
-            foreach (User friend in m_AppManagment.LoggedInUser.Friends)
+            foreach (User friend in AppManagment.Instance.LoggedInUser.Friends)
             {
                 listBoxFriends.Items.Add(friend);
 
             }
-            if (m_AppManagment.LoggedInUser.Friends.Count == 0)
+            if (AppManagment.Instance.LoggedInUser.Friends.Count == 0)
             {
                 listBoxFriends.Items.Add("No Friends to show");
             }
@@ -501,13 +498,13 @@ namespace BasicFacebookFeatures
         List<User> m_friendsWithBirthdays;
         private void fetchAndDisplayBirthdays()
         {
-            if (m_AppManagment.LoggedInUser == null)
+            if (AppManagment.Instance.LoggedInUser == null)
             {
                 MessageBox.Show("Please log in to fetch birthdays.");
                 return;
             }
             listBoxBirthdays.Items.Clear();
-            BirthdayManager birthdayManager = new BirthdayManager(m_AppManagment.LoggedInUser);
+            BirthdayManager birthdayManager = new BirthdayManager(AppManagment.Instance.LoggedInUser);
             m_friendsWithBirthdays = birthdayManager.GetTodayBirthdays();
 
             if (m_friendsWithBirthdays.Count == 0)
@@ -577,7 +574,7 @@ namespace BasicFacebookFeatures
                     MessageBox.Show("No Friend selected");
                     return;
                 }
-                BirthdayManager birthdayManager = new BirthdayManager(m_AppManagment.LoggedInUser);
+                BirthdayManager birthdayManager = new BirthdayManager(AppManagment.Instance.LoggedInUser);
 
                 if (birthdayManager.SendBirthdayMessage(i_Friend, i_Message))
                 {
@@ -602,7 +599,7 @@ namespace BasicFacebookFeatures
                 cachedPhotos.Clear();
 
                 // Fetch all albums and their photos
-                foreach (Album album in m_AppManagment.LoggedInUser.Albums)
+                foreach (Album album in AppManagment.Instance.LoggedInUser.Albums)
                 {
                     if (album.Photos != null)
                     {
@@ -674,7 +671,7 @@ namespace BasicFacebookFeatures
             try
             {
                 // Attempt to fetch real city statistics
-                cityStatistics = DistanceCalculator.GetCityStatistics(m_AppManagment.LoggedInUser.Friends.ToList());
+                cityStatistics = DistanceCalculator.GetCityStatistics(AppManagment.Instance.LoggedInUser.Friends.ToList());
             }
             catch
             {
@@ -702,13 +699,13 @@ namespace BasicFacebookFeatures
 
         private void displayNearbyFriends()
         {
-            if (m_AppManagment.LoggedInUser == null)
+            if (AppManagment.Instance.LoggedInUser == null)
             {
                 MessageBox.Show("Please log in to view nearby friends.");
                 return;
             }
 
-            DistanceCalculator.eCity? userCity = DistanceCalculator.ConvertToECity(m_AppManagment.LoggedInUser.Hometown);
+            DistanceCalculator.eCity? userCity = DistanceCalculator.ConvertToECity(AppManagment.Instance.LoggedInUser.Hometown);
 
             if (!userCity.HasValue)
             {
@@ -717,7 +714,7 @@ namespace BasicFacebookFeatures
             }
 
             List<User> closeFriends = DistanceCalculator.GetCloseFriends(
-                m_AppManagment.LoggedInUser.Friends.ToList(),
+                AppManagment.Instance.LoggedInUser.Friends.ToList(),
                 userCity.Value
             );
 

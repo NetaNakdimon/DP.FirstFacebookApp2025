@@ -13,16 +13,17 @@ namespace BasicFacebookFeatures
 {
     public partial class LoginForm : Form
     {
-        AppManagment m_appManagment; // Instance of the application management class
+        
 
         public LoginForm()
         {
             InitializeComponent();
-            m_appManagment = AppManagment.Instance; // Initialize the singleton instance
+ 
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
+            AppManagment m_appManagment = AppManagment.Instance;
             while (m_appManagment.LoggedInUser == null) // Repeat until the user successfully logs in
             {
                 m_appManagment.Login(); // Attempt to log in
@@ -30,7 +31,7 @@ namespace BasicFacebookFeatures
                 if (m_appManagment.LoggedInUser != null)
                 {
                     // Open the main application form upon successful login
-                    FormMain formMain = new FormMain(m_appManagment);
+                    FormMain formMain = new FormMain();
                     this.Hide(); // Hide the login form
                     formMain.ShowDialog(); // Show the main form
                     this.Close(); // Close the login form

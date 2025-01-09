@@ -9,15 +9,34 @@ using FacebookWrapper.ObjectModel;
 namespace FBAppLogic
 {
 
-    public class AppManagment
+    public sealed class AppManagment
     {
         private LoginResult m_LoginResult; // Holds the result of the Facebook login operation
         private User m_LoggedInUser; // The currently logged-in Facebook user
-        public AppManagment m_AppManagmentInstance = null; // Instance of the class (might be redundant due to singleton pattern)
+        private static AppManagment m_AppManagmentInstance = null; // Instance of the class (might be redundant due to singleton pattern)
+        private static object s_LockObj = new Object();
 
-        private AppManagment()
+        private AppManagment(){}
+
+        public static AppManagment Instance
         {
+            get
+            {
+                if (m_AppManagmentInstance == null)
+                {
+                    lock (s_LockObj)
+                    {
+                        if (m_AppManagmentInstance == null)
+                        {
+                            m_AppManagmentInstance = new AppManagment();
+
+                        }
+                    }
+                }
+                return m_AppManagmentInstance;
+            }    
         }
+
 
         public LoginResult LoginResult
         {
@@ -42,8 +61,6 @@ namespace FBAppLogic
                 m_LoggedInUser = value;
             }
         }
-
-        public static AppManagment Instance { get; } = new AppManagment(); // Singleton instance
 
         public void Login()
         {

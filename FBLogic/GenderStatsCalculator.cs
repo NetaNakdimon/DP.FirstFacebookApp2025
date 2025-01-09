@@ -16,9 +16,10 @@ namespace FBAppLogic
         private int m_MaleAgeSum; // Sum of ages of male friends
         private int m_FemaleAgeSum; // Sum of ages of female friends
 
-        public GenderStatsCalculator(AppManagment i_AppManagment)
+        public GenderStatsCalculator()
         {
-            m_LoggedInUser = i_AppManagment.LoggedInUser;
+           
+            m_LoggedInUser = AppManagment.Instance.LoggedInUser;
             m_MaleCounter = 0;
             m_FemaleCounter = 0;
             m_MaleAgeSum = 0;
