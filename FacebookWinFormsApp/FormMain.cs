@@ -12,7 +12,6 @@ using System.Drawing.Text;
 using System.Media;
 using FBAppLogic;
 using System.Threading;
-using System.Timers;
 using System.Diagnostics.Eventing.Reader;
 using System.Deployment.Application;
 
@@ -145,11 +144,12 @@ namespace BasicFacebookFeatures
 
         private void ListBoxAlbums_SelectedIndexChanged(object sender, EventArgs e)
         {
-            new Thread(displayAlbumPicture).Start();
+            displayAlbumPicture();
         }
 
         private void displayAlbumPicture()
         {
+
             Album selectedAlbum = ListBoxAlbums.SelectedItem as Album;
             if (selectedAlbum.PictureAlbumURL != null)
             {
@@ -179,7 +179,7 @@ namespace BasicFacebookFeatures
 
         private void displayPosts()
         {
-            listBoxPosts.Items.Clear();
+            listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Clear()));
 
 
             foreach (Post post in AppManagment.Instance.LoggedInUser.Posts)
@@ -216,7 +216,7 @@ namespace BasicFacebookFeatures
 
         private void displayPostComments()
         {
-            listBoxPostComments.Items.Clear();
+            listBoxPostComments.Invoke(new Action(() => listBoxPostComments.Items.Clear()));
 
             if (listBoxPosts.SelectedIndex < 0 || listBoxPosts.SelectedIndex >= AppManagment.Instance.LoggedInUser.Posts.Count)
             {
@@ -259,7 +259,7 @@ namespace BasicFacebookFeatures
 
         private void fetchLikedPages()
         {
-            ListBoxLikes.Items.Clear();
+            ListBoxLikes.Invoke(new Action(() => ListBoxLikes.Items.Clear()));
             ListBoxLikes.Invoke(new Action(() => ListBoxLikes.DisplayMember = "Name"));
             foreach (Page page in AppManagment.Instance.LoggedInUser.LikedPages)
             {
@@ -274,7 +274,7 @@ namespace BasicFacebookFeatures
 
         private void ListBoxLikes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            new Thread(displayLikedPagePicture).Start();
+            displayLikedPagePicture();
         }
 
         private void displayLikedPagePicture()
@@ -317,7 +317,7 @@ namespace BasicFacebookFeatures
         }
         private void displayEvents()
         {
-            ListBoxEvents.Items.Clear();
+            ListBoxEvents.Invoke(new Action(() => ListBoxEvents.Items.Clear()));
             ListBoxEvents.Invoke(new Action(() => ListBoxEvents.DisplayMember = "Name"));
 
             foreach (Event fbEvent in AppManagment.Instance.LoggedInUser.Events)
@@ -366,7 +366,7 @@ namespace BasicFacebookFeatures
 
         private void fetchUsersGroups()
         {
-            ListBoxGroups.Items.Clear();
+            ListBoxGroups.Invoke(new Action(() => ListBoxGroups.Items.Clear()));
             ListBoxGroups.Invoke(new Action(() => ListBoxGroups.DisplayMember = "Name"));
             foreach (Group group in AppManagment.Instance.LoggedInUser.Groups)
             {
@@ -429,7 +429,7 @@ namespace BasicFacebookFeatures
 
         private void displayFriends()
         {
-            listBoxFriends.Items.Clear();
+            listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Clear()));
             listBoxFriends.Invoke(new Action(() => listBoxFriends.DisplayMember = "Name"));
 
 
@@ -512,7 +512,7 @@ namespace BasicFacebookFeatures
                 MessageBox.Show("Please log in to fetch birthdays.");
                 return;
             }
-            listBoxBirthdays.Items.Clear();
+            listBoxBirthdays.Invoke(new Action(() => listBoxBirthdays.Items.Clear()));
             m_birthdayManager = new BirthdayManager(AppManagment.Instance.LoggedInUser);
             m_friendsWithBirthdays = m_birthdayManager.GetTodayBirthdays();
 
@@ -603,15 +603,20 @@ namespace BasicFacebookFeatures
         {
             try
             {
-                cachedPhotos.Clear();
-
+                lock (cachedPhotos)
+                {
+                    cachedPhotos.Clear();
+                }
                 // Fetch all albums and their photos
                 foreach (Album album in AppManagment.Instance.LoggedInUser.Albums)
                 {
                     if (album.Photos != null)
                     {
-                        //need to invoke?
-                        cachedPhotos.AddRange(album.Photos);
+                        lock(cachedPhotos)
+                        {
+                            cachedPhotos.AddRange(album.Photos);
+                        }
+                        
                     }
                 }
 
@@ -654,10 +659,10 @@ namespace BasicFacebookFeatures
 
         private void pictureBoxPhotosMemories_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            prefetchPhotos();
+            new Thread(prefetchPhotos).Start();
             displayRandomPhoto(); // Display the first random photo
             // A timer to change the photo every few seconds
-            Timer slideshowTimer = new Timer();
+            System.Windows.Forms.Timer slideshowTimer = new System.Windows.Forms.Timer();
             slideshowTimer.Interval = 5000;
             slideshowTimer.Tick += (s, args) => displayRandomPhoto();
             slideshowTimer.Start();
@@ -671,7 +676,7 @@ namespace BasicFacebookFeatures
 
         private void fetchFriendsCityStats()
         {
-            ListBoxFriendsCityStats.Items.Clear();
+            ListBoxFriendsCityStats.Invoke(new Action(() => ListBoxFriendsCityStats.Items.Clear()));
             ListBoxFriendsCityStats.Invoke(new Action(() => ListBoxFriendsCityStats.DisplayMember = "Name"));
 
             Dictionary<string, int> cityStatistics;
@@ -730,10 +735,10 @@ namespace BasicFacebookFeatures
             if (closeFriends.Count > 0)
             {
                 MessageBox.Show($"You have {closeFriends.Count} close friends nearby!");
-                listBoxCloseFriends.Items.Clear();
+                listBoxCloseFriends.Invoke(new Action(() => listBoxCloseFriends.Items.Clear()));
                 foreach (User friend in closeFriends)
                 {
-                    listBoxCloseFriends.Invoke(new Action(() => listBoxCloseFriends.Items.Add(friend.name)));
+                    listBoxCloseFriends.Invoke(new Action(() => listBoxCloseFriends.Items.Add(friend.Name)));
                 }
             }
             else

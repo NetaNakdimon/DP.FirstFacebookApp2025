@@ -76,7 +76,7 @@ namespace FBAppLogic
 
             foreach (User friend in i_FriendsList)
             {
-                eCity? friendCity = ConvertToECity(friend.Hometown); // Determine friend's city
+                eCity? friendCity = AppManagment.Instance.ConvertToeCity(friend.Hometown); // Determine friend's city
 
                 if (friendCity.HasValue)
                 {
@@ -99,7 +99,7 @@ namespace FBAppLogic
 
             foreach (User friend in i_FriendsList)
             {
-                eCity? friendCity = ConvertToECity(friend.Hometown); // Get friend's city
+                eCity? friendCity = AppManagment.Instance.ConvertToeCity(friend.Hometown); // Get friend's city
 
                 if (friendCity.HasValue)
                 {
