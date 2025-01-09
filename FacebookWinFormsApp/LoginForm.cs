@@ -26,17 +26,17 @@ namespace BasicFacebookFeatures
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-            AppManagment m_appManagment = AppManagment.Instance;
-            while (m_appManagment.LoggedInUser == null) // Repeat until the user successfully logs in
+           
+            while (AppManagment.Instance.LoggedInUser == null) // Repeat until the user successfully logs in
             {
-                m_appManagment.Login(); // Attempt to log in
+                AppManagment.Instance.Login(); // Attempt to log in
 
-                if (m_appManagment.LoggedInUser != null)
+                if (AppManagment.Instance.LoggedInUser != null)
                 {
                     // Open the main application form upon successful login
-                    FormMain formMain = new FormMain();
+                    
                     this.Hide(); // Hide the login form
-                    formMain.ShowDialog(); // Show the main form
+                    FacebookFormFactory.createForm("MainForm").ShowDialog(); // Show the main form
                     this.Close(); // Close the login form
                 }
                 else

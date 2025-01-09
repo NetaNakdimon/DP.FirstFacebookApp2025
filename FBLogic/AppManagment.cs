@@ -87,7 +87,7 @@ namespace FBAppLogic
                 "user_posts"
             );
 
-            if (m_LoginResult != null && string.IsNullOrEmpty(m_LoginResult.ErrorMessage))
+            if (m_LoginResult.AccessToken != null && string.IsNullOrEmpty(m_LoginResult.ErrorMessage))
             {
                 m_LoggedInUser = m_LoginResult.LoggedInUser; // Set the logged-in user if login is successful
                 activateSubSystmes();
