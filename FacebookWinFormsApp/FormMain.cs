@@ -26,9 +26,11 @@ namespace BasicFacebookFeatures
             displayUserInfoWhenLogin();
         }
         
-        private GenderStatsCalculator m_genderStats;
+        
         private List<Photo> cachedPhotos = new List<Photo>();
         private Random random = new Random();
+        List<User> m_friendsWithBirthdays;
+        BirthdayManager m_birthdayManager;
 
         // Login methods
         private void buttonLogin_Click(object sender, EventArgs e)
@@ -377,26 +379,25 @@ namespace BasicFacebookFeatures
 
         // Gender statistics methods
         private void buttonCalculateStats_Click(object sender, EventArgs e)
-        {
-
-            m_genderStats = new GenderStatsCalculator();
+        { 
             try
             {
-                m_genderStats.CalculateGenderStats();
+                AppManagment.Instance.CalculateGenderStats();
             }
             catch (Exception)
             {
                 return;
             }
-            displayGenderStats(m_genderStats);
+            displayGenderStats();
         }
 
-        private void displayGenderStats(GenderStatsCalculator i_genderStats)
+        private void displayGenderStats()
         {
-            labelMaleCounter.Text = i_genderStats.Males.ToString();
-            labelFemaleCounter.Text = i_genderStats.Female.ToString();
-            labelAvgMales.Text = i_genderStats.MaleAgeAvg().ToString();
-            labelAvgFemales.Text = i_genderStats.FemaleAgeAvg().ToString();
+            
+            labelMaleCounter.Text = AppManagment.Instance.GetSubsystem<GenderStatsCalculator>().Males.ToString();
+            labelFemaleCounter.Text = AppManagment.Instance.GetSubsystem<GenderStatsCalculator>().Female.ToString();
+            labelAvgMales.Text = AppManagment.Instance.GetSubsystem<GenderStatsCalculator>().MaleAgeAvg().ToString();
+            labelAvgFemales.Text = AppManagment.Instance.GetSubsystem<GenderStatsCalculator>().FemaleAgeAvg().ToString();
 
         }
 
@@ -495,7 +496,7 @@ namespace BasicFacebookFeatures
             fetchAndDisplayBirthdays();
         }
 
-        List<User> m_friendsWithBirthdays;
+        
         private void fetchAndDisplayBirthdays()
         {
             if (AppManagment.Instance.LoggedInUser == null)
@@ -504,8 +505,8 @@ namespace BasicFacebookFeatures
                 return;
             }
             listBoxBirthdays.Items.Clear();
-            BirthdayManager birthdayManager = new BirthdayManager(AppManagment.Instance.LoggedInUser);
-            m_friendsWithBirthdays = birthdayManager.GetTodayBirthdays();
+            m_birthdayManager = new BirthdayManager(AppManagment.Instance.LoggedInUser);
+            m_friendsWithBirthdays = m_birthdayManager.GetTodayBirthdays();
 
             if (m_friendsWithBirthdays.Count == 0)
             {

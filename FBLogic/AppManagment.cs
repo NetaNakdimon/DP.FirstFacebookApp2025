@@ -15,8 +15,12 @@ namespace FBAppLogic
         private User m_LoggedInUser; // The currently logged-in Facebook user
         private static AppManagment m_AppManagmentInstance = null; // Instance of the class (might be redundant due to singleton pattern)
         private static object s_LockObj = new Object();
+        private BirthdayManager m_BirthdayManager;
+        private GenderStatsCalculator m_GenderStatsCalculator;
+        private DistanceCalculator m_DistanceCalculator;
 
-        private AppManagment(){}
+
+        private AppManagment() { }
 
         public static AppManagment Instance
         {
@@ -34,7 +38,7 @@ namespace FBAppLogic
                     }
                 }
                 return m_AppManagmentInstance;
-            }    
+            }
         }
 
 
@@ -86,13 +90,77 @@ namespace FBAppLogic
             if (m_LoginResult != null && string.IsNullOrEmpty(m_LoginResult.ErrorMessage))
             {
                 m_LoggedInUser = m_LoginResult.LoggedInUser; // Set the logged-in user if login is successful
+                activateSubSystmes();
             }
         }
 
         public void Logout()
         {
             FacebookService.LogoutWithUI(); // Logs out the user using Facebook's UI
+            deactivateSubSystmes();
+            m_LoggedInUser = null;
+            m_LoginResult = null;
         }
+
+        public T GetSubsystem<T>() where T : class
+        {
+            if (typeof(T) == typeof(BirthdayManager))
+            {
+                if (m_BirthdayManager == null)
+                {
+                    m_BirthdayManager = new BirthdayManager(m_LoggedInUser);
+                }
+                return m_BirthdayManager as T;
+            }
+            else if (typeof(T) == typeof(GenderStatsCalculator))
+            {
+                if (m_GenderStatsCalculator == null)
+                {
+                    m_GenderStatsCalculator = new GenderStatsCalculator();
+                }
+                return m_GenderStatsCalculator as T;
+            }
+            else if (typeof(T) == typeof(DistanceCalculator))
+            {
+                if (m_DistanceCalculator == null)
+                {
+                    m_DistanceCalculator = new DistanceCalculator();
+                }
+                return m_DistanceCalculator as T;
+            }
+            else
+            {
+                throw new Exception("This is not a subsystem in this system");
+            }
+        }
+
+        private void activateSubSystmes()
+        {
+            if (m_LoggedInUser != null)
+            {
+                m_BirthdayManager = new BirthdayManager(m_LoggedInUser);
+                m_GenderStatsCalculator = new GenderStatsCalculator();
+                m_DistanceCalculator = new DistanceCalculator();
+            }
+            else
+            {
+                throw new Exception("User is not logged in");
+            }
+        }
+
+        private void deactivateSubSystmes()
+        {
+            m_BirthdayManager = null;
+            m_GenderStatsCalculator = null;
+            m_DistanceCalculator = null;
+        }
+
+        public void CalculateGenderStats()
+        {
+            m_GenderStatsCalculator.CalculateGenderStats();
+        }
+
+
     }
 }
 
