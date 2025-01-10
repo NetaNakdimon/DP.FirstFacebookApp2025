@@ -30,8 +30,8 @@ namespace BasicFacebookFeatures
         
         private List<Photo> cachedPhotos = new List<Photo>();
         private Random random = new Random();
-        List<User> m_friendsWithBirthdays;
-        BirthdayManager m_birthdayManager;
+        
+        
 
         // Login methods
         private void buttonLogin_Click(object sender, EventArgs e)
@@ -397,15 +397,15 @@ namespace BasicFacebookFeatures
             }
            new Thread(displayGenderStats).Start();
         }
-
+        //TODO- fix a bug here - the stats are not displayed
         private void displayGenderStats()
         {
             
-            labelMaleCounter.Text = AppManagment.Instance.GetSubsystem<GenderStatsCalculator>().Males.ToString();
-            labelFemaleCounter.Text = AppManagment.Instance.GetSubsystem<GenderStatsCalculator>().Female.ToString();
-            labelAvgMales.Text = AppManagment.Instance.GetSubsystem<GenderStatsCalculator>().MaleAgeAvg().ToString();
-            labelAvgFemales.Text = AppManagment.Instance.GetSubsystem<GenderStatsCalculator>().FemaleAgeAvg().ToString();
-
+                labelMaleCounter.Text = AppManagment.Instance.GetMalesCountAsString();
+                labelFemaleCounter.Text = AppManagment.Instance.GetFemalesCountAsString();
+                labelAvgMales.Text = AppManagment.Instance.GetMaleAgeAvgAsString();
+                labelAvgFemales.Text = AppManagment.Instance.GetFemaleAgeAvgAsString();
+         
         }
 
         // City statistics methods
@@ -513,16 +513,14 @@ namespace BasicFacebookFeatures
                 return;
             }
             listBoxBirthdays.Invoke(new Action(() => listBoxBirthdays.Items.Clear()));
-            m_birthdayManager = new BirthdayManager(AppManagment.Instance.LoggedInUser);
-            m_friendsWithBirthdays = m_birthdayManager.GetTodayBirthdays();
 
-            if (m_friendsWithBirthdays.Count == 0)
+            if (AppManagment.Instance.GetTodayBirthdaysList().Count == 0)
             {
                 listBoxBirthdays.Invoke(new Action(() => listBoxBirthdays.Items.Add("No friends have birthday today")));
                 return;
             }
 
-            foreach (User friend in m_friendsWithBirthdays)
+            foreach (User friend in AppManagment.Instance.GetTodayBirthdaysList())
             {
                 listBoxBirthdays.Invoke(new Action(() => listBoxBirthdays.Items.Add(friend.Name)));
             }
@@ -536,21 +534,20 @@ namespace BasicFacebookFeatures
        
         private void buttonPost_Click(object sender, EventArgs e)
         {
-            try
-            {
-                sendBirthdayMessage(getThisFriend(listBoxBirthdays.SelectedIndex), comboBoxOptionalMsg.Text);
-            }
-            catch (Exception ex)
-            {
-                return;
-            }
+            SendBirthdayMessageAdaptor(comboBoxOptionalMsg.Text);
         }
 
         private void buttonAddMassage_Click(object sender, EventArgs e)
         {
+            SendBirthdayMessageAdaptor(textBoxAddedMassage.Text);
+        }
+        
+        
+        private void SendBirthdayMessageAdaptor(String i_Message)
+        {
             try
             {
-                sendBirthdayMessage(getThisFriend(listBoxBirthdays.SelectedIndex), textBoxAddedMassage.Text);
+                sendBirthdayMessage(getThisFriend(listBoxBirthdays.SelectedIndex), i_Message);
             }
             catch (Exception ex)
             {
@@ -560,11 +557,11 @@ namespace BasicFacebookFeatures
 
         private User getThisFriend(int i_Index)
         {
-            if (m_friendsWithBirthdays.Count == 0)
+            if (AppManagment.Instance.GetTodayBirthdaysList().Count == 0)
             {
                 return null;
             }
-            return m_friendsWithBirthdays[i_Index];
+            return AppManagment.Instance.GetTodayBirthdaysList()[i_Index];
         }
 
         private void sendBirthdayMessage(User i_Friend, string i_Message)
@@ -576,7 +573,7 @@ namespace BasicFacebookFeatures
 
             try
             {
-                if (m_friendsWithBirthdays.Count == 0)
+                if (AppManagment.Instance.GetTodayBirthdaysList().Count == 0)
                 {
                     MessageBox.Show("No Friend selected");
                     return;

@@ -15,7 +15,10 @@ namespace FBAppLogic
         private User m_LoggedInUser; // The currently logged-in Facebook user
         private static AppManagment m_AppManagmentInstance = null; // Instance of the class (might be redundant due to singleton pattern)
         private static object s_LockObj = new Object();
+        private static object s_LockObj2 = new Object();
+        private static object s_globaLock = new Object();
         private BirthdayManager m_BirthdayManager;
+        private List<User> m_friendsWithBirthdaysToday;
         private GenderStatsCalculator m_GenderStatsCalculator;
         private DistanceCalculator m_DistanceCalculator;
 
@@ -160,6 +163,25 @@ namespace FBAppLogic
             m_GenderStatsCalculator.CalculateGenderStats();
         }
 
+        public String GetMalesCountAsString()
+        {
+            return m_GenderStatsCalculator.Males.ToString();
+        }
+
+        public String GetFemalesCountAsString()
+        {
+            return m_GenderStatsCalculator.Female.ToString();
+        }
+
+        public String GetMaleAgeAvgAsString()
+        {
+            return m_GenderStatsCalculator.MaleAgeAvg().ToString();
+        }
+
+        public String GetFemaleAgeAvgAsString()
+        {
+            return m_GenderStatsCalculator.FemaleAgeAvg().ToString();
+        }
         public Dictionary<string, int> GetCityStatistics(List <User> i_Friends)
         {
            return m_DistanceCalculator.GetCityStatistics(i_Friends);
@@ -189,6 +211,26 @@ namespace FBAppLogic
         {
             return m_DistanceCalculator.GetCloseFriends(i_FriendsList, i_UserCity);
         }
+        public List<User> GetTodayBirthdaysList()
+        {
+            if (m_friendsWithBirthdaysToday == null)
+            {
+                lock (s_LockObj2)
+                {
+                    if (m_friendsWithBirthdaysToday == null)
+                    {
+                        m_friendsWithBirthdaysToday = m_BirthdayManager.GetTodayBirthdays();
+                    }
+                }
+            }
+            return m_friendsWithBirthdaysToday;
+        }
+
+        public object globalLock()
+        {
+            return s_globaLock;
+        }
+
     }
 }
 
