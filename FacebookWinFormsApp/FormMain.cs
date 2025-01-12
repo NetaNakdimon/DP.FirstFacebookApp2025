@@ -397,15 +397,29 @@ namespace BasicFacebookFeatures
             }
            new Thread(displayGenderStats).Start();
         }
-        //TODO- fix a bug here - the stats are not displayed
         private void displayGenderStats()
         {
-            
+            labelMaleCounter.Invoke(new Action(() =>
+            {
                 labelMaleCounter.Text = AppManagment.Instance.GetMalesCountAsString();
+            }));
+
+            labelFemaleCounter.Invoke(new Action(() =>
+            {
                 labelFemaleCounter.Text = AppManagment.Instance.GetFemalesCountAsString();
+            }));
+
+            labelAvgMales.Invoke(new Action(() =>
+            {
                 labelAvgMales.Text = AppManagment.Instance.GetMaleAgeAvgAsString();
+            }));
+
+            labelAvgFemales.Invoke(new Action(() =>
+            {
                 labelAvgFemales.Text = AppManagment.Instance.GetFemaleAgeAvgAsString();
-         
+            }));
+
+
         }
 
         // City statistics methods
@@ -696,14 +710,20 @@ namespace BasicFacebookFeatures
             }
 
             string topCity = AppManagment.Instance.GetCityWithMostFriends(cityStatistics);
-            labelTopCity.Text = $"Top City: {topCity}";
+            labelTopCity.Invoke(new Action(() =>
+            {
+                labelTopCity.Text = $"Top City: {topCity}";
+            }));
 
-            double averageDistance = AppManagment.Instance.CalculateSimulatedAverageDistance();
-            //invoke?
-            labelAverageDistanceToFriends.Text = $"Average Distance To Friends: {averageDistance:F1} km";
+            labelAverageDistanceToFriends.Invoke(new Action(() =>
+            {
+                double averageDistance = AppManagment.Instance.CalculateSimulatedAverageDistance();
+                labelAverageDistanceToFriends.Text = $"Average Distance To Friends: {averageDistance:F1} km";
+            }));
         }
 
-        private void buttonFindCloseFriends_Click(object sender, EventArgs e)
+
+            private void buttonFindCloseFriends_Click(object sender, EventArgs e)
         {
             new Thread(displayNearbyFriends).Start();
         }
