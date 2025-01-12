@@ -20,6 +20,9 @@ namespace BasicFacebookFeatures
                 case "MainForm":
                     newForm = new FormMain();
                     break;
+                case "AlbumDetailsForm":
+                    newForm = new AlbumDetailsForm();
+                    break;
             }
             return newForm;
         }

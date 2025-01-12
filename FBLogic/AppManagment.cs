@@ -21,6 +21,7 @@ namespace FBAppLogic
         private List<User> m_friendsWithBirthdaysToday;
         private GenderStatsCalculator m_GenderStatsCalculator;
         private DistanceCalculator m_DistanceCalculator;
+        private Album m_chosenAlbum=null;
 
 
         private AppManagment() { }
@@ -229,6 +230,18 @@ namespace FBAppLogic
         public object globalLock()
         {
             return s_globaLock;
+        }
+
+        public Album ChosenAlbum
+        {
+            get
+            {
+                return m_chosenAlbum;
+            }
+            set
+            {
+                m_chosenAlbum = value;
+            }
         }
 
     }

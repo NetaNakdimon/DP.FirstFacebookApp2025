@@ -35,6 +35,7 @@ namespace BasicFacebookFeatures
             this.buttonLogout = new System.Windows.Forms.Button();
             this.tabControlOurFeatures = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.buttonAlbumdetails = new System.Windows.Forms.Button();
             this.linklabelPhotosMemories = new System.Windows.Forms.LinkLabel();
             this.pictureBoxSlideshow = new System.Windows.Forms.PictureBox();
             this.comboBoxBGColor = new System.Windows.Forms.ComboBox();
@@ -152,6 +153,7 @@ namespace BasicFacebookFeatures
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.tabPage1.Controls.Add(this.buttonAlbumdetails);
             this.tabPage1.Controls.Add(this.linklabelPhotosMemories);
             this.tabPage1.Controls.Add(this.pictureBoxSlideshow);
             this.tabPage1.Controls.Add(this.comboBoxBGColor);
@@ -190,13 +192,23 @@ namespace BasicFacebookFeatures
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Profile";
             // 
+            // buttonAlbumdetails
+            // 
+            this.buttonAlbumdetails.Location = new System.Drawing.Point(325, 289);
+            this.buttonAlbumdetails.Name = "buttonAlbumdetails";
+            this.buttonAlbumdetails.Size = new System.Drawing.Size(182, 35);
+            this.buttonAlbumdetails.TabIndex = 88;
+            this.buttonAlbumdetails.Text = "Album details";
+            this.buttonAlbumdetails.UseVisualStyleBackColor = true;
+            this.buttonAlbumdetails.Click += new System.EventHandler(this.buttonAlbumdetails_Click);
+            // 
             // linklabelPhotosMemories
             // 
             this.linklabelPhotosMemories.AutoSize = true;
             this.linklabelPhotosMemories.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.linklabelPhotosMemories.Location = new System.Drawing.Point(8, 403);
             this.linklabelPhotosMemories.Name = "linklabelPhotosMemories";
-            this.linklabelPhotosMemories.Size = new System.Drawing.Size(196, 32);
+            this.linklabelPhotosMemories.Size = new System.Drawing.Size(195, 32);
             this.linklabelPhotosMemories.TabIndex = 87;
             this.linklabelPhotosMemories.TabStop = true;
             this.linklabelPhotosMemories.Text = "Fetch Memories";
@@ -587,7 +599,7 @@ namespace BasicFacebookFeatures
             this.labelAverageDistanceToFriends.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.labelAverageDistanceToFriends.Location = new System.Drawing.Point(730, 448);
             this.labelAverageDistanceToFriends.Name = "labelAverageDistanceToFriends";
-            this.labelAverageDistanceToFriends.Size = new System.Drawing.Size(344, 32);
+            this.labelAverageDistanceToFriends.Size = new System.Drawing.Size(343, 32);
             this.labelAverageDistanceToFriends.TabIndex = 18;
             this.labelAverageDistanceToFriends.Text = "Average Distance To Friends:";
             // 
@@ -597,7 +609,7 @@ namespace BasicFacebookFeatures
             this.labelTopCity.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.labelTopCity.Location = new System.Drawing.Point(730, 399);
             this.labelTopCity.Name = "labelTopCity";
-            this.labelTopCity.Size = new System.Drawing.Size(276, 32);
+            this.labelTopCity.Size = new System.Drawing.Size(275, 32);
             this.labelTopCity.TabIndex = 16;
             this.labelTopCity.Text = "Top City: Not Available";
             // 
@@ -615,7 +627,7 @@ namespace BasicFacebookFeatures
             this.labelCityStats.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.labelCityStats.Location = new System.Drawing.Point(726, 100);
             this.labelCityStats.Name = "labelCityStats";
-            this.labelCityStats.Size = new System.Drawing.Size(191, 32);
+            this.labelCityStats.Size = new System.Drawing.Size(190, 32);
             this.labelCityStats.TabIndex = 15;
             this.labelCityStats.Text = "Friends by City:";
             // 
@@ -635,7 +647,7 @@ namespace BasicFacebookFeatures
             this.FetchCityStats.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.FetchCityStats.Location = new System.Drawing.Point(730, 50);
             this.FetchCityStats.Name = "FetchCityStats";
-            this.FetchCityStats.Size = new System.Drawing.Size(277, 32);
+            this.FetchCityStats.Size = new System.Drawing.Size(276, 32);
             this.FetchCityStats.TabIndex = 12;
             this.FetchCityStats.TabStop = true;
             this.FetchCityStats.Text = "Fetch Friends City Stats";
@@ -700,7 +712,7 @@ namespace BasicFacebookFeatures
             this.labelAvgAge.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.labelAvgAge.Location = new System.Drawing.Point(3, 421);
             this.labelAvgAge.Name = "labelAvgAge";
-            this.labelAvgAge.Size = new System.Drawing.Size(163, 32);
+            this.labelAvgAge.Size = new System.Drawing.Size(162, 32);
             this.labelAvgAge.TabIndex = 4;
             this.labelAvgAge.Text = "Average age:";
             // 
@@ -710,7 +722,7 @@ namespace BasicFacebookFeatures
             this.labelGenderCount.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.labelGenderCount.Location = new System.Drawing.Point(6, 362);
             this.labelGenderCount.Name = "labelGenderCount";
-            this.labelGenderCount.Size = new System.Drawing.Size(115, 32);
+            this.labelGenderCount.Size = new System.Drawing.Size(114, 32);
             this.labelGenderCount.TabIndex = 3;
             this.labelGenderCount.Text = "Counter:";
             // 
@@ -984,6 +996,7 @@ namespace BasicFacebookFeatures
         private System.Windows.Forms.ListBox listBoxCloseFriends;
         private System.Windows.Forms.Button buttonFindCloseFriends;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button buttonAlbumdetails;
     }
 }
 

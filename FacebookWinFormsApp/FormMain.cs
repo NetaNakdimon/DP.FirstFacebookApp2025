@@ -30,8 +30,9 @@ namespace BasicFacebookFeatures
         
         private List<Photo> cachedPhotos = new List<Photo>();
         private Random random = new Random();
-        
-        
+        public Album m_chosenAlbum= null;
+
+
 
         // Login methods
         private void buttonLogin_Click(object sender, EventArgs e)
@@ -129,13 +130,14 @@ namespace BasicFacebookFeatures
 
         private void displaySelectedAlbums()
         {
-            ListBoxAlbums.Items.Clear();
-            ListBoxAlbums.Invoke(new Action(() => ListBoxAlbums.DisplayMember = "Name"));
-            foreach (Album album in AppManagment.Instance.LoggedInUser.Albums)
-            {
-                ListBoxAlbums.Invoke(new Action(() => ListBoxAlbums.Items.Add(album)));
-            }
-
+    
+             ListBoxAlbums.Items.Clear();
+             ListBoxAlbums.Invoke(new Action(() => ListBoxAlbums.DisplayMember = "Name"));
+             foreach (Album album in AppManagment.Instance.LoggedInUser.Albums)
+                      {
+                          ListBoxAlbums.Invoke(new Action(() => ListBoxAlbums.Items.Add(album)));
+                     }
+            
             if (AppManagment.Instance.LoggedInUser.Albums.Count == 0)
             {
                 ListBoxAlbums.Invoke(new Action(() => ListBoxAlbums.Items.Add("no albums to show")));
@@ -144,6 +146,7 @@ namespace BasicFacebookFeatures
 
         private void ListBoxAlbums_SelectedIndexChanged(object sender, EventArgs e)
         {
+            AppManagment.Instance.ChosenAlbum = ListBoxAlbums.SelectedItem as Album;
             displayAlbumPicture();
         }
 
@@ -764,7 +767,15 @@ namespace BasicFacebookFeatures
             }
         }
 
+        private void buttonAlbumdetails_Click(object sender, EventArgs e)
+        {
+            if (AppManagment.Instance.ChosenAlbum != null)
+            {
+                FacebookFormFactory.createForm("AlbumDetailsForm").ShowDialog();
+            }
+        }
 
+        
     }
 }
 
