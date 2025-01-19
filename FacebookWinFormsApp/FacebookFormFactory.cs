@@ -12,17 +12,24 @@ namespace BasicFacebookFeatures
         public static Form createForm(String form)
         {
             Form newForm = null;
-            switch (form)
+            try
             {
-                case "LoginForm":
-                    newForm = new LoginForm();
-                    break;
-                case "MainForm":
-                    newForm = new FormMain();
-                    break;
-                case "AlbumDetailsForm":
-                    newForm = new AlbumDetailsForm();
-                    break;
+                switch (form)
+                {
+                    case "LoginForm":
+                        newForm = new LoginForm();
+                        break;
+                    case "MainForm":
+                        newForm = new FormMain();
+                        break;
+                    case "AlbumDetailsForm":
+                        newForm = new AlbumDetailsForm();
+                        break;
+                }
+            }
+            catch
+            {
+                MessageBox.Show(@"Not a known form type, please try again");
             }
             return newForm;
         }
