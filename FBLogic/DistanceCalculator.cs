@@ -76,7 +76,7 @@ namespace FBAppLogic
 
             foreach (User friend in i_FriendsList)
             {
-                eCity? friendCity = AppManagment.Instance.ConvertToeCity(friend.Hometown); // Determine friend's city
+                eCity? friendCity = AppManagment.Instance.ConvertToeCity(friend.Hometown); 
 
                 if (friendCity.HasValue)
                 {
@@ -84,7 +84,7 @@ namespace FBAppLogic
 
                     if (sr_CityDistances.ContainsKey(cityPair))
                     {
-                        totalDistance += sr_CityDistances[cityPair]; // Add distance to total
+                        totalDistance += sr_CityDistances[cityPair]; 
                         count++;
                     }
                 }
@@ -99,7 +99,7 @@ namespace FBAppLogic
 
             foreach (User friend in i_FriendsList)
             {
-                eCity? friendCity = AppManagment.Instance.ConvertToeCity(friend.Hometown); // Get friend's city
+                eCity? friendCity = AppManagment.Instance.ConvertToeCity(friend.Hometown);
 
                 if (friendCity.HasValue)
                 {
@@ -107,7 +107,7 @@ namespace FBAppLogic
 
                     if (sr_CityDistances.ContainsKey(cityPair) && sr_CityDistances[cityPair] <= i_MaxDistance)
                     {
-                        closeFriends.Add(friend); // Add friend if within distance
+                        closeFriends.Add(friend); 
                     }
                 }
             }
@@ -169,7 +169,7 @@ namespace FBAppLogic
                 return eCity.Ashdod;
             }
 
-            return null; // Return null if city is not recognized
+            return null; 
         }
 
         private static bool areCitiesClose(eCity i_UserCity, eCity i_FriendCity)
@@ -190,7 +190,7 @@ namespace FBAppLogic
 
             foreach (User friend in i_FriendsList)
             {
-                eCity? friendCity = AppManagment.Instance.ConvertToeCity(friend.Hometown); // Get friend's city
+                eCity? friendCity = AppManagment.Instance.ConvertToeCity(friend.Hometown);
 
                 if (friendCity.HasValue && areCitiesClose(i_UserCity, friendCity.Value))
                 {
@@ -217,7 +217,7 @@ namespace FBAppLogic
 
         public double CalculateSimulatedAverageDistance()
         {
-            return 70.5; // Return a fixed average distance for simulation purposes
+            return 70.5; 
         }
     }
 }

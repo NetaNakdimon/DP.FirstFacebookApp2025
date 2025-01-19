@@ -10,11 +10,11 @@ namespace FBAppLogic
 {
     public class GenderStatsCalculator
     {
-        private User m_LoggedInUser; // Logged-in user whose friends will be analyzed
-        private int m_MaleCounter; // Count of male friends
-        private int m_FemaleCounter; // Count of female friends
-        private int m_MaleAgeSum; // Sum of ages of male friends
-        private int m_FemaleAgeSum; // Sum of ages of female friends
+        private User m_LoggedInUser; 
+        private int m_MaleCounter; 
+        private int m_FemaleCounter; 
+        private int m_MaleAgeSum; 
+        private int m_FemaleAgeSum; 
 
         public GenderStatsCalculator()
         {
@@ -26,29 +26,29 @@ namespace FBAppLogic
             m_FemaleAgeSum = 0;
         }
 
-        public int Males { get { return m_MaleCounter; } } // Property to access male count
-        public int Female { get { return m_FemaleCounter; } } // Property to access female count
+        public int Males { get { return m_MaleCounter; } } 
+        public int Female { get { return m_FemaleCounter; } } 
 
         public double MaleAgeAvg()
         {
-            return m_MaleCounter > 0 ? (double)m_MaleAgeSum / m_MaleCounter : 0.0; // Calculate average male age
+            return m_MaleCounter > 0 ? (double)m_MaleAgeSum / m_MaleCounter : 0.0; 
         }
 
         public double FemaleAgeAvg()
         {
-            return m_FemaleCounter > 0 ? (double)m_FemaleAgeSum / m_FemaleCounter : 0.0; // Calculate average female age
+            return m_FemaleCounter > 0 ? (double)m_FemaleAgeSum / m_FemaleCounter : 0.0; 
         }
 
         public void CalculateGenderStats()
         {
             if (m_LoggedInUser?.Friends == null || m_LoggedInUser.Friends.Count == 0)
             {
-                return; // Return early if no friends data is available
+                return; 
             }
 
             foreach (User friend in m_LoggedInUser.Friends)
             {
-                int? age = GetUserAge(friend); // Get friend's age
+                int? age = GetUserAge(friend); 
 
                 if (friend.Gender == User.eGender.male)
                 {
