@@ -27,17 +27,17 @@ namespace BasicFacebookFeatures
         private void buttonLogin_Click(object sender, EventArgs e)
         {
            
-            while (AppManagment.Instance.LoggedInUser == null) // Repeat until the user successfully logs in
+            while (AppManagment.Instance.LoggedInUser == null) 
             {
-                AppManagment.Instance.Login(); // Attempt to log in
+                AppManagment.Instance.Login(); 
 
                 if (AppManagment.Instance.LoggedInUser != null)
                 {
                     // Open the main application form upon successful login
                     
-                    this.Hide(); // Hide the login form
-                    FacebookFormFactory.CreateForm("MainForm").ShowDialog(); // Show the main form
-                    this.Close(); // Close the login form
+                    this.Hide(); 
+                    FacebookFormFactory.CreateForm("MainForm").ShowDialog(); 
+                    this.Close(); 
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace BasicFacebookFeatures
 
                     if (result == DialogResult.No)
                     {
-                        this.Close(); // Close the application if the user chooses not to retry
+                        this.Close(); 
                         break;
                     }
                 }
