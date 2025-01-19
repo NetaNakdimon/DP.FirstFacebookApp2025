@@ -219,30 +219,31 @@ namespace BasicFacebookFeatures
 
         private void displayPostComments()
         {
-            listBoxPostComments.Invoke(new Action(() => listBoxPostComments.Items.Clear()));
-
-            if (listBoxPosts.SelectedIndex < 0 || listBoxPosts.SelectedIndex >= AppManagment.Instance.LoggedInUser.Posts.Count)
+            listBoxPosts.Invoke(new Action(() =>
             {
-
-                listBoxPostComments.Invoke(new Action(() => listBoxPostComments.Items.Add("No post selected")));
-                return;
-            }
-
-            Post selectedPost = AppManagment.Instance.LoggedInUser.Posts[listBoxPosts.SelectedIndex];
-
-            if (selectedPost.Comments.Count > 0)
-            {
-                foreach (Comment comment in selectedPost.Comments)
+                if (listBoxPosts.SelectedIndex < 0 || listBoxPosts.SelectedIndex >= AppManagment.Instance.LoggedInUser.Posts.Count)
                 {
-
-                    listBoxPostComments.Invoke(new Action(() => listBoxPostComments.Items.Add(comment.Message)));
+                    listBoxPostComments.Invoke(new Action(() => listBoxPostComments.Items.Add("No post selected")));
+                    return; // Exit if no valid post is selected
                 }
-            }
-            else
-            {
-                listBoxPostComments.Invoke(new Action(() => listBoxPosts.Items.Add("No Comments to show comments to show")));
-            }
+
+                listBoxPostComments.Invoke(new Action(() => listBoxPostComments.Items.Clear()));
+                Post selectedPost = AppManagment.Instance.LoggedInUser.Posts[listBoxPosts.SelectedIndex];
+
+                if (selectedPost.Comments.Count > 0)
+                {
+                    foreach (Comment comment in selectedPost.Comments)
+                    {
+                        listBoxPostComments.Invoke(new Action(() => listBoxPostComments.Items.Add(comment.Message)));
+                    }
+                }
+                else
+                {
+                    listBoxPostComments.Invoke(new Action(() => listBoxPostComments.Items.Add("No comments to show")));
+                }
+            }));
         }
+
 
         // Likes methods
         private void linkLikes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
