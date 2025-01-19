@@ -11,9 +11,9 @@ namespace FBAppLogic
 
     public sealed class AppManagment
     {
-        private LoginResult m_LoginResult; // Holds the result of the Facebook login operation
-        private User m_LoggedInUser; // The currently logged-in Facebook user
-        private static AppManagment m_AppManagmentInstance = null; // Instance of the class (might be redundant due to singleton pattern)
+        private LoginResult m_LoginResult; 
+        private User m_LoggedInUser; 
+        private static AppManagment m_AppManagmentInstance = null;
         private static object s_LockObj = new Object();
         private static object s_LockObj2 = new Object();
         private static object s_GlobaLock = new Object();

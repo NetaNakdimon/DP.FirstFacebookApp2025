@@ -7,11 +7,11 @@ namespace FBAppLogic
 {
     public class BirthdayManager
     {
-        private readonly User r_LoggedInUser; // The logged-in user whose friends will be checked for birthdays
+        private readonly User r_LoggedInUser; 
 
         public BirthdayManager(User i_LoggedInUser)
         {
-            r_LoggedInUser = i_LoggedInUser; // Initialize the manager with the logged-in user
+            r_LoggedInUser = i_LoggedInUser; 
         }
 
         public List<User> GetTodayBirthdays()
@@ -22,14 +22,14 @@ namespace FBAppLogic
             {
                 foreach (User friend in r_LoggedInUser.Friends)
                 {
-                    if (isBirthdayToday(friend)) // Check if the friend's birthday is today
+                    if (isBirthdayToday(friend)) 
                     {
                         friendsWithBirthdaysToday.Add(friend);
                     }
                 }
             }
 
-            return friendsWithBirthdaysToday; // Return the list of friends with birthdays today
+            return friendsWithBirthdaysToday; 
         }
 
         public bool SendBirthdayMessage(User i_Friend, string i_Message)
@@ -46,7 +46,7 @@ namespace FBAppLogic
             }
             catch (Exception)
             {
-                return false; // Return false if the message could not be sent
+                return false; 
             }
         }
 
@@ -54,7 +54,7 @@ namespace FBAppLogic
         {
             if (i_Friend == null || string.IsNullOrEmpty(i_Friend.Birthday))
             {
-                return false; // Return false if the friend's birthday is unavailable
+                return false; 
             }
 
             if (DateTime.TryParse(i_Friend.Birthday, out DateTime birthday))
@@ -62,7 +62,7 @@ namespace FBAppLogic
                 return birthday.Month == DateTime.Now.Month && birthday.Day == DateTime.Now.Day; // Check if today is their birthday
             }
 
-            return false; // Return false if the birthday could not be parsed
+            return false; 
         }
     }
 }
