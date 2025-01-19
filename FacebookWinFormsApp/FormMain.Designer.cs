@@ -430,7 +430,7 @@ namespace BasicFacebookFeatures
             this.LinkGroups.TabStop = true;
             this.LinkGroups.Text = "Fetch Groups";
             this.LinkGroups.UseCompatibleTextRendering = true;
-            this.LinkGroups.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkGroups_LinkClicked);
+            this.LinkGroups.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkGroups_LinkClicked);
             // 
             // LinkEvents
             // 
@@ -445,7 +445,7 @@ namespace BasicFacebookFeatures
             this.LinkEvents.TabStop = true;
             this.LinkEvents.Text = "Fetch Events";
             this.LinkEvents.UseCompatibleTextRendering = true;
-            this.LinkEvents.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkEvents_LinkClicked);
+            this.LinkEvents.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkEvents_LinkClicked);
             // 
             // LinkLikes
             // 
@@ -460,7 +460,7 @@ namespace BasicFacebookFeatures
             this.LinkLikes.TabStop = true;
             this.LinkLikes.Text = "Fetch Likes";
             this.LinkLikes.UseCompatibleTextRendering = true;
-            this.LinkLikes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLikes_LinkClicked);
+            this.LinkLikes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLikes_LinkClicked);
             // 
             // LinkAlbums
             // 
@@ -495,7 +495,7 @@ namespace BasicFacebookFeatures
             this.ListBoxEvents.Name = "ListBoxEvents";
             this.ListBoxEvents.Size = new System.Drawing.Size(591, 82);
             this.ListBoxEvents.TabIndex = 59;
-            this.ListBoxEvents.SelectedIndexChanged += new System.EventHandler(this.ListBoxEvents_SelectedIndexChanged);
+            this.ListBoxEvents.SelectedIndexChanged += new System.EventHandler(this.listBoxEvents_SelectedIndexChanged);
             // 
             // ListBoxLikes
             // 
@@ -505,7 +505,7 @@ namespace BasicFacebookFeatures
             this.ListBoxLikes.Name = "ListBoxLikes";
             this.ListBoxLikes.Size = new System.Drawing.Size(591, 82);
             this.ListBoxLikes.TabIndex = 58;
-            this.ListBoxLikes.SelectedIndexChanged += new System.EventHandler(this.ListBoxLikes_SelectedIndexChanged);
+            this.ListBoxLikes.SelectedIndexChanged += new System.EventHandler(this.listBoxLikes_SelectedIndexChanged);
             // 
             // ListBoxAlbums
             // 
@@ -515,7 +515,7 @@ namespace BasicFacebookFeatures
             this.ListBoxAlbums.Name = "ListBoxAlbums";
             this.ListBoxAlbums.Size = new System.Drawing.Size(591, 82);
             this.ListBoxAlbums.TabIndex = 57;
-            this.ListBoxAlbums.SelectedIndexChanged += new System.EventHandler(this.ListBoxAlbums_SelectedIndexChanged);
+            this.ListBoxAlbums.SelectedIndexChanged += new System.EventHandler(this.listBoxAlbums_SelectedIndexChanged);
             // 
             // facebook_logo
             // 
@@ -661,7 +661,7 @@ namespace BasicFacebookFeatures
             this.ListBoxFriendsCityStats.Name = "ListBoxFriendsCityStats";
             this.ListBoxFriendsCityStats.Size = new System.Drawing.Size(395, 238);
             this.ListBoxFriendsCityStats.TabIndex = 11;
-            this.ListBoxFriendsCityStats.SelectedIndexChanged += new System.EventHandler(this.ListBoxFriendsCityStats_SelectedIndexChanged);
+            this.ListBoxFriendsCityStats.SelectedIndexChanged += new System.EventHandler(this.listBoxFriendsCityStats_SelectedIndexChanged);
             // 
             // labelAvgFemales
             // 

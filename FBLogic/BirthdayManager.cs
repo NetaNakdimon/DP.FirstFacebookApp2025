@@ -7,22 +7,22 @@ namespace FBAppLogic
 {
     public class BirthdayManager
     {
-        private readonly User m_LoggedInUser; // The logged-in user whose friends will be checked for birthdays
+        private readonly User r_LoggedInUser; // The logged-in user whose friends will be checked for birthdays
 
         public BirthdayManager(User i_LoggedInUser)
         {
-            m_LoggedInUser = i_LoggedInUser; // Initialize the manager with the logged-in user
+            r_LoggedInUser = i_LoggedInUser; // Initialize the manager with the logged-in user
         }
 
         public List<User> GetTodayBirthdays()
         {
             List<User> friendsWithBirthdaysToday = new List<User>(); // List to store friends with birthdays today
 
-            if (m_LoggedInUser?.Friends != null)
+            if (r_LoggedInUser?.Friends != null)
             {
-                foreach (User friend in m_LoggedInUser.Friends)
+                foreach (User friend in r_LoggedInUser.Friends)
                 {
-                    if (IsBirthdayToday(friend)) // Check if the friend's birthday is today
+                    if (isBirthdayToday(friend)) // Check if the friend's birthday is today
                     {
                         friendsWithBirthdaysToday.Add(friend);
                     }
@@ -50,7 +50,7 @@ namespace FBAppLogic
             }
         }
 
-        private bool IsBirthdayToday(User i_Friend)
+        private bool isBirthdayToday(User i_Friend)
         {
             if (i_Friend == null || string.IsNullOrEmpty(i_Friend.Birthday))
             {

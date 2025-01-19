@@ -28,9 +28,9 @@ namespace BasicFacebookFeatures
         }
         
         
-        private List<Photo> cachedPhotos = new List<Photo>();
-        private Random random = new Random();
-        public Album m_chosenAlbum= null;
+        private List<Photo> m_CachedPhotos = new List<Photo>();
+        private Random m_Random = new Random();
+        public Album m_ChosenAlbum= null;
 
 
 
@@ -144,7 +144,7 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void ListBoxAlbums_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBoxAlbums_SelectedIndexChanged(object sender, EventArgs e)
         {
             AppManagment.Instance.ChosenAlbum = ListBoxAlbums.SelectedItem as Album;
             displayAlbumPicture();
@@ -245,7 +245,7 @@ namespace BasicFacebookFeatures
         }
 
         // Likes methods
-        private void LinkLikes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLikes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (AppManagment.Instance.LoginResult != null)
             {
@@ -275,7 +275,7 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void ListBoxLikes_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBoxLikes_SelectedIndexChanged(object sender, EventArgs e)
         {
             displayLikedPagePicture();
         }
@@ -303,7 +303,7 @@ namespace BasicFacebookFeatures
         }
 
         // Events methods
-        private void LinkEvents_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkEvents_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (AppManagment.Instance.LoggedInUser != null)
             {
@@ -345,14 +345,14 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void ListBoxEvents_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBoxEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
             displayPicture(pictureBoxEvents, ListBoxEvents);
         }
 
 
         // Groups methods
-        private void LinkGroups_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkGroups_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (AppManagment.Instance.LoggedInUser != null)
             {
@@ -426,7 +426,7 @@ namespace BasicFacebookFeatures
         }
 
         // City statistics methods
-        private void ListBoxFriendsCityStats_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBoxFriendsCityStats_SelectedIndexChanged(object sender, EventArgs e)
         {
             displayPicture(pictureBoxCloseFriend, ListBoxFriendsCityStats);
         }
@@ -617,24 +617,24 @@ namespace BasicFacebookFeatures
         {
             try
             {
-                lock (cachedPhotos)
+                lock (m_CachedPhotos)
                 {
-                    cachedPhotos.Clear();
+                    m_CachedPhotos.Clear();
                 }
                 // Fetch all albums and their photos
                 foreach (Album album in AppManagment.Instance.LoggedInUser.Albums)
                 {
                     if (album.Photos != null)
                     {
-                        lock(cachedPhotos)
+                        lock(m_CachedPhotos)
                         {
-                            cachedPhotos.AddRange(album.Photos);
+                            m_CachedPhotos.AddRange(album.Photos);
                         }
                         
                     }
                 }
 
-                if (cachedPhotos.Count == 0)
+                if (m_CachedPhotos.Count == 0)
                 {
                     MessageBox.Show("No photos available to display.");
                 }
@@ -648,7 +648,7 @@ namespace BasicFacebookFeatures
 
         private void displayRandomPhoto()
         {
-            if (cachedPhotos.Count == 0)
+            if (m_CachedPhotos.Count == 0)
             {
                 MessageBox.Show("No photos available. Please log in and try again.");
                 return;
@@ -657,8 +657,8 @@ namespace BasicFacebookFeatures
             try
             {
                 // Pick a random photo
-                int randomIndex = random.Next(cachedPhotos.Count);
-                Photo randomPhoto = cachedPhotos[randomIndex];
+                int randomIndex = m_Random.Next(m_CachedPhotos.Count);
+                Photo randomPhoto = m_CachedPhotos[randomIndex];
 
                 // Display the photo in the PictureBox
                 pictureBoxSlideshow.Invoke(new Action(() => pictureBoxSlideshow.LoadAsync(randomPhoto.PictureNormalURL)));
@@ -771,7 +771,7 @@ namespace BasicFacebookFeatures
         {
             if (AppManagment.Instance.ChosenAlbum != null)
             {
-                FacebookFormFactory.createForm("AlbumDetailsForm").ShowDialog();
+                FacebookFormFactory.CreateForm("AlbumDetailsForm").ShowDialog();
             }
         }
 

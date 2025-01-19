@@ -16,12 +16,12 @@ namespace FBAppLogic
         private static AppManagment m_AppManagmentInstance = null; // Instance of the class (might be redundant due to singleton pattern)
         private static object s_LockObj = new Object();
         private static object s_LockObj2 = new Object();
-        private static object s_globaLock = new Object();
+        private static object s_GlobaLock = new Object();
         private BirthdayManager m_BirthdayManager;
-        private List<User> m_friendsWithBirthdaysToday;
+        private List<User> m_FriendsWithBirthdaysToday;
         private GenderStatsCalculator m_GenderStatsCalculator;
         private DistanceCalculator m_DistanceCalculator;
-        private Album m_chosenAlbum=null;
+        private Album m_ChosenAlbum=null;
 
 
         private AppManagment() { }
@@ -214,33 +214,33 @@ namespace FBAppLogic
         }
         public List<User> GetTodayBirthdaysList()
         {
-            if (m_friendsWithBirthdaysToday == null)
+            if (m_FriendsWithBirthdaysToday == null)
             {
                 lock (s_LockObj2)
                 {
-                    if (m_friendsWithBirthdaysToday == null)
+                    if (m_FriendsWithBirthdaysToday == null)
                     {
-                        m_friendsWithBirthdaysToday = m_BirthdayManager.GetTodayBirthdays();
+                        m_FriendsWithBirthdaysToday = m_BirthdayManager.GetTodayBirthdays();
                     }
                 }
             }
-            return m_friendsWithBirthdaysToday;
+            return m_FriendsWithBirthdaysToday;
         }
 
-        public object globalLock()
+        public object GlobalLock()
         {
-            return s_globaLock;
+            return s_GlobaLock;
         }
 
         public Album ChosenAlbum
         {
             get
             {
-                return m_chosenAlbum;
+                return m_ChosenAlbum;
             }
             set
             {
-                m_chosenAlbum = value;
+                m_ChosenAlbum = value;
             }
         }
 

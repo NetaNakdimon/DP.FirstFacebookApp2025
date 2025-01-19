@@ -9,10 +9,10 @@ namespace BasicFacebookFeatures
 {
     internal class FacebookFormFactory
     {
-        public static Form createForm(String form)
+        public static Form CreateForm(String i_form)
         {
             Form newForm = null;
-            switch (form)
+            switch (i_form)
             {
                 case "LoginForm":
                     newForm = new LoginForm();

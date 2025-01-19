@@ -10,7 +10,7 @@ namespace BasicFacebookFeatures
     {
         /// <summary>
         /// The main entry point for the application.
-        /// Link to the google document of the assignment https://docs.google.com/document/d/1BqRcuqV6XXml75Hrkiy6AvqS-GXjLySdlD8DccAkp_Y/edit?usp=sharing
+        /// Link to the google document of the assignment https://docs.google.com/document/d/1I1W82xH_HAu3nsTIlS-ti2uaXwLtDnTVIX5nFz4bvF8/edit?tab=t.0
         /// </summary>
         [STAThread]
         static void Main()
@@ -19,7 +19,7 @@ namespace BasicFacebookFeatures
             FacebookService.s_UseForamttedToStrings = true;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(FacebookFormFactory.createForm("LoginForm"));
+            Application.Run(FacebookFormFactory.CreateForm("LoginForm"));
         }
     }
 }
