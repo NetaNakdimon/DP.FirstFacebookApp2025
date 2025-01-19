@@ -5,14 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace BasicFacebookFeatures
 {
     internal class FacebookFormFactory
     {
-        public static Form CreateForm(String i_form)
+        public static Form CreateForm(String i_Form)
         {
             Form newForm = null;
-            switch (i_form)
+
+            try
+
+            {
+                switch (i_Form)
             {
                 case "LoginForm":
                     newForm = new LoginForm();
@@ -23,6 +28,11 @@ namespace BasicFacebookFeatures
                 case "AlbumDetailsForm":
                     newForm = new AlbumDetailsForm();
                     break;
+            }
+        }
+            catch
+            {
+                MessageBox.Show(@"Not a known form type, please try again");
             }
             return newForm;
         }
