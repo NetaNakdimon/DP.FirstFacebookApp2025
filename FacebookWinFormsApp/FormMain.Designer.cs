@@ -200,7 +200,7 @@ namespace BasicFacebookFeatures
             this.buttonAlbumdetails.TabIndex = 88;
             this.buttonAlbumdetails.Text = "Album details";
             this.buttonAlbumdetails.UseVisualStyleBackColor = true;
-            this.buttonAlbumdetails.Click += new System.EventHandler(this.buttonAlbumdetails_Click);
+            this.buttonAlbumdetails.Click += new System.EventHandler(this.buttonAlbumDetails_Click);
             // 
             // linklabelPhotosMemories
             // 

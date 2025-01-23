@@ -110,7 +110,7 @@
             // 
             // descriptionTextBox
             // 
-            this.descriptionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.albumBindingSource, "Description", true));
+            this.descriptionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.albumBindingSource, "Description", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.descriptionTextBox.Location = new System.Drawing.Point(109, 270);
             this.descriptionTextBox.Name = "descriptionTextBox";
             this.descriptionTextBox.Size = new System.Drawing.Size(292, 26);
@@ -122,7 +122,7 @@
             // 
             // createdTimeDateTimePicker
             // 
-            this.createdTimeDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.albumBindingSource, "CreatedTime", true));
+            this.createdTimeDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.albumBindingSource, "CreatedTime", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.createdTimeDateTimePicker.Location = new System.Drawing.Point(124, 396);
             this.createdTimeDateTimePicker.Name = "createdTimeDateTimePicker";
             this.createdTimeDateTimePicker.Size = new System.Drawing.Size(290, 26);
@@ -130,7 +130,7 @@
             // 
             // nameTextBox
             // 
-            this.nameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.albumBindingSource, "Name", true));
+            this.nameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.albumBindingSource, "Name", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.nameTextBox.Location = new System.Drawing.Point(143, 31);
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(229, 26);

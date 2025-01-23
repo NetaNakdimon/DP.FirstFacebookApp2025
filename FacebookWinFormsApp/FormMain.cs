@@ -768,15 +768,18 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void buttonAlbumdetails_Click(object sender, EventArgs e)
+        private void buttonAlbumDetails_Click(object sender, EventArgs e)
         {
-            if (AppManagment.Instance.ChosenAlbum != null)
-            {
-                FacebookFormFactory.CreateForm("AlbumDetailsForm").ShowDialog();
-            }
+            this.Invoke(new Action(() => {
+                if (AppManagment.Instance.ChosenAlbum != null)
+                {
+                    FacebookFormFactory.CreateForm("AlbumDetailsForm").ShowDialog();
+                }
+            }));
         }
 
-        
+
+
     }
 }
 
