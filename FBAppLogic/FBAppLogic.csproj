@@ -42,7 +42,6 @@
     <Compile Include="AppManagment.cs" />
     <Compile Include="BirthdayManager.cs" />
     <Compile Include="DistanceCalculator.cs" />
-    <Compile Include="FacebookFormFactory.cs" />
     <Compile Include="GenderStatsCalculator.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -9,31 +9,35 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FBAppLogic;
 
+
+
 namespace BasicFacebookFeatures
 {
     public partial class LoginForm : Form
     {
-        AppManagment m_appManagment; // Instance of the application management class
+        
 
         public LoginForm()
         {
             InitializeComponent();
-            m_appManagment = AppManagment.Instance; // Initialize the singleton instance
+            
+
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-            while (m_appManagment.LoggedInUser == null) // Repeat until the user successfully logs in
+           
+            while (AppManagment.Instance.LoggedInUser == null) 
             {
-                m_appManagment.Login(); // Attempt to log in
+                AppManagment.Instance.Login(); 
 
-                if (m_appManagment.LoggedInUser != null)
+                if (AppManagment.Instance.LoggedInUser != null)
                 {
                     // Open the main application form upon successful login
-                    FormMain formMain = new FormMain(m_appManagment);
-                    this.Hide(); // Hide the login form
-                    formMain.ShowDialog(); // Show the main form
-                    this.Close(); // Close the login form
+                    
+                    this.Hide(); 
+                    FacebookFormFactory.CreateForm("MainForm").ShowDialog(); 
+                    this.Close(); 
                 }
                 else
                 {
@@ -46,15 +50,12 @@ namespace BasicFacebookFeatures
 
                     if (result == DialogResult.No)
                     {
-                        this.Close(); // Close the application if the user chooses not to retry
+                        this.Close(); 
                         break;
                     }
                 }
             }
         }
 
-        private void LoginForm_Load(object sender, EventArgs e)
-        {
-        }
     }
 }

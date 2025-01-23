@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31402.337
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FBAppUI", "FacebookWinFormsApp\FBAppUI.csproj", "{5EE6DA79-7BC5-4414-A338-34B42A063715}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FBAppUI", "FBAppUI\FBAppUI.csproj", "{5EE6DA79-7BC5-4414-A338-34B42A063715}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FBAppLogic", "FBLogic\FBAppLogic.csproj", "{2DB81CD5-CB18-43D6-805D-92AEAD40BF07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FBAppLogic", "FBAppLogic\FBAppLogic.csproj", "{2DB81CD5-CB18-43D6-805D-92AEAD40BF07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -18,7 +18,7 @@ namespace FBAppLogic
             Ashdod
         }
 
-        private static readonly Dictionary<Tuple<eCity, eCity>, int> r_CityDistances = new Dictionary<Tuple<eCity, eCity>, int>();
+        private static readonly Dictionary<Tuple<eCity, eCity>, int> sr_CityDistances = new Dictionary<Tuple<eCity, eCity>, int>();
 
         static DistanceCalculator()
         {
@@ -36,18 +36,18 @@ namespace FBAppLogic
             addDistance(eCity.Jerusalem, eCity.Ashdod, 40);
         }
 
-        private static void addDistance(eCity i_city1, eCity i_city2, int distance)
+        private static void addDistance(eCity i_City1, eCity i_City2, int distance)
         {
             // Add distance in both directions for symmetry
-            r_CityDistances[Tuple.Create(i_city1, i_city2)] = distance;
-            r_CityDistances[Tuple.Create(i_city2, i_city1)] = distance;
+            sr_CityDistances[Tuple.Create(i_City1, i_City2)] = distance;
+            sr_CityDistances[Tuple.Create(i_City2, i_City1)] = distance;
         }
 
-        public static Dictionary<string, int> GetCityStatistics(List<User> i_friends)
+        public Dictionary<string, int> GetCityStatistics(List<User> i_Friends)
         {
             Dictionary<string, int> cityStatistics = new Dictionary<string, int>();
 
-            foreach (User friend in i_friends)
+            foreach (User friend in i_Friends)
             {
                 eCity? friendCity = ConvertToECity(friend.Hometown); // Convert friend's hometown to eCity enum
 
@@ -76,15 +76,15 @@ namespace FBAppLogic
 
             foreach (User friend in i_FriendsList)
             {
-                eCity? friendCity = ConvertToECity(friend.Hometown); // Determine friend's city
+                eCity? friendCity = AppManagment.Instance.ConvertToeCity(friend.Hometown); 
 
                 if (friendCity.HasValue)
                 {
                     Tuple<eCity, eCity> cityPair = Tuple.Create(i_UserCity, friendCity.Value);
 
-                    if (r_CityDistances.ContainsKey(cityPair))
+                    if (sr_CityDistances.ContainsKey(cityPair))
                     {
-                        totalDistance += r_CityDistances[cityPair]; // Add distance to total
+                        totalDistance += sr_CityDistances[cityPair]; 
                         count++;
                     }
                 }
@@ -99,15 +99,15 @@ namespace FBAppLogic
 
             foreach (User friend in i_FriendsList)
             {
-                eCity? friendCity = ConvertToECity(friend.Hometown); // Get friend's city
+                eCity? friendCity = AppManagment.Instance.ConvertToeCity(friend.Hometown);
 
                 if (friendCity.HasValue)
                 {
                     Tuple<eCity, eCity> cityPair = Tuple.Create(i_UserCity, friendCity.Value);
 
-                    if (r_CityDistances.ContainsKey(cityPair) && r_CityDistances[cityPair] <= i_MaxDistance)
+                    if (sr_CityDistances.ContainsKey(cityPair) && sr_CityDistances[cityPair] <= i_MaxDistance)
                     {
-                        closeFriends.Add(friend); // Add friend if within distance
+                        closeFriends.Add(friend); 
                     }
                 }
             }
@@ -115,7 +115,7 @@ namespace FBAppLogic
             return closeFriends;
         }
 
-        public static string GetCityWithMostFriends(Dictionary<string, int> i_CityStatistics)
+        public string GetCityWithMostFriends(Dictionary<string, int> i_CityStatistics)
         {
             string topCity = null;
             int maxFriends = 0;
@@ -132,65 +132,65 @@ namespace FBAppLogic
             return topCity != null ? topCity + " with " + maxFriends + " friends" : "No friends found.";
         }
 
-        public static eCity? ConvertToECity(FacebookWrapper.ObjectModel.City i_city)
+        public eCity? ConvertToECity(FacebookWrapper.ObjectModel.City i_City)
         {
-            if (i_city == null || string.IsNullOrEmpty(i_city.Name))
+            if (i_City == null || string.IsNullOrEmpty(i_City.Name))
             {
                 return null;
             }
 
             // Map city names to eCity enum
-            if (i_city.Name.Equals("Tel Aviv", StringComparison.OrdinalIgnoreCase))
+            if (i_City.Name.Equals("Tel Aviv", StringComparison.OrdinalIgnoreCase))
             {
                 return eCity.TelAviv;
             }
-            if (i_city.Name.Equals("Jerusalem", StringComparison.OrdinalIgnoreCase))
+            if (i_City.Name.Equals("Jerusalem", StringComparison.OrdinalIgnoreCase))
             {
                 return eCity.Jerusalem;
             }
-            if (i_city.Name.Equals("Haifa", StringComparison.OrdinalIgnoreCase))
+            if (i_City.Name.Equals("Haifa", StringComparison.OrdinalIgnoreCase))
             {
                 return eCity.Haifa;
             }
-            if (i_city.Name.Equals("Beersheba", StringComparison.OrdinalIgnoreCase))
+            if (i_City.Name.Equals("Beersheba", StringComparison.OrdinalIgnoreCase))
             {
                 return eCity.Beersheba;
             }
-            if (i_city.Name.Equals("Eilat", StringComparison.OrdinalIgnoreCase))
+            if (i_City.Name.Equals("Eilat", StringComparison.OrdinalIgnoreCase))
             {
                 return eCity.Eilat;
             }
-            if (i_city.Name.Equals("Netanya", StringComparison.OrdinalIgnoreCase))
+            if (i_City.Name.Equals("Netanya", StringComparison.OrdinalIgnoreCase))
             {
                 return eCity.Netanya;
             }
-            if (i_city.Name.Equals("Ashdod", StringComparison.OrdinalIgnoreCase))
+            if (i_City.Name.Equals("Ashdod", StringComparison.OrdinalIgnoreCase))
             {
                 return eCity.Ashdod;
             }
 
-            return null; // Return null if city is not recognized
+            return null; 
         }
 
         private static bool areCitiesClose(eCity i_UserCity, eCity i_FriendCity)
         {
             Tuple<eCity, eCity> cityPair = Tuple.Create(i_UserCity, i_FriendCity);
 
-            if (r_CityDistances.ContainsKey(cityPair))
+            if (sr_CityDistances.ContainsKey(cityPair))
             {
-                return r_CityDistances[cityPair] <= 30; // Consider cities close if distance is <= 30
+                return sr_CityDistances[cityPair] <= 30; // Consider cities close if distance is <= 30
             }
 
             return false;
         }
 
-        public static List<User> GetCloseFriends(List<User> i_FriendsList, eCity i_UserCity)
+        public List<User> GetCloseFriends(List<User> i_FriendsList, eCity i_UserCity)
         {
             List<User> closeFriends = new List<User>();
 
             foreach (User friend in i_FriendsList)
             {
-                eCity? friendCity = ConvertToECity(friend.Hometown); // Get friend's city
+                eCity? friendCity = AppManagment.Instance.ConvertToeCity(friend.Hometown);
 
                 if (friendCity.HasValue && areCitiesClose(i_UserCity, friendCity.Value))
                 {
@@ -202,7 +202,7 @@ namespace FBAppLogic
         }
 
         // Mockup data for simulated statistics
-        public static Dictionary<string, int> GetSimulatedCityStatistics()
+        public Dictionary<string, int> GetSimulatedCityStatistics()
         {
             Dictionary<string, int> simulatedData = new Dictionary<string, int>
             {
@@ -215,9 +215,9 @@ namespace FBAppLogic
             return simulatedData;
         }
 
-        public static double CalculateSimulatedAverageDistance()
+        public double CalculateSimulatedAverageDistance()
         {
-            return 70.5; // Return a fixed average distance for simulation purposes
+            return 70.5; 
         }
     }
 }

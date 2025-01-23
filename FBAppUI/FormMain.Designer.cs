@@ -35,6 +35,7 @@ namespace BasicFacebookFeatures
             this.buttonLogout = new System.Windows.Forms.Button();
             this.tabControlOurFeatures = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.buttonAlbumdetails = new System.Windows.Forms.Button();
             this.linklabelPhotosMemories = new System.Windows.Forms.LinkLabel();
             this.pictureBoxSlideshow = new System.Windows.Forms.PictureBox();
             this.comboBoxBGColor = new System.Windows.Forms.ComboBox();
@@ -72,6 +73,7 @@ namespace BasicFacebookFeatures
             this.labelTopCity = new System.Windows.Forms.Label();
             this.listBoxFriendsByCity = new System.Windows.Forms.ListBox();
             this.labelCityStats = new System.Windows.Forms.Label();
+            this.pictureBoxCloseFriend = new System.Windows.Forms.PictureBox();
             this.FetchCityStats = new System.Windows.Forms.LinkLabel();
             this.ListBoxFriendsCityStats = new System.Windows.Forms.ListBox();
             this.labelAvgFemales = new System.Windows.Forms.Label();
@@ -95,7 +97,6 @@ namespace BasicFacebookFeatures
             this.listBoxBirthdays = new System.Windows.Forms.ListBox();
             this.labelTodayIs = new System.Windows.Forms.Label();
             this.labelCloseFriend = new System.Windows.Forms.Label();
-            this.pictureBoxCloseFriend = new System.Windows.Forms.PictureBox();
             this.tabControlOurFeatures.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSlideshow)).BeginInit();
@@ -107,11 +108,11 @@ namespace BasicFacebookFeatures
             ((System.ComponentModel.ISupportInitialize)(this.facebook_logo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).BeginInit();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseFriend)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBirthdays)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseFriend)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonLogin
@@ -152,6 +153,7 @@ namespace BasicFacebookFeatures
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.tabPage1.Controls.Add(this.buttonAlbumdetails);
             this.tabPage1.Controls.Add(this.linklabelPhotosMemories);
             this.tabPage1.Controls.Add(this.pictureBoxSlideshow);
             this.tabPage1.Controls.Add(this.comboBoxBGColor);
@@ -190,13 +192,23 @@ namespace BasicFacebookFeatures
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Profile";
             // 
+            // buttonAlbumdetails
+            // 
+            this.buttonAlbumdetails.Location = new System.Drawing.Point(325, 289);
+            this.buttonAlbumdetails.Name = "buttonAlbumdetails";
+            this.buttonAlbumdetails.Size = new System.Drawing.Size(182, 35);
+            this.buttonAlbumdetails.TabIndex = 88;
+            this.buttonAlbumdetails.Text = "Album details";
+            this.buttonAlbumdetails.UseVisualStyleBackColor = true;
+            this.buttonAlbumdetails.Click += new System.EventHandler(this.buttonAlbumDetails_Click);
+            // 
             // linklabelPhotosMemories
             // 
             this.linklabelPhotosMemories.AutoSize = true;
             this.linklabelPhotosMemories.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.linklabelPhotosMemories.Location = new System.Drawing.Point(8, 403);
             this.linklabelPhotosMemories.Name = "linklabelPhotosMemories";
-            this.linklabelPhotosMemories.Size = new System.Drawing.Size(196, 32);
+            this.linklabelPhotosMemories.Size = new System.Drawing.Size(195, 32);
             this.linklabelPhotosMemories.TabIndex = 87;
             this.linklabelPhotosMemories.TabStop = true;
             this.linklabelPhotosMemories.Text = "Fetch Memories";
@@ -418,7 +430,7 @@ namespace BasicFacebookFeatures
             this.LinkGroups.TabStop = true;
             this.LinkGroups.Text = "Fetch Groups";
             this.LinkGroups.UseCompatibleTextRendering = true;
-            this.LinkGroups.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkGroups_LinkClicked);
+            this.LinkGroups.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkGroups_LinkClicked);
             // 
             // LinkEvents
             // 
@@ -433,7 +445,7 @@ namespace BasicFacebookFeatures
             this.LinkEvents.TabStop = true;
             this.LinkEvents.Text = "Fetch Events";
             this.LinkEvents.UseCompatibleTextRendering = true;
-            this.LinkEvents.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkEvents_LinkClicked);
+            this.LinkEvents.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkEvents_LinkClicked);
             // 
             // LinkLikes
             // 
@@ -448,7 +460,7 @@ namespace BasicFacebookFeatures
             this.LinkLikes.TabStop = true;
             this.LinkLikes.Text = "Fetch Likes";
             this.LinkLikes.UseCompatibleTextRendering = true;
-            this.LinkLikes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLikes_LinkClicked);
+            this.LinkLikes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLikes_LinkClicked);
             // 
             // LinkAlbums
             // 
@@ -483,7 +495,7 @@ namespace BasicFacebookFeatures
             this.ListBoxEvents.Name = "ListBoxEvents";
             this.ListBoxEvents.Size = new System.Drawing.Size(591, 82);
             this.ListBoxEvents.TabIndex = 59;
-            this.ListBoxEvents.SelectedIndexChanged += new System.EventHandler(this.ListBoxEvents_SelectedIndexChanged);
+            this.ListBoxEvents.SelectedIndexChanged += new System.EventHandler(this.listBoxEvents_SelectedIndexChanged);
             // 
             // ListBoxLikes
             // 
@@ -493,7 +505,7 @@ namespace BasicFacebookFeatures
             this.ListBoxLikes.Name = "ListBoxLikes";
             this.ListBoxLikes.Size = new System.Drawing.Size(591, 82);
             this.ListBoxLikes.TabIndex = 58;
-            this.ListBoxLikes.SelectedIndexChanged += new System.EventHandler(this.ListBoxLikes_SelectedIndexChanged);
+            this.ListBoxLikes.SelectedIndexChanged += new System.EventHandler(this.listBoxLikes_SelectedIndexChanged);
             // 
             // ListBoxAlbums
             // 
@@ -503,7 +515,7 @@ namespace BasicFacebookFeatures
             this.ListBoxAlbums.Name = "ListBoxAlbums";
             this.ListBoxAlbums.Size = new System.Drawing.Size(591, 82);
             this.ListBoxAlbums.TabIndex = 57;
-            this.ListBoxAlbums.SelectedIndexChanged += new System.EventHandler(this.ListBoxAlbums_SelectedIndexChanged);
+            this.ListBoxAlbums.SelectedIndexChanged += new System.EventHandler(this.listBoxAlbums_SelectedIndexChanged);
             // 
             // facebook_logo
             // 
@@ -526,7 +538,6 @@ namespace BasicFacebookFeatures
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.tabPage2.Controls.Add(this.pictureBoxCloseFriend);
             this.tabPage2.Controls.Add(this.listBoxCloseFriends);
             this.tabPage2.Controls.Add(this.buttonFindCloseFriends);
             this.tabPage2.Controls.Add(this.label2);
@@ -534,6 +545,7 @@ namespace BasicFacebookFeatures
             this.tabPage2.Controls.Add(this.labelTopCity);
             this.tabPage2.Controls.Add(this.listBoxFriendsByCity);
             this.tabPage2.Controls.Add(this.labelCityStats);
+            this.tabPage2.Controls.Add(this.pictureBoxCloseFriend);
             this.tabPage2.Controls.Add(this.FetchCityStats);
             this.tabPage2.Controls.Add(this.ListBoxFriendsCityStats);
             this.tabPage2.Controls.Add(this.labelAvgFemales);
@@ -561,7 +573,6 @@ namespace BasicFacebookFeatures
             this.listBoxCloseFriends.Name = "listBoxCloseFriends";
             this.listBoxCloseFriends.Size = new System.Drawing.Size(454, 134);
             this.listBoxCloseFriends.TabIndex = 21;
-            this.listBoxCloseFriends.SelectedIndexChanged += new System.EventHandler(this.listBoxCloseFriends_SelectedIndexChanged);
             // 
             // buttonFindCloseFriends
             // 
@@ -588,7 +599,7 @@ namespace BasicFacebookFeatures
             this.labelAverageDistanceToFriends.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.labelAverageDistanceToFriends.Location = new System.Drawing.Point(730, 448);
             this.labelAverageDistanceToFriends.Name = "labelAverageDistanceToFriends";
-            this.labelAverageDistanceToFriends.Size = new System.Drawing.Size(344, 32);
+            this.labelAverageDistanceToFriends.Size = new System.Drawing.Size(343, 32);
             this.labelAverageDistanceToFriends.TabIndex = 18;
             this.labelAverageDistanceToFriends.Text = "Average Distance To Friends:";
             // 
@@ -598,7 +609,7 @@ namespace BasicFacebookFeatures
             this.labelTopCity.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.labelTopCity.Location = new System.Drawing.Point(730, 399);
             this.labelTopCity.Name = "labelTopCity";
-            this.labelTopCity.Size = new System.Drawing.Size(276, 32);
+            this.labelTopCity.Size = new System.Drawing.Size(275, 32);
             this.labelTopCity.TabIndex = 16;
             this.labelTopCity.Text = "Top City: Not Available";
             // 
@@ -616,9 +627,19 @@ namespace BasicFacebookFeatures
             this.labelCityStats.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.labelCityStats.Location = new System.Drawing.Point(726, 100);
             this.labelCityStats.Name = "labelCityStats";
-            this.labelCityStats.Size = new System.Drawing.Size(191, 32);
+            this.labelCityStats.Size = new System.Drawing.Size(190, 32);
             this.labelCityStats.TabIndex = 15;
             this.labelCityStats.Text = "Friends by City:";
+            // 
+            // pictureBoxCloseFriend
+            // 
+            this.pictureBoxCloseFriend.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxCloseFriend.Location = new System.Drawing.Point(1050, 251);
+            this.pictureBoxCloseFriend.Name = "pictureBoxCloseFriend";
+            this.pictureBoxCloseFriend.Size = new System.Drawing.Size(120, 120);
+            this.pictureBoxCloseFriend.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxCloseFriend.TabIndex = 13;
+            this.pictureBoxCloseFriend.TabStop = false;
             // 
             // FetchCityStats
             // 
@@ -626,7 +647,7 @@ namespace BasicFacebookFeatures
             this.FetchCityStats.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.FetchCityStats.Location = new System.Drawing.Point(730, 50);
             this.FetchCityStats.Name = "FetchCityStats";
-            this.FetchCityStats.Size = new System.Drawing.Size(277, 32);
+            this.FetchCityStats.Size = new System.Drawing.Size(276, 32);
             this.FetchCityStats.TabIndex = 12;
             this.FetchCityStats.TabStop = true;
             this.FetchCityStats.Text = "Fetch Friends City Stats";
@@ -640,6 +661,7 @@ namespace BasicFacebookFeatures
             this.ListBoxFriendsCityStats.Name = "ListBoxFriendsCityStats";
             this.ListBoxFriendsCityStats.Size = new System.Drawing.Size(395, 238);
             this.ListBoxFriendsCityStats.TabIndex = 11;
+            this.ListBoxFriendsCityStats.SelectedIndexChanged += new System.EventHandler(this.listBoxFriendsCityStats_SelectedIndexChanged);
             // 
             // labelAvgFemales
             // 
@@ -690,7 +712,7 @@ namespace BasicFacebookFeatures
             this.labelAvgAge.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.labelAvgAge.Location = new System.Drawing.Point(3, 421);
             this.labelAvgAge.Name = "labelAvgAge";
-            this.labelAvgAge.Size = new System.Drawing.Size(163, 32);
+            this.labelAvgAge.Size = new System.Drawing.Size(162, 32);
             this.labelAvgAge.TabIndex = 4;
             this.labelAvgAge.Text = "Average age:";
             // 
@@ -700,7 +722,7 @@ namespace BasicFacebookFeatures
             this.labelGenderCount.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.labelGenderCount.Location = new System.Drawing.Point(6, 362);
             this.labelGenderCount.Name = "labelGenderCount";
-            this.labelGenderCount.Size = new System.Drawing.Size(115, 32);
+            this.labelGenderCount.Size = new System.Drawing.Size(114, 32);
             this.labelGenderCount.TabIndex = 3;
             this.labelGenderCount.Text = "Counter:";
             // 
@@ -872,14 +894,6 @@ namespace BasicFacebookFeatures
             this.labelCloseFriend.TabIndex = 14;
             this.labelCloseFriend.Text = "Close Friend Image";
             // 
-            // pictureBoxCloseFriend
-            // 
-            this.pictureBoxCloseFriend.Location = new System.Drawing.Point(1081, 665);
-            this.pictureBoxCloseFriend.Name = "pictureBoxCloseFriend";
-            this.pictureBoxCloseFriend.Size = new System.Drawing.Size(108, 68);
-            this.pictureBoxCloseFriend.TabIndex = 22;
-            this.pictureBoxCloseFriend.TabStop = false;
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 26F);
@@ -905,12 +919,12 @@ namespace BasicFacebookFeatures
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseFriend)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBirthdays)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCloseFriend)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -950,6 +964,7 @@ namespace BasicFacebookFeatures
         private System.Windows.Forms.Label labelMaleCounter;
         private System.Windows.Forms.Button buttonCalculateStats;
         private System.Windows.Forms.Label labelUserName;
+        private System.Windows.Forms.PictureBox pictureBoxCloseFriend;
         private System.Windows.Forms.LinkLabel FetchCityStats;
         private System.Windows.Forms.ListBox ListBoxFriendsCityStats;
         private System.Windows.Forms.Label labelNumOfFriends;
@@ -981,7 +996,7 @@ namespace BasicFacebookFeatures
         private System.Windows.Forms.ListBox listBoxCloseFriends;
         private System.Windows.Forms.Button buttonFindCloseFriends;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox pictureBoxCloseFriend;
+        private System.Windows.Forms.Button buttonAlbumdetails;
     }
 }
 

@@ -11,6 +11,7 @@ using FacebookWrapper;
 using System.Drawing.Text;
 using System.Media;
 using FBAppLogic;
+using System.Threading;
 using System.Diagnostics.Eventing.Reader;
 using System.Deployment.Application;
 
@@ -19,27 +20,27 @@ namespace BasicFacebookFeatures
 {
     public partial class FormMain : Form
     {
-        public FormMain(AppManagment i_appManagment)
+        public FormMain()
         {
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
-            m_AppManagment = i_appManagment;
             displayUserInfoWhenLogin();
         }
+        
+        
+        private List<Photo> m_CachedPhotos = new List<Photo>();
+        private Random m_Random = new Random();
+        public Album m_ChosenAlbum= null;
 
-        // Fields
-        private AppManagment m_AppManagment;
-        private GenderStatsCalculator m_genderStats;
-        private List<Photo> cachedPhotos = new List<Photo>();
-        private Random random = new Random();
+
 
         // Login methods
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             Clipboard.SetText("design.patterns");
-            if (m_AppManagment.LoginResult == null)
+            if (AppManagment.Instance.LoginResult == null)
             {
-                m_AppManagment.Login();
+                new Thread(() => AppManagment.Instance.Login()).Start();
                 displayUserInfoWhenLogin();
             }
 
@@ -47,12 +48,12 @@ namespace BasicFacebookFeatures
 
         private void displayUserInfoWhenLogin()
         {
-            if (string.IsNullOrEmpty(m_AppManagment.LoginResult.ErrorMessage))
+            if (string.IsNullOrEmpty(AppManagment.Instance.LoginResult.ErrorMessage))
             {
-                buttonLogin.Text = $"Logged in as {m_AppManagment.LoginResult.LoggedInUser.Name}";
+                buttonLogin.Text = $"Logged in as {AppManagment.Instance.LoginResult.LoggedInUser.Name}";
                 buttonLogin.BackColor = Color.LightGreen;
                 buttonLogout.BackColor = Color.Red;
-                pictureBoxProfile.ImageLocation = m_AppManagment.LoginResult.LoggedInUser.PictureNormalURL;
+                pictureBoxProfile.ImageLocation = AppManagment.Instance.LoginResult.LoggedInUser.PictureNormalURL;
                 buttonLogin.Enabled = false;
                 buttonLogout.Enabled = true;
                 displayUserInfo();
@@ -61,17 +62,17 @@ namespace BasicFacebookFeatures
 
         private void displayUserInfo()
         {
-            labelUserName.Text = m_AppManagment.LoginResult.LoggedInUser.Name;
-            labelBirthday.Text = m_AppManagment.LoggedInUser.Birthday;
-            labelCity.Text = m_AppManagment.LoggedInUser.Hometown?.Name;
-            labelEmail.Text = m_AppManagment.LoggedInUser.Email;
-            linkNumOfFriends.Text = m_AppManagment.LoggedInUser.Friends.Count.ToString() + " (click to see them)";
+            labelUserName.Text = AppManagment.Instance.LoginResult.LoggedInUser.Name;
+            labelBirthday.Text = AppManagment.Instance.LoggedInUser.Birthday;
+            labelCity.Text = AppManagment.Instance.LoggedInUser.Hometown?.Name;
+            labelEmail.Text = AppManagment.Instance.LoggedInUser.Email;
+            linkNumOfFriends.Text = AppManagment.Instance.LoggedInUser.Friends.Count.ToString() + " (click to see them)";
 
         }
 
         private void buttonLogout_Click(object sender, EventArgs e)
         {
-            m_AppManagment.Logout();
+            AppManagment.Instance.Logout();
             eraseWhenLogOut();
 
         }
@@ -83,8 +84,8 @@ namespace BasicFacebookFeatures
             buttonLogout.BackColor = buttonCalculateStats.BackColor;
             buttonLogin.Enabled = true;
             buttonLogout.Enabled = false;
-            m_AppManagment.LoginResult = null;
-            m_AppManagment.LoggedInUser = null;
+            AppManagment.Instance.LoginResult = null;
+            AppManagment.Instance.LoggedInUser = null;
             pictureBoxProfile.Image = null;
             listBoxPosts.Items.Clear();
             listBoxPostComments.Items.Clear();
@@ -115,7 +116,7 @@ namespace BasicFacebookFeatures
         // Album methods
         private void linkAlbums_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (m_AppManagment.LoggedInUser != null)
+            if (AppManagment.Instance.LoggedInUser != null)
             {
                 displaySelectedAlbums();
             }
@@ -129,34 +130,38 @@ namespace BasicFacebookFeatures
 
         private void displaySelectedAlbums()
         {
-            ListBoxAlbums.Items.Clear();
-            ListBoxAlbums.DisplayMember = "Name";
-            foreach (Album album in m_AppManagment.LoggedInUser.Albums)
+    
+             ListBoxAlbums.Items.Clear();
+             ListBoxAlbums.Invoke(new Action(() => ListBoxAlbums.DisplayMember = "Name"));
+             foreach (Album album in AppManagment.Instance.LoggedInUser.Albums)
+                      {
+                          ListBoxAlbums.Invoke(new Action(() => ListBoxAlbums.Items.Add(album)));
+                     }
+            
+            if (AppManagment.Instance.LoggedInUser.Albums.Count == 0)
             {
-                ListBoxAlbums.Items.Add(album);
-            }
-
-            if (m_AppManagment.LoggedInUser.Albums.Count == 0)
-            {
-                listBoxPosts.Items.Add("No albums to show");
+                ListBoxAlbums.Invoke(new Action(() => ListBoxAlbums.Items.Add("no albums to show")));
             }
         }
 
-        private void ListBoxAlbums_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBoxAlbums_SelectedIndexChanged(object sender, EventArgs e)
         {
+            AppManagment.Instance.ChosenAlbum = ListBoxAlbums.SelectedItem as Album;
             displayAlbumPicture();
         }
 
         private void displayAlbumPicture()
         {
+
             Album selectedAlbum = ListBoxAlbums.SelectedItem as Album;
             if (selectedAlbum.PictureAlbumURL != null)
             {
-                pictureBoxAlbum.LoadAsync(selectedAlbum.PictureAlbumURL);
+                pictureBoxAlbum.Invoke(new Action(() => pictureBoxAlbum.LoadAsync(selectedAlbum.PictureAlbumURL)));
             }
 
             else
             {
+                //how to invoke this
                 pictureBoxAlbum.Image = pictureBoxAlbum.ErrorImage;
             }
         }
@@ -164,9 +169,9 @@ namespace BasicFacebookFeatures
         // Posts methods
         private void FetchPosts_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (m_AppManagment.LoggedInUser != null)
+            if (AppManagment.Instance.LoggedInUser != null)
             {
-                displayPosts();
+                new Thread(displayPosts).Start();
             }
             else
             {
@@ -177,30 +182,30 @@ namespace BasicFacebookFeatures
 
         private void displayPosts()
         {
-            listBoxPosts.Items.Clear();
+            listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Clear()));
 
 
-            foreach (Post post in m_AppManagment.LoggedInUser.Posts)
+            foreach (Post post in AppManagment.Instance.LoggedInUser.Posts)
             {
                 if (post.Message != null)
                 {
-                    listBoxPosts.Items.Add(post.Message);
+                    listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Add(post.Message)));
                 }
 
                 else if (post.Caption != null)
                 {
-                    listBoxPosts.Items.Add(post.Caption);
+                    listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Add(post.Caption)));
                 }
 
                 else
                 {
-                    listBoxPosts.Items.Add(string.Format("[{0}]", post.Type));
+                    listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Add(string.Format("[{0}]", post.Type))));
                 }
             }
 
-            if (m_AppManagment.LoggedInUser.Posts.Count == 0)
+            if (AppManagment.Instance.LoggedInUser.Posts.Count == 0)
             {
-                listBoxPosts.Items.Add("No Posts to show");
+                listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Add("no posts to show")));
             }
 
 
@@ -208,41 +213,44 @@ namespace BasicFacebookFeatures
 
         private void listBoxPosts_SelectedIndexChanged(object sender, EventArgs e)
         {
-            displayPostComments();
+            new Thread(displayPostComments).Start();
         }
 
 
         private void displayPostComments()
         {
-            listBoxPostComments.Items.Clear();
-
-            if (listBoxPosts.SelectedIndex < 0 || listBoxPosts.SelectedIndex >= m_AppManagment.LoggedInUser.Posts.Count)
+            listBoxPosts.Invoke(new Action(() =>
             {
-                listBoxPostComments.Items.Add("No post selected");
-                return;
-            }
-
-            Post selectedPost = m_AppManagment.LoggedInUser.Posts[listBoxPosts.SelectedIndex];
-
-            if (selectedPost.Comments.Count > 0)
-            {
-                foreach (Comment comment in selectedPost.Comments)
+                if (listBoxPosts.SelectedIndex < 0 || listBoxPosts.SelectedIndex >= AppManagment.Instance.LoggedInUser.Posts.Count)
                 {
-                    listBoxPostComments.Items.Add(comment.Message);
+                    listBoxPostComments.Invoke(new Action(() => listBoxPostComments.Items.Add("No post selected")));
+                    return; // Exit if no valid post is selected
                 }
-            }
-            else
-            {
-                listBoxPostComments.Items.Add("No Comments to show");
-            }
+
+                listBoxPostComments.Invoke(new Action(() => listBoxPostComments.Items.Clear()));
+                Post selectedPost = AppManagment.Instance.LoggedInUser.Posts[listBoxPosts.SelectedIndex];
+
+                if (selectedPost.Comments.Count > 0)
+                {
+                    foreach (Comment comment in selectedPost.Comments)
+                    {
+                        listBoxPostComments.Invoke(new Action(() => listBoxPostComments.Items.Add(comment.Message)));
+                    }
+                }
+                else
+                {
+                    listBoxPostComments.Invoke(new Action(() => listBoxPostComments.Items.Add("No comments to show")));
+                }
+            }));
         }
 
+
         // Likes methods
-        private void LinkLikes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLikes_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (m_AppManagment.LoginResult != null)
+            if (AppManagment.Instance.LoginResult != null)
             {
-                fetchLikedPages();
+                new Thread(fetchLikedPages).Start();
             }
             else
             {
@@ -255,20 +263,20 @@ namespace BasicFacebookFeatures
 
         private void fetchLikedPages()
         {
-            ListBoxLikes.Items.Clear();
-            ListBoxLikes.DisplayMember = "Name";
-            foreach (Page page in m_AppManagment.LoggedInUser.LikedPages)
+            ListBoxLikes.Invoke(new Action(() => ListBoxLikes.Items.Clear()));
+            ListBoxLikes.Invoke(new Action(() => ListBoxLikes.DisplayMember = "Name"));
+            foreach (Page page in AppManagment.Instance.LoggedInUser.LikedPages)
             {
-                ListBoxLikes.Items.Add(page);
+                ListBoxLikes.Invoke(new Action(() => ListBoxLikes.Items.Add(page)));
             }
 
-            if (m_AppManagment.LoggedInUser.LikedPages.Count == 0)
+            if (AppManagment.Instance.LoggedInUser.LikedPages.Count == 0)
             {
-                ListBoxLikes.Items.Add("No Liked Pages to show");
+                ListBoxLikes.Invoke(new Action(() => ListBoxLikes.Items.Add("No liked pages to show")));
             }
         }
 
-        private void ListBoxLikes_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBoxLikes_SelectedIndexChanged(object sender, EventArgs e)
         {
             displayLikedPagePicture();
         }
@@ -279,26 +287,28 @@ namespace BasicFacebookFeatures
 
             if (selectedPage == null || string.IsNullOrEmpty(selectedPage.PictureNormalURL))
             {
+                //how to invoke this
                 pictureBoxLikes.Image = pictureBoxLikes.ErrorImage;
                 return;
             }
 
             try
             {
-                pictureBoxLikes.LoadAsync(selectedPage.PictureNormalURL);
+                pictureBoxLikes.Invoke(new Action(() => pictureBoxLikes.LoadAsync(selectedPage.PictureNormalURL)));
             }
             catch
             {
+                //invoke
                 pictureBoxLikes.Image = pictureBoxLikes.ErrorImage;
             }
         }
 
         // Events methods
-        private void LinkEvents_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkEvents_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (m_AppManagment.LoggedInUser != null)
+            if (AppManagment.Instance.LoggedInUser != null)
             {
-                displayEvents();
+                new Thread(displayEvents).Start();
             }
 
             else
@@ -311,43 +321,43 @@ namespace BasicFacebookFeatures
         }
         private void displayEvents()
         {
-            ListBoxEvents.Items.Clear();
-            ListBoxEvents.DisplayMember = "Name";
+            ListBoxEvents.Invoke(new Action(() => ListBoxEvents.Items.Clear()));
+            ListBoxEvents.Invoke(new Action(() => ListBoxEvents.DisplayMember = "Name"));
 
-            foreach (Event fbEvent in m_AppManagment.LoggedInUser.Events)
+            foreach (Event fbEvent in AppManagment.Instance.LoggedInUser.Events)
             {
                 if (fbEvent.Name != null)
                 {
-                    ListBoxEvents.Items.Add(fbEvent.Name);
+                    ListBoxEvents.Invoke(new Action(() => ListBoxEvents.Items.Add(fbEvent.Name)));
                 }
 
                 else
                 {
-                    ListBoxEvents.Items.Add("No Name");
+                    ListBoxEvents.Invoke(new Action(() => ListBoxEvents.Items.Add("This event has no name")));
                 }
 
 
             }
 
-            if (m_AppManagment.LoggedInUser.Events.Count == 0)
+            if (AppManagment.Instance.LoggedInUser.Events.Count == 0)
             {
 
-                ListBoxEvents.Items.Add("No Events to show");
+                ListBoxEvents.Invoke(new Action(() => ListBoxEvents.Items.Add("No events to show")));
             }
         }
 
-        private void ListBoxEvents_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBoxEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
             displayPicture(pictureBoxEvents, ListBoxEvents);
         }
 
 
         // Groups methods
-        private void LinkGroups_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkGroups_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (m_AppManagment.LoggedInUser != null)
+            if (AppManagment.Instance.LoggedInUser != null)
             {
-                fetchUsersGroups();
+                new Thread(fetchUsersGroups).Start();
             }
 
             else
@@ -360,16 +370,16 @@ namespace BasicFacebookFeatures
 
         private void fetchUsersGroups()
         {
-            ListBoxGroups.Items.Clear();
-            ListBoxGroups.DisplayMember = "Name";
-            foreach (Group group in m_AppManagment.LoggedInUser.Groups)
+            ListBoxGroups.Invoke(new Action(() => ListBoxGroups.Items.Clear()));
+            ListBoxGroups.Invoke(new Action(() => ListBoxGroups.DisplayMember = "Name"));
+            foreach (Group group in AppManagment.Instance.LoggedInUser.Groups)
             {
-                ListBoxGroups.Items.Add(group);
+                ListBoxGroups.Invoke(new Action(() => ListBoxGroups.Items.Add(group)));
             }
 
-            if (m_AppManagment.LoggedInUser.Groups.Count == 0)
+            if (AppManagment.Instance.LoggedInUser.Groups.Count == 0)
             {
-                ListBoxGroups.Items.Add("No Groups to show");
+                ListBoxGroups.Invoke(new Action(() => ListBoxGroups.Items.Add("No groups to show")));
             }
         }
         private void ListBoxGroups_SelectedIndexChanged(object sender, EventArgs e)
@@ -380,36 +390,53 @@ namespace BasicFacebookFeatures
 
         // Gender statistics methods
         private void buttonCalculateStats_Click(object sender, EventArgs e)
-        {
-
-            m_genderStats = new GenderStatsCalculator(m_AppManagment);
+        { 
             try
             {
-                m_genderStats.CalculateGenderStats();
+                AppManagment.Instance.CalculateGenderStats();
             }
             catch (Exception)
             {
                 return;
             }
-            displayGenderStats(m_genderStats);
+           new Thread(displayGenderStats).Start();
         }
-
-        private void displayGenderStats(GenderStatsCalculator i_genderStats)
+        private void displayGenderStats()
         {
-            labelMaleCounter.Text = i_genderStats.Males.ToString();
-            labelFemaleCounter.Text = i_genderStats.Female.ToString();
-            labelAvgMales.Text = i_genderStats.MaleAgeAvg().ToString();
-            labelAvgFemales.Text = i_genderStats.FemaleAgeAvg().ToString();
+            labelMaleCounter.Invoke(new Action(() =>
+            {
+                labelMaleCounter.Text = AppManagment.Instance.GetMalesCountAsString();
+            }));
+
+            labelFemaleCounter.Invoke(new Action(() =>
+            {
+                labelFemaleCounter.Text = AppManagment.Instance.GetFemalesCountAsString();
+            }));
+
+            labelAvgMales.Invoke(new Action(() =>
+            {
+                labelAvgMales.Text = AppManagment.Instance.GetMaleAgeAvgAsString();
+            }));
+
+            labelAvgFemales.Invoke(new Action(() =>
+            {
+                labelAvgFemales.Text = AppManagment.Instance.GetFemaleAgeAvgAsString();
+            }));
+
 
         }
 
         // City statistics methods
-        
+        private void listBoxFriendsCityStats_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            displayPicture(pictureBoxCloseFriend, ListBoxFriendsCityStats);
+        }
+
         private void linkNumOfFriends_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (m_AppManagment.LoggedInUser != null)
+            if (AppManagment.Instance.LoggedInUser != null)
             {
-                displayFriends();
+                new Thread(displayFriends).Start();
             }
             else
             {
@@ -420,18 +447,18 @@ namespace BasicFacebookFeatures
 
         private void displayFriends()
         {
-            listBoxFriends.Items.Clear();
-            listBoxFriends.DisplayMember = "Name";
+            listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Clear()));
+            listBoxFriends.Invoke(new Action(() => listBoxFriends.DisplayMember = "Name"));
 
 
-            foreach (User friend in m_AppManagment.LoggedInUser.Friends)
+            foreach (User friend in AppManagment.Instance.LoggedInUser.Friends)
             {
-                listBoxFriends.Items.Add(friend);
+                listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Add(friend)));
 
             }
-            if (m_AppManagment.LoggedInUser.Friends.Count == 0)
+            if (AppManagment.Instance.LoggedInUser.Friends.Count == 0)
             {
-                listBoxFriends.Items.Add("No Friends to show");
+                listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Add("No friends to show")));
             }
         }
 
@@ -445,11 +472,12 @@ namespace BasicFacebookFeatures
             OwnerObject selectedObject = i_listBox.SelectedItem as OwnerObject;
             if (selectedObject == null || selectedObject.PictureNormalURL == null)
             {
+                //invoke
                 i_pictureBox.Image = pictureBoxEvents.ErrorImage;
             }
             else
             {
-                i_pictureBox.LoadAsync(selectedObject.PictureNormalURL);
+                i_pictureBox.Invoke(new Action(() => i_pictureBox.LoadAsync(selectedObject.PictureNormalURL)));
 
             }
         }
@@ -494,27 +522,25 @@ namespace BasicFacebookFeatures
             fetchAndDisplayBirthdays();
         }
 
-        List<User> m_friendsWithBirthdays;
+        
         private void fetchAndDisplayBirthdays()
         {
-            if (m_AppManagment.LoggedInUser == null)
+            if (AppManagment.Instance.LoggedInUser == null)
             {
                 MessageBox.Show("Please log in to fetch birthdays.");
                 return;
             }
-            listBoxBirthdays.Items.Clear();
-            BirthdayManager birthdayManager = new BirthdayManager(m_AppManagment.LoggedInUser);
-            m_friendsWithBirthdays = birthdayManager.GetTodayBirthdays();
+            listBoxBirthdays.Invoke(new Action(() => listBoxBirthdays.Items.Clear()));
 
-            if (m_friendsWithBirthdays.Count == 0)
+            if (AppManagment.Instance.GetTodayBirthdaysList().Count == 0)
             {
-                listBoxBirthdays.Items.Add("No friends have birthdays today. :(");
+                listBoxBirthdays.Invoke(new Action(() => listBoxBirthdays.Items.Add("No friends have birthday today")));
                 return;
             }
 
-            foreach (User friend in m_friendsWithBirthdays)
+            foreach (User friend in AppManagment.Instance.GetTodayBirthdaysList())
             {
-                listBoxBirthdays.Items.Add(friend.Name);
+                listBoxBirthdays.Invoke(new Action(() => listBoxBirthdays.Items.Add(friend.Name)));
             }
         }
 
@@ -524,25 +550,22 @@ namespace BasicFacebookFeatures
         }
 
        
-       
-
         private void buttonPost_Click(object sender, EventArgs e)
         {
-            try
-            {
-                sendBirthdayMessage(getThisFriend(listBoxBirthdays.SelectedIndex), comboBoxOptionalMsg.Text);
-            }
-            catch (Exception ex)
-            {
-                return;
-            }
+            SendBirthdayMessageAdaptor(comboBoxOptionalMsg.Text);
         }
 
         private void buttonAddMassage_Click(object sender, EventArgs e)
         {
+            SendBirthdayMessageAdaptor(textBoxAddedMassage.Text);
+        }
+        
+        
+        private void SendBirthdayMessageAdaptor(String i_Message)
+        {
             try
             {
-                sendBirthdayMessage(getThisFriend(listBoxBirthdays.SelectedIndex), textBoxAddedMassage.Text);
+                sendBirthdayMessage(getThisFriend(listBoxBirthdays.SelectedIndex), i_Message);
             }
             catch (Exception ex)
             {
@@ -552,11 +575,11 @@ namespace BasicFacebookFeatures
 
         private User getThisFriend(int i_Index)
         {
-            if (m_friendsWithBirthdays.Count == 0)
+            if (AppManagment.Instance.GetTodayBirthdaysList().Count == 0)
             {
                 return null;
             }
-            return m_friendsWithBirthdays[i_Index];
+            return AppManagment.Instance.GetTodayBirthdaysList()[i_Index];
         }
 
         private void sendBirthdayMessage(User i_Friend, string i_Message)
@@ -568,12 +591,12 @@ namespace BasicFacebookFeatures
 
             try
             {
-                if (m_friendsWithBirthdays.Count == 0)
+                if (AppManagment.Instance.GetTodayBirthdaysList().Count == 0)
                 {
                     MessageBox.Show("No Friend selected");
                     return;
                 }
-                BirthdayManager birthdayManager = new BirthdayManager(m_AppManagment.LoggedInUser);
+                BirthdayManager birthdayManager = new BirthdayManager(AppManagment.Instance.LoggedInUser);
 
                 if (birthdayManager.SendBirthdayMessage(i_Friend, i_Message))
                 {
@@ -595,18 +618,24 @@ namespace BasicFacebookFeatures
         {
             try
             {
-                cachedPhotos.Clear();
-
+                lock (m_CachedPhotos)
+                {
+                    m_CachedPhotos.Clear();
+                }
                 // Fetch all albums and their photos
-                foreach (Album album in m_AppManagment.LoggedInUser.Albums)
+                foreach (Album album in AppManagment.Instance.LoggedInUser.Albums)
                 {
                     if (album.Photos != null)
                     {
-                        cachedPhotos.AddRange(album.Photos);
+                        lock(m_CachedPhotos)
+                        {
+                            m_CachedPhotos.AddRange(album.Photos);
+                        }
+                        
                     }
                 }
 
-                if (cachedPhotos.Count == 0)
+                if (m_CachedPhotos.Count == 0)
                 {
                     MessageBox.Show("No photos available to display.");
                 }
@@ -620,7 +649,7 @@ namespace BasicFacebookFeatures
 
         private void displayRandomPhoto()
         {
-            if (cachedPhotos.Count == 0)
+            if (m_CachedPhotos.Count == 0)
             {
                 MessageBox.Show("No photos available. Please log in and try again.");
                 return;
@@ -629,11 +658,11 @@ namespace BasicFacebookFeatures
             try
             {
                 // Pick a random photo
-                int randomIndex = random.Next(cachedPhotos.Count);
-                Photo randomPhoto = cachedPhotos[randomIndex];
+                int randomIndex = m_Random.Next(m_CachedPhotos.Count);
+                Photo randomPhoto = m_CachedPhotos[randomIndex];
 
                 // Display the photo in the PictureBox
-                pictureBoxSlideshow.LoadAsync(randomPhoto.PictureNormalURL);
+                pictureBoxSlideshow.Invoke(new Action(() => pictureBoxSlideshow.LoadAsync(randomPhoto.PictureNormalURL)));
                 pictureBoxSlideshow.SizeMode = PictureBoxSizeMode.StretchImage;
             }
             catch (Exception ex)
@@ -645,10 +674,10 @@ namespace BasicFacebookFeatures
 
         private void pictureBoxPhotosMemories_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            prefetchPhotos();
+            new Thread(prefetchPhotos).Start();
             displayRandomPhoto(); // Display the first random photo
             // A timer to change the photo every few seconds
-            Timer slideshowTimer = new Timer();
+            System.Windows.Forms.Timer slideshowTimer = new System.Windows.Forms.Timer();
             slideshowTimer.Interval = 5000;
             slideshowTimer.Tick += (s, args) => displayRandomPhoto();
             slideshowTimer.Start();
@@ -657,20 +686,20 @@ namespace BasicFacebookFeatures
         // City statistics methods
         private void FetchCityStats_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            fetchFriendsCityStats();
+            new Thread(fetchFriendsCityStats).Start();
         }
 
         private void fetchFriendsCityStats()
         {
-            ListBoxFriendsCityStats.Items.Clear();
-            ListBoxFriendsCityStats.DisplayMember = "Name";
+            ListBoxFriendsCityStats.Invoke(new Action(() => ListBoxFriendsCityStats.Items.Clear()));
+            ListBoxFriendsCityStats.Invoke(new Action(() => ListBoxFriendsCityStats.DisplayMember = "Name"));
 
             Dictionary<string, int> cityStatistics;
 
             try
             {
                 // Attempt to fetch real city statistics
-                cityStatistics = DistanceCalculator.GetCityStatistics(m_AppManagment.LoggedInUser.Friends.ToList());
+                cityStatistics = AppManagment.Instance.GetCityStatistics(AppManagment.Instance.LoggedInUser.Friends.ToList());
             }
             catch
             {
@@ -678,33 +707,40 @@ namespace BasicFacebookFeatures
                 MessageBox.Show("Using simulated data due to missing permissions.");
             }
 
-            cityStatistics = DistanceCalculator.GetSimulatedCityStatistics();
+            cityStatistics = AppManagment.Instance.GetSimulatedCityStatistics();
             foreach (KeyValuePair<string, int> cityStat in cityStatistics)
             {
-                ListBoxFriendsCityStats.Items.Add($"{cityStat.Key}: {cityStat.Value} friends");
+                ListBoxFriendsCityStats.Invoke(new Action(() => ListBoxFriendsCityStats.Items.Add($"{cityStat.Key}: {cityStat.Value} friends")));
             }
 
-            string topCity = DistanceCalculator.GetCityWithMostFriends(cityStatistics);
-            labelTopCity.Text = $"Top City: {topCity}";
+            string topCity = AppManagment.Instance.GetCityWithMostFriends(cityStatistics);
+            labelTopCity.Invoke(new Action(() =>
+            {
+                labelTopCity.Text = $"Top City: {topCity}";
+            }));
 
-            double averageDistance = DistanceCalculator.CalculateSimulatedAverageDistance();
-            labelAverageDistanceToFriends.Text = $"Average Distance To Friends: {averageDistance:F1} km";
+            labelAverageDistanceToFriends.Invoke(new Action(() =>
+            {
+                double averageDistance = AppManagment.Instance.CalculateSimulatedAverageDistance();
+                labelAverageDistanceToFriends.Text = $"Average Distance To Friends: {averageDistance:F1} km";
+            }));
         }
 
-        private void buttonFindCloseFriends_Click(object sender, EventArgs e)
+
+            private void buttonFindCloseFriends_Click(object sender, EventArgs e)
         {
-            displayNearbyFriends();
+            new Thread(displayNearbyFriends).Start();
         }
 
         private void displayNearbyFriends()
         {
-            if (m_AppManagment.LoggedInUser == null)
+            if (AppManagment.Instance.LoggedInUser == null)
             {
                 MessageBox.Show("Please log in to view nearby friends.");
                 return;
             }
-
-            DistanceCalculator.eCity? userCity = DistanceCalculator.ConvertToECity(m_AppManagment.LoggedInUser.Hometown);
+            //consult with joel
+            DistanceCalculator.eCity? userCity = AppManagment.Instance.ConvertToeCity(AppManagment.Instance.LoggedInUser.Hometown);
 
             if (!userCity.HasValue)
             {
@@ -712,18 +748,18 @@ namespace BasicFacebookFeatures
                 return;
             }
 
-            List<User> closeFriends = DistanceCalculator.GetCloseFriends(
-                m_AppManagment.LoggedInUser.Friends.ToList(),
+            List<User> closeFriends = AppManagment.Instance.GetCloseFriends(
+                AppManagment.Instance.LoggedInUser.Friends.ToList(),
                 userCity.Value
             );
 
             if (closeFriends.Count > 0)
             {
                 MessageBox.Show($"You have {closeFriends.Count} close friends nearby!");
-                listBoxCloseFriends.Items.Clear();
+                listBoxCloseFriends.Invoke(new Action(() => listBoxCloseFriends.Items.Clear()));
                 foreach (User friend in closeFriends)
                 {
-                    listBoxCloseFriends.Items.Add(friend.Name);
+                    listBoxCloseFriends.Invoke(new Action(() => listBoxCloseFriends.Items.Add(friend.Name)));
                 }
             }
             else
@@ -732,10 +768,18 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void listBoxCloseFriends_SelectedIndexChanged(object sender, EventArgs e)
+        private void buttonAlbumDetails_Click(object sender, EventArgs e)
         {
-            displayPicture(pictureBoxCloseFriend, listBoxCloseFriends);
+            this.Invoke(new Action(() => {
+                if (AppManagment.Instance.ChosenAlbum != null)
+                {
+                    FacebookFormFactory.CreateForm("AlbumDetailsForm").ShowDialog();
+                }
+            }));
         }
+
+
+
     }
 }
 
