@@ -43,6 +43,7 @@
     <Compile Include="BirthdayManager.cs" />
     <Compile Include="DistanceCalculator.cs" />
     <Compile Include="GenderStatsCalculator.cs" />
+    <Compile Include="Observers\IObserver.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Facebook">

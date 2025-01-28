@@ -14,20 +14,55 @@ using FBAppLogic;
 using System.Threading;
 using System.Diagnostics.Eventing.Reader;
 using System.Deployment.Application;
-
+using FBLogic.Observers;
 
 namespace BasicFacebookFeatures
 {
-    public partial class FormMain : Form
+    public partial class FormMain : Form, IObserver
     {
         public FormMain()
         {
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
-            displayUserInfoWhenLogin();
+            AppManagment.Instance.Attach(this); // Attach as an observer
         }
-        
-        
+
+        public new void Update()
+        {
+            new Thread(() =>
+            {
+                if (AppManagment.Instance.LoggedInUser != null)
+                {
+                    Invoke(new Action(() =>
+                    {
+                        displayUserInfoWhenLogin();
+                        displaySelectedAlbums();
+                        displayPosts();
+                        displayFriends();
+                        fetchLikedPages();
+                        displayEvents();
+                        fetchUsersGroups();
+                        fetchAndDisplayBirthdays();
+                        fetchFriendsCityStats();
+                        displayGenderStats();
+                    }));
+                }
+                else
+                {
+                    Invoke(new Action(eraseWhenLogOut));
+                }
+            }).Start();
+        }
+
+
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            AppManagment.Instance.Detach(this); // Detach as an observer
+            base.OnFormClosed(e);
+        }
+
+
         private List<Photo> m_CachedPhotos = new List<Photo>();
         private Random m_Random = new Random();
         public Album m_ChosenAlbum= null;
@@ -48,27 +83,34 @@ namespace BasicFacebookFeatures
 
         private void displayUserInfoWhenLogin()
         {
-            if (string.IsNullOrEmpty(AppManagment.Instance.LoginResult.ErrorMessage))
+            Invoke(new Action(() =>
             {
-                buttonLogin.Text = $"Logged in as {AppManagment.Instance.LoginResult.LoggedInUser.Name}";
-                buttonLogin.BackColor = Color.LightGreen;
-                buttonLogout.BackColor = Color.Red;
-                pictureBoxProfile.ImageLocation = AppManagment.Instance.LoginResult.LoggedInUser.PictureNormalURL;
-                buttonLogin.Enabled = false;
-                buttonLogout.Enabled = true;
-                displayUserInfo();
-            }
+                if (string.IsNullOrEmpty(AppManagment.Instance.LoginResult.ErrorMessage))
+                {
+                    buttonLogin.Text = $"Logged in as {AppManagment.Instance.LoginResult.LoggedInUser.Name}";
+                    buttonLogin.BackColor = Color.LightGreen;
+                    buttonLogout.BackColor = Color.Red;
+                    pictureBoxProfile.ImageLocation = AppManagment.Instance.LoginResult.LoggedInUser.PictureNormalURL;
+                    buttonLogin.Enabled = false;
+                    buttonLogout.Enabled = true;
+                    displayUserInfo();
+                }
+            }));
         }
+
 
         private void displayUserInfo()
         {
-            labelUserName.Text = AppManagment.Instance.LoginResult.LoggedInUser.Name;
-            labelBirthday.Text = AppManagment.Instance.LoggedInUser.Birthday;
-            labelCity.Text = AppManagment.Instance.LoggedInUser.Hometown?.Name;
-            labelEmail.Text = AppManagment.Instance.LoggedInUser.Email;
-            linkNumOfFriends.Text = AppManagment.Instance.LoggedInUser.Friends.Count.ToString() + " (click to see them)";
-
+            Invoke(new Action(() =>
+            {
+                labelUserName.Text = AppManagment.Instance.LoggedInUser.Name;
+                labelBirthday.Text = AppManagment.Instance.LoggedInUser.Birthday;
+                labelCity.Text = AppManagment.Instance.LoggedInUser.Hometown?.Name ?? "N/A";
+                labelEmail.Text = AppManagment.Instance.LoggedInUser.Email;
+                linkNumOfFriends.Text = $"{AppManagment.Instance.LoggedInUser.Friends.Count} (click to see them)";
+            }));
         }
+
 
         private void buttonLogout_Click(object sender, EventArgs e)
         {
@@ -79,39 +121,42 @@ namespace BasicFacebookFeatures
 
         private void eraseWhenLogOut()
         {
-            buttonLogin.Text = "Login";
-            buttonLogin.BackColor = buttonCalculateStats.BackColor;
-            buttonLogout.BackColor = buttonCalculateStats.BackColor;
-            buttonLogin.Enabled = true;
-            buttonLogout.Enabled = false;
-            AppManagment.Instance.LoginResult = null;
-            AppManagment.Instance.LoggedInUser = null;
-            pictureBoxProfile.Image = null;
-            listBoxPosts.Items.Clear();
-            listBoxPostComments.Items.Clear();
-            ListBoxAlbums.Items.Clear();
-            ListBoxLikes.Items.Clear();
-            ListBoxEvents.Items.Clear();
-            ListBoxGroups.Items.Clear();
-            listBoxFriends.Items.Clear();
-            ListBoxFriendsCityStats.Items.Clear();
-            pictureBoxCloseFriend.Image = null;
-            pictureBoxFriends.Image = null;
-            pictureBoxAlbum.Image = null;
-            pictureBoxEvents.Image = null;
-            pictureBoxGroups.Image = null;
-            pictureBoxLikes.Image = null;
-            labelMaleCounter.Text = "";
-            labelFemaleCounter.Text = "";
-            labelAvgMales.Text = "";
-            labelAvgFemales.Text = "";
-            labelUserName.Text = "";
-            labelBirthday.Text = "";
-            labelCity.Text = "";
-            labelEmail.Text = "";
-            labelUserName.Text = "";
-            linkNumOfFriends.Text = "0";
+            Invoke(new Action(() =>
+            {
+                buttonLogin.Text = "Login";
+                buttonLogin.BackColor = buttonCalculateStats.BackColor;
+                buttonLogout.BackColor = buttonCalculateStats.BackColor;
+                buttonLogin.Enabled = true;
+                buttonLogout.Enabled = false;
+                AppManagment.Instance.LoginResult = null;
+                AppManagment.Instance.LoggedInUser = null;
+                pictureBoxProfile.Image = null;
+                pictureBoxCloseFriend.Image = null;
+                pictureBoxFriends.Image = null;
+                pictureBoxAlbum.Image = null;
+                pictureBoxEvents.Image = null;
+                pictureBoxGroups.Image = null;
+                pictureBoxLikes.Image = null;
+                listBoxPosts.Items.Clear();
+                listBoxPostComments.Items.Clear();
+                ListBoxAlbums.Items.Clear();
+                ListBoxLikes.Items.Clear();
+                ListBoxEvents.Items.Clear();
+                ListBoxGroups.Items.Clear();
+                listBoxFriends.Items.Clear();
+                ListBoxFriendsCityStats.Items.Clear();
+                labelMaleCounter.Text = "";
+                labelFemaleCounter.Text = "";
+                labelAvgMales.Text = "";
+                labelAvgFemales.Text = "";
+                labelUserName.Text = "";
+                labelBirthday.Text = "";
+                labelCity.Text = "";
+                labelEmail.Text = "";
+                linkNumOfFriends.Text = "0";
+            }));
         }
+
 
         // Album methods
         private void linkAlbums_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -130,19 +175,22 @@ namespace BasicFacebookFeatures
 
         private void displaySelectedAlbums()
         {
-    
-             ListBoxAlbums.Items.Clear();
-             ListBoxAlbums.Invoke(new Action(() => ListBoxAlbums.DisplayMember = "Name"));
-             foreach (Album album in AppManagment.Instance.LoggedInUser.Albums)
-                      {
-                          ListBoxAlbums.Invoke(new Action(() => ListBoxAlbums.Items.Add(album)));
-                     }
-            
-            if (AppManagment.Instance.LoggedInUser.Albums.Count == 0)
+            Invoke(new Action(() =>
             {
-                ListBoxAlbums.Invoke(new Action(() => ListBoxAlbums.Items.Add("no albums to show")));
-            }
+                ListBoxAlbums.Items.Clear();
+                ListBoxAlbums.DisplayMember = "Name";
+                foreach (Album album in AppManagment.Instance.LoggedInUser.Albums)
+                {
+                    ListBoxAlbums.Items.Add(album);
+                }
+
+                if (AppManagment.Instance.LoggedInUser.Albums.Count == 0)
+                {
+                    ListBoxAlbums.Items.Add("no albums to show");
+                }
+            }));
         }
+
 
         private void listBoxAlbums_SelectedIndexChanged(object sender, EventArgs e)
         {

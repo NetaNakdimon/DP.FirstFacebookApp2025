@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
+using FBLogic.Observers;
 
 namespace FBAppLogic
 {
-
     public sealed class AppManagment
     {
-        private LoginResult m_LoginResult; 
-        private User m_LoggedInUser; 
+        private LoginResult m_LoginResult;
+        private User m_LoggedInUser;
         private static AppManagment m_AppManagmentInstance = null;
         private static object s_LockObj = new Object();
         private static object s_LockObj2 = new Object();
@@ -22,7 +19,7 @@ namespace FBAppLogic
         private GenderStatsCalculator m_GenderStatsCalculator;
         private DistanceCalculator m_DistanceCalculator;
         private Album m_ChosenAlbum = null;
-
+        private readonly List<IObserver> m_Observers = new List<IObserver>();
 
         private AppManagment() { }
 
@@ -37,7 +34,6 @@ namespace FBAppLogic
                         if (m_AppManagmentInstance == null)
                         {
                             m_AppManagmentInstance = new AppManagment();
-
                         }
                     }
                 }
@@ -45,28 +41,45 @@ namespace FBAppLogic
             }
         }
 
-
         public LoginResult LoginResult
         {
-            get
-            {
-                return m_LoginResult;
-            }
+            get { return m_LoginResult; }
             set
             {
                 m_LoginResult = value;
+                NotifyObservers(); 
             }
         }
 
         public User LoggedInUser
         {
-            get
-            {
-                return m_LoggedInUser;
-            }
+            get { return m_LoggedInUser; }
             set
             {
                 m_LoggedInUser = value;
+                NotifyObservers(); 
+            }
+        }
+
+        // Observer methods
+        public void Attach(IObserver observer)
+        {
+            if (!m_Observers.Contains(observer))
+            {
+                m_Observers.Add(observer);
+            }
+        }
+
+        public void Detach(IObserver observer)
+        {
+            m_Observers.Remove(observer);
+        }
+
+        private void NotifyObservers()
+        {
+            foreach (IObserver observer in m_Observers)
+            {
+                observer.Update();
             }
         }
 
@@ -102,7 +115,7 @@ namespace FBAppLogic
         {
             FacebookService.LogoutWithUI(); // Logs out the user using Facebook's UI
             deactivateSubSystmes();
-            m_LoggedInUser = null;
+            m_LoggedInUser = null; // Automatically notifies observers
             m_LoginResult = null;
         }
 
@@ -145,6 +158,7 @@ namespace FBAppLogic
                 m_BirthdayManager = new BirthdayManager(m_LoggedInUser);
                 m_GenderStatsCalculator = new GenderStatsCalculator();
                 m_DistanceCalculator = new DistanceCalculator();
+                NotifyObservers(); 
             }
             else
             {
@@ -157,11 +171,13 @@ namespace FBAppLogic
             m_BirthdayManager = null;
             m_GenderStatsCalculator = null;
             m_DistanceCalculator = null;
+            NotifyObservers(); 
         }
 
         public void CalculateGenderStats()
         {
             m_GenderStatsCalculator.CalculateGenderStats();
+            NotifyObservers(); 
         }
 
         public String GetMalesCountAsString()
@@ -183,14 +199,19 @@ namespace FBAppLogic
         {
             return m_GenderStatsCalculator.FemaleAgeAvg().ToString();
         }
-        public Dictionary<string, int> GetCityStatistics(List <User> i_Friends)
+
+        public Dictionary<string, int> GetCityStatistics(List<User> i_Friends)
         {
-           return m_DistanceCalculator.GetCityStatistics(i_Friends);
+            Dictionary<string, int> cityStatistics = m_DistanceCalculator.GetCityStatistics(i_Friends);
+            NotifyObservers(); 
+            return cityStatistics;
         }
 
         public Dictionary<string, int> GetSimulatedCityStatistics()
         {
-            return m_DistanceCalculator.GetSimulatedCityStatistics();
+            Dictionary<string, int> simulatedStats = m_DistanceCalculator.GetSimulatedCityStatistics();
+            NotifyObservers(); 
+            return simulatedStats;
         }
 
         public string GetCityWithMostFriends(Dictionary<string, int> i_CityStatistics)
@@ -200,7 +221,9 @@ namespace FBAppLogic
 
         public double CalculateSimulatedAverageDistance()
         {
-            return m_DistanceCalculator.CalculateSimulatedAverageDistance();
+            double averageDistance = m_DistanceCalculator.CalculateSimulatedAverageDistance();
+            NotifyObservers(); 
+            return averageDistance;
         }
 
         public DistanceCalculator.eCity? ConvertToeCity(City i_City)
@@ -210,8 +233,11 @@ namespace FBAppLogic
 
         public List<User> GetCloseFriends(List<User> i_FriendsList, DistanceCalculator.eCity i_UserCity)
         {
-            return m_DistanceCalculator.GetCloseFriends(i_FriendsList, i_UserCity);
+            List<User> closeFriends = m_DistanceCalculator.GetCloseFriends(i_FriendsList, i_UserCity);
+            NotifyObservers(); 
+            return closeFriends;
         }
+
         public List<User> GetTodayBirthdaysList()
         {
             if (m_FriendsWithBirthdaysToday == null)
@@ -221,6 +247,7 @@ namespace FBAppLogic
                     if (m_FriendsWithBirthdaysToday == null)
                     {
                         m_FriendsWithBirthdaysToday = m_BirthdayManager.GetTodayBirthdays();
+                        NotifyObservers(); 
                     }
                 }
             }
@@ -234,16 +261,11 @@ namespace FBAppLogic
 
         public Album ChosenAlbum
         {
-            get
-            {
-                return m_ChosenAlbum;
-            }
+            get { return m_ChosenAlbum; }
             set
             {
                 m_ChosenAlbum = value;
             }
         }
-
     }
 }
-
