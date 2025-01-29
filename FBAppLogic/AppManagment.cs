@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
-using FBLogic.Observers;
+using System.Threading.Tasks;
 
 namespace FBAppLogic
 {
@@ -19,7 +19,8 @@ namespace FBAppLogic
         private GenderStatsCalculator m_GenderStatsCalculator;
         private DistanceCalculator m_DistanceCalculator;
         private Album m_ChosenAlbum = null;
-        private readonly List<IObserver> m_Observers = new List<IObserver>();
+        // Action delegate to notify observers
+        public Action<User> OnLoggedInUserChanged { get; set; }
 
         private AppManagment() { }
 
@@ -47,40 +48,25 @@ namespace FBAppLogic
             set
             {
                 m_LoginResult = value;
-                NotifyObservers(); 
             }
         }
 
         public User LoggedInUser
         {
-            get { return m_LoggedInUser; }
+            get => m_LoggedInUser;
             set
             {
-                m_LoggedInUser = value;
-                NotifyObservers(); 
+                if (m_LoggedInUser != value)
+                {
+                    m_LoggedInUser = value;
+                    NotifyObservers();
+                }
             }
-        }
-
-        // Observer methods
-        public void Attach(IObserver observer)
-        {
-            if (!m_Observers.Contains(observer))
-            {
-                m_Observers.Add(observer);
-            }
-        }
-
-        public void Detach(IObserver observer)
-        {
-            m_Observers.Remove(observer);
         }
 
         private void NotifyObservers()
         {
-            foreach (IObserver observer in m_Observers)
-            {
-                observer.Update();
-            }
+            OnLoggedInUserChanged?.Invoke(m_LoggedInUser);
         }
 
         public void Login()
@@ -103,11 +89,11 @@ namespace FBAppLogic
                 "user_photos",
                 "user_posts"
             );
-
             if (m_LoginResult.AccessToken != null && string.IsNullOrEmpty(m_LoginResult.ErrorMessage))
             {
                 m_LoggedInUser = m_LoginResult.LoggedInUser; // Set the logged-in user if login is successful
                 activateSubSystmes();
+
             }
         }
 
@@ -158,7 +144,6 @@ namespace FBAppLogic
                 m_BirthdayManager = new BirthdayManager(m_LoggedInUser);
                 m_GenderStatsCalculator = new GenderStatsCalculator();
                 m_DistanceCalculator = new DistanceCalculator();
-                NotifyObservers(); 
             }
             else
             {
@@ -171,13 +156,11 @@ namespace FBAppLogic
             m_BirthdayManager = null;
             m_GenderStatsCalculator = null;
             m_DistanceCalculator = null;
-            NotifyObservers(); 
         }
 
         public void CalculateGenderStats()
         {
             m_GenderStatsCalculator.CalculateGenderStats();
-            NotifyObservers(); 
         }
 
         public String GetMalesCountAsString()
@@ -203,14 +186,12 @@ namespace FBAppLogic
         public Dictionary<string, int> GetCityStatistics(List<User> i_Friends)
         {
             Dictionary<string, int> cityStatistics = m_DistanceCalculator.GetCityStatistics(i_Friends);
-            NotifyObservers(); 
             return cityStatistics;
         }
 
         public Dictionary<string, int> GetSimulatedCityStatistics()
         {
             Dictionary<string, int> simulatedStats = m_DistanceCalculator.GetSimulatedCityStatistics();
-            NotifyObservers(); 
             return simulatedStats;
         }
 
@@ -222,7 +203,6 @@ namespace FBAppLogic
         public double CalculateSimulatedAverageDistance()
         {
             double averageDistance = m_DistanceCalculator.CalculateSimulatedAverageDistance();
-            NotifyObservers(); 
             return averageDistance;
         }
 
@@ -234,7 +214,6 @@ namespace FBAppLogic
         public List<User> GetCloseFriends(List<User> i_FriendsList, DistanceCalculator.eCity i_UserCity)
         {
             List<User> closeFriends = m_DistanceCalculator.GetCloseFriends(i_FriendsList, i_UserCity);
-            NotifyObservers(); 
             return closeFriends;
         }
 
@@ -247,7 +226,6 @@ namespace FBAppLogic
                     if (m_FriendsWithBirthdaysToday == null)
                     {
                         m_FriendsWithBirthdaysToday = m_BirthdayManager.GetTodayBirthdays();
-                        NotifyObservers(); 
                     }
                 }
             }

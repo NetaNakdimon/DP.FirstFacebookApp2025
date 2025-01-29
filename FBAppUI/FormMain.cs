@@ -14,54 +14,46 @@ using FBAppLogic;
 using System.Threading;
 using System.Diagnostics.Eventing.Reader;
 using System.Deployment.Application;
-using FBLogic.Observers;
 
 namespace BasicFacebookFeatures
 {
-    public partial class FormMain : Form, IObserver
+    public partial class FormMain : Form
     {
         public FormMain()
         {
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
-            AppManagment.Instance.Attach(this); // Attach as an observer
+            AppManagment.Instance.OnLoggedInUserChanged += handleLoggedInUserChanged;
         }
 
-        public new void Update()
+        private void handleLoggedInUserChanged(User loggedInUser)
         {
-            new Thread(() =>
+            if (loggedInUser != null)
             {
-                if (AppManagment.Instance.LoggedInUser != null)
+                Invoke(new Action(() =>
                 {
-                    Invoke(new Action(() =>
-                    {
-                        displayUserInfoWhenLogin();
-                        displaySelectedAlbums();
-                        displayPosts();
-                        displayFriends();
-                        fetchLikedPages();
-                        displayEvents();
-                        fetchUsersGroups();
-                        fetchAndDisplayBirthdays();
-                        fetchFriendsCityStats();
-                        displayGenderStats();
-                    }));
-                }
-                else
-                {
-                    Invoke(new Action(eraseWhenLogOut));
-                }
-            }).Start();
+                    displayUserInfoWhenLogin();
+                    displaySelectedAlbums();
+                    displayPosts();
+                    displayFriends();
+                    fetchLikedPages();
+                    displayEvents();
+                    fetchAndDisplayBirthdays();
+                    fetchFriendsCityStats();
+                    displayGenderStats(); ;
+                }));
+            }
+            else
+            {
+                Invoke(new Action(eraseWhenLogOut));
+            }
         }
-
-
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            AppManagment.Instance.Detach(this); // Detach as an observer
+            AppManagment.Instance.OnLoggedInUserChanged -= handleLoggedInUserChanged;
             base.OnFormClosed(e);
         }
-
 
         private List<Photo> m_CachedPhotos = new List<Photo>();
         private Random m_Random = new Random();
@@ -73,13 +65,15 @@ namespace BasicFacebookFeatures
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             Clipboard.SetText("design.patterns");
-            if (AppManagment.Instance.LoginResult == null)
-            {
-                new Thread(() => AppManagment.Instance.Login()).Start();
-                displayUserInfoWhenLogin();
-            }
 
+            // Start login process
+            new Thread(() =>
+            {
+                AppManagment.Instance.Login();
+
+            }).Start();
         }
+
 
         private void displayUserInfoWhenLogin()
         {
