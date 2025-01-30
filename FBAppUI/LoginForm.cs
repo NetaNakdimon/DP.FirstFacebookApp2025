@@ -15,29 +15,34 @@ namespace BasicFacebookFeatures
 {
     public partial class LoginForm : Form
     {
-        
+        public event EventHandler LoggedInSuccessfully;
 
         public LoginForm()
         {
             InitializeComponent();
-            
-
         }
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-           
-            while (AppManagment.Instance.LoggedInUser == null) 
+            // Subscribe to UserLoggedIn before calling Login()
+            AppManagment.Instance.UserLoggedIn += (s, args) =>
             {
-                AppManagment.Instance.Login(); 
+                Console.WriteLine("UserLoggedIn event triggered! Now creating FormMain...");
+
+                // Open the main application form upon successful login
+                this.Hide();
+                FacebookFormFactory.CreateForm("MainForm").ShowDialog();
+                this.Close();
+            };
+
+            while (AppManagment.Instance.LoggedInUser == null)
+            {
+                AppManagment.Instance.Login();
 
                 if (AppManagment.Instance.LoggedInUser != null)
                 {
-                    // Open the main application form upon successful login
-                    
-                    this.Hide(); 
-                    FacebookFormFactory.CreateForm("MainForm").ShowDialog(); 
-                    this.Close(); 
+                    LoggedInSuccessfully?.Invoke(this, EventArgs.Empty);
+                    break; // Exit loop since login succeeded
                 }
                 else
                 {
@@ -50,7 +55,7 @@ namespace BasicFacebookFeatures
 
                     if (result == DialogResult.No)
                     {
-                        this.Close(); 
+                        this.Close();
                         break;
                     }
                 }

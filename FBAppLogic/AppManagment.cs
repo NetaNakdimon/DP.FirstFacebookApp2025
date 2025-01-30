@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
-using System.Threading.Tasks;
 
 namespace FBAppLogic
 {
+
     public sealed class AppManagment
     {
         private LoginResult m_LoginResult;
@@ -19,8 +22,9 @@ namespace FBAppLogic
         private GenderStatsCalculator m_GenderStatsCalculator;
         private DistanceCalculator m_DistanceCalculator;
         private Album m_ChosenAlbum = null;
-        // Action delegate to notify observers
-        public Action<User> OnLoggedInUserChanged { get; set; }
+        public event EventHandler UserLoggedIn;
+        public event EventHandler UserLoggedOut;
+
 
         private AppManagment() { }
 
@@ -35,6 +39,7 @@ namespace FBAppLogic
                         if (m_AppManagmentInstance == null)
                         {
                             m_AppManagmentInstance = new AppManagment();
+
                         }
                     }
                 }
@@ -42,9 +47,13 @@ namespace FBAppLogic
             }
         }
 
+
         public LoginResult LoginResult
         {
-            get { return m_LoginResult; }
+            get
+            {
+                return m_LoginResult;
+            }
             set
             {
                 m_LoginResult = value;
@@ -53,20 +62,27 @@ namespace FBAppLogic
 
         public User LoggedInUser
         {
-            get => m_LoggedInUser;
+            get
+            {
+                return m_LoggedInUser;
+            }
             set
             {
-                if (m_LoggedInUser != value)
-                {
-                    m_LoggedInUser = value;
-                    NotifyObservers();
-                }
+                m_LoggedInUser = value;
             }
         }
 
-        private void NotifyObservers()
+        // Observer methods
+        public void OnUserLoggedIn()
         {
-            OnLoggedInUserChanged?.Invoke(m_LoggedInUser);
+                Console.WriteLine($"UserLoggedIn event has {UserLoggedIn?.GetInvocationList().Length ?? 0} subscribers.");
+                UserLoggedIn?.Invoke(this, EventArgs.Empty);
+            }
+
+
+        public void OnUserLoggedOut()
+        {
+            UserLoggedOut?.Invoke(this, EventArgs.Empty);
         }
 
         public void Login()
@@ -89,10 +105,12 @@ namespace FBAppLogic
                 "user_photos",
                 "user_posts"
             );
+
             if (m_LoginResult.AccessToken != null && string.IsNullOrEmpty(m_LoginResult.ErrorMessage))
             {
                 m_LoggedInUser = m_LoginResult.LoggedInUser; // Set the logged-in user if login is successful
                 activateSubSystmes();
+                OnUserLoggedIn();
 
             }
         }
@@ -101,8 +119,9 @@ namespace FBAppLogic
         {
             FacebookService.LogoutWithUI(); // Logs out the user using Facebook's UI
             deactivateSubSystmes();
-            m_LoggedInUser = null; // Automatically notifies observers
+            m_LoggedInUser = null;
             m_LoginResult = null;
+            OnUserLoggedOut();
         }
 
         public T GetSubsystem<T>() where T : class
@@ -182,17 +201,14 @@ namespace FBAppLogic
         {
             return m_GenderStatsCalculator.FemaleAgeAvg().ToString();
         }
-
         public Dictionary<string, int> GetCityStatistics(List<User> i_Friends)
         {
-            Dictionary<string, int> cityStatistics = m_DistanceCalculator.GetCityStatistics(i_Friends);
-            return cityStatistics;
+            return m_DistanceCalculator.GetCityStatistics(i_Friends);
         }
 
         public Dictionary<string, int> GetSimulatedCityStatistics()
         {
-            Dictionary<string, int> simulatedStats = m_DistanceCalculator.GetSimulatedCityStatistics();
-            return simulatedStats;
+            return m_DistanceCalculator.GetSimulatedCityStatistics();
         }
 
         public string GetCityWithMostFriends(Dictionary<string, int> i_CityStatistics)
@@ -202,8 +218,7 @@ namespace FBAppLogic
 
         public double CalculateSimulatedAverageDistance()
         {
-            double averageDistance = m_DistanceCalculator.CalculateSimulatedAverageDistance();
-            return averageDistance;
+            return m_DistanceCalculator.CalculateSimulatedAverageDistance();
         }
 
         public DistanceCalculator.eCity? ConvertToeCity(City i_City)
@@ -213,10 +228,8 @@ namespace FBAppLogic
 
         public List<User> GetCloseFriends(List<User> i_FriendsList, DistanceCalculator.eCity i_UserCity)
         {
-            List<User> closeFriends = m_DistanceCalculator.GetCloseFriends(i_FriendsList, i_UserCity);
-            return closeFriends;
+            return m_DistanceCalculator.GetCloseFriends(i_FriendsList, i_UserCity);
         }
-
         public List<User> GetTodayBirthdaysList()
         {
             if (m_FriendsWithBirthdaysToday == null)
@@ -239,11 +252,16 @@ namespace FBAppLogic
 
         public Album ChosenAlbum
         {
-            get { return m_ChosenAlbum; }
+            get
+            {
+                return m_ChosenAlbum;
+            }
             set
             {
                 m_ChosenAlbum = value;
             }
         }
+
     }
 }
+
