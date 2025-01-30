@@ -14,6 +14,7 @@ using FBAppLogic;
 using System.Threading;
 using System.Diagnostics.Eventing.Reader;
 using System.Deployment.Application;
+using FBLogic;
 
 
 namespace BasicFacebookFeatures
@@ -181,7 +182,7 @@ namespace BasicFacebookFeatures
         {
             if (AppManagment.Instance.LoggedInUser != null)
             {
-                new Thread(displayPosts).Start();
+                new Thread(() => displayPosts(false)).Start();
             }
             else
             {
@@ -190,36 +191,47 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void displayPosts()
+        private void comboBoxFetchPosts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bool isReverse = false;
+
+            if (comboBoxFetchPosts.SelectedIndex == 1)
+            {      
+                 isReverse = true;           
+            }
+
+            new Thread(() => displayPosts(isReverse)).Start();
+        }
+
+
+        private void displayPosts(bool i_IsReverse)
         {
             listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Clear()));
 
-
-            foreach (Post post in AppManagment.Instance.LoggedInUser.Posts)
+            if (AppManagment.Instance.LoggedInUser == null)
             {
-                if (post.Message != null)
-                {
-                    listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Add(post.Message)));
-                }
-
-                else if (post.Caption != null)
-                {
-                    listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Add(post.Caption)));
-                }
-
-                else
-                {
-                    listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Add(string.Format("[{0}]", post.Type))));
-                }
+                MessageBox.Show("Please log in to fetch posts.");
+                return;
             }
 
-            if (AppManagment.Instance.LoggedInUser.Posts.Count == 0)
+            // Create PostCollection & Iterator with sorting order
+            PostCollection postCollection = new PostCollection(AppManagment.Instance.LoggedInUser.Posts.ToList());
+            IPostIterator iterator = postCollection.CreateIterator(i_IsReverse);
+
+            while (iterator.HasNext())
             {
-                listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Add("no posts to show")));
+                Post post = iterator.GetNext();
+                string postText = post.Message ?? post.Caption ?? $"[{post.Type}]"; 
+
+                listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Add(postText)));
             }
 
-
+            if (listBoxPosts.Items.Count == 0)
+            {
+                listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Add("No posts to show.")));
+            }
         }
+
 
         private void listBoxPosts_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -828,7 +840,7 @@ namespace BasicFacebookFeatures
             }));
         }
 
-    
+   
     }
 }
 

@@ -98,6 +98,7 @@ namespace BasicFacebookFeatures
             this.listBoxBirthdays = new System.Windows.Forms.ListBox();
             this.labelTodayIs = new System.Windows.Forms.Label();
             this.labelCloseFriend = new System.Windows.Forms.Label();
+            this.comboBoxFetchPosts = new System.Windows.Forms.ComboBox();
             this.tabControlOurFeatures.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSlideshow)).BeginInit();
@@ -154,6 +155,7 @@ namespace BasicFacebookFeatures
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.tabPage1.Controls.Add(this.comboBoxFetchPosts);
             this.tabPage1.Controls.Add(this.comboBoxFriendsFilter);
             this.tabPage1.Controls.Add(this.buttonAlbumdetails);
             this.tabPage1.Controls.Add(this.linklabelPhotosMemories);
@@ -366,13 +368,13 @@ namespace BasicFacebookFeatures
             this.FetchPosts.AutoSize = true;
             this.FetchPosts.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Bold);
             this.FetchPosts.LinkArea = new System.Windows.Forms.LinkArea(0, 13);
-            this.FetchPosts.Location = new System.Drawing.Point(285, 21);
+            this.FetchPosts.Location = new System.Drawing.Point(285, 16);
             this.FetchPosts.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.FetchPosts.Name = "FetchPosts";
-            this.FetchPosts.Size = new System.Drawing.Size(751, 115);
+            this.FetchPosts.Size = new System.Drawing.Size(231, 62);
             this.FetchPosts.TabIndex = 70;
             this.FetchPosts.TabStop = true;
-            this.FetchPosts.Text = "Fetch Posts\r\n(Click on a post to view its comments)";
+            this.FetchPosts.Text = "Fetch Posts\r";
             this.FetchPosts.UseCompatibleTextRendering = true;
             this.FetchPosts.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.FetchPosts_LinkClicked);
             // 
@@ -912,6 +914,19 @@ namespace BasicFacebookFeatures
             this.labelCloseFriend.TabIndex = 14;
             this.labelCloseFriend.Text = "Close Friend Image";
             // 
+            // comboBoxFetchPosts
+            // 
+            this.comboBoxFetchPosts.FormattingEnabled = true;
+            this.comboBoxFetchPosts.Items.AddRange(new object[] {
+            "Newest first",
+            "Oldest first"});
+            this.comboBoxFetchPosts.Location = new System.Drawing.Point(523, 35);
+            this.comboBoxFetchPosts.Name = "comboBoxFetchPosts";
+            this.comboBoxFetchPosts.Size = new System.Drawing.Size(193, 34);
+            this.comboBoxFetchPosts.TabIndex = 90;
+            this.comboBoxFetchPosts.Text = "Newest first";
+            this.comboBoxFetchPosts.SelectedIndexChanged += new System.EventHandler(this.comboBoxFetchPosts_SelectedIndexChanged);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 26F);
@@ -1016,6 +1031,7 @@ namespace BasicFacebookFeatures
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button buttonAlbumdetails;
         private System.Windows.Forms.ComboBox comboBoxFriendsFilter;
+        private System.Windows.Forms.ComboBox comboBoxFetchPosts;
     }
 }
 
