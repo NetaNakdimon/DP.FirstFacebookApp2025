@@ -459,7 +459,8 @@ namespace BasicFacebookFeatures
  
         private void comboBoxFriendsFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Func<User, bool> filterCriteria = friend => true; // Default: Show all friends
+            // Default: Show all friends
+            Func<User, bool> filterCriteria = friend => true; 
 
             switch (comboBoxFriendsFilter.SelectedIndex)
             {

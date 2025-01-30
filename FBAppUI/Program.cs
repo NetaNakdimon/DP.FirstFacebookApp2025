@@ -10,7 +10,7 @@ namespace BasicFacebookFeatures
     {
         /// <summary>
         /// The main entry point for the application.
-        /// Link to the google document of the assignment https://docs.google.com/document/d/1I1W82xH_HAu3nsTIlS-ti2uaXwLtDnTVIX5nFz4bvF8/edit?tab=t.0
+        /// Link to the google document of the assignment https://docs.google.com/document/d/1otwCTDo6YOFDEnK2N5ZzyC4sQ1GZfstuELzrpWovw_s/edit?tab=t.0#heading=h.j4omosrlssh
         /// </summary>
         [STAThread]
         static void Main()
