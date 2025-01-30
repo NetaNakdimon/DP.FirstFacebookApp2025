@@ -239,7 +239,7 @@ namespace BasicFacebookFeatures
 
                 listBoxPostComments.Invoke(new Action(() => listBoxPostComments.Items.Clear()));
                 Post selectedPost = AppManagment.Instance.LoggedInUser.Posts[listBoxPosts.SelectedIndex];
-
+                
                 if (selectedPost.Comments.Count > 0)
                 {
                     foreach (Comment comment in selectedPost.Comments)
@@ -444,9 +444,10 @@ namespace BasicFacebookFeatures
 
         private void linkNumOfFriends_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+
             if (AppManagment.Instance.LoggedInUser != null)
             {
-                new Thread(displayFriends).Start();
+                new Thread(() => displayFriendsFilter(friend => true)).Start();
             }
             else
             {
@@ -455,18 +456,56 @@ namespace BasicFacebookFeatures
             }
         }
 
-        private void displayFriends()
+ 
+        private void comboBoxFriendsFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Func<User, bool> filterCriteria = friend => true; // Default: Show all friends
+
+            switch (comboBoxFriendsFilter.SelectedIndex)
+            {
+                case 1:
+                    filterCriteria = friend => DateTime.TryParse(friend.Birthday, out DateTime birthday) && CalculateAge(birthday) > 10;
+                    break;
+                case 2:
+                    filterCriteria = friend => DateTime.TryParse(friend.Birthday, out DateTime birthday) && CalculateAge(birthday) > 18;
+                    break;
+                case 3:
+                    filterCriteria = friend => DateTime.TryParse(friend.Birthday, out DateTime birthday) && CalculateAge(birthday) > 25;
+                    break;
+                case 4:
+                    filterCriteria = friend => DateTime.TryParse(friend.Birthday, out DateTime birthday) && CalculateAge(birthday) > 50;
+                    break;
+            }
+
+            displayFriendsFilter(filterCriteria);
+        }
+
+        // Helper function to calculate age from Birthday
+        private int CalculateAge(DateTime birthDate)
+        {
+            DateTime now = DateTime.Now;
+            int age = now.Year - birthDate.Year;
+
+            if (now < birthDate.AddYears(age))
+            {
+                age--;
+            }
+
+            return age;
+        }
+
+        private void displayFriendsFilter(Func<User, bool> i_Test)
         {
             listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Clear()));
             listBoxFriends.Invoke(new Action(() => listBoxFriends.DisplayMember = "Name"));
-
-
             foreach (User friend in AppManagment.Instance.LoggedInUser.Friends)
             {
-                listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Add(friend)));
-
+                if (i_Test(friend))
+                {
+                    listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Add(friend)));
+                }
             }
-            if (AppManagment.Instance.LoggedInUser.Friends.Count == 0)
+            if (listBoxFriends.Items.Count == 0)
             {
                 listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Add("No friends to show")));
             }
@@ -788,8 +827,7 @@ namespace BasicFacebookFeatures
             }));
         }
 
-
-
+    
     }
 }
 

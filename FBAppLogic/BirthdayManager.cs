@@ -59,7 +59,7 @@ namespace FBAppLogic
 
             if (DateTime.TryParse(i_Friend.Birthday, out DateTime birthday))
             {
-                return birthday.Month == DateTime.Now.Month && birthday.Day == DateTime.Now.Day; // Check if today is their birthday
+                return birthday.Month == DateTime.Now.Month && birthday.Day == DateTime.Now.Day;
             }
 
             return false; 

@@ -35,6 +35,7 @@ namespace BasicFacebookFeatures
             this.buttonLogout = new System.Windows.Forms.Button();
             this.tabControlOurFeatures = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.comboBoxFriendsFilter = new System.Windows.Forms.ComboBox();
             this.buttonAlbumdetails = new System.Windows.Forms.Button();
             this.linklabelPhotosMemories = new System.Windows.Forms.LinkLabel();
             this.pictureBoxSlideshow = new System.Windows.Forms.PictureBox();
@@ -153,6 +154,7 @@ namespace BasicFacebookFeatures
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.tabPage1.Controls.Add(this.comboBoxFriendsFilter);
             this.tabPage1.Controls.Add(this.buttonAlbumdetails);
             this.tabPage1.Controls.Add(this.linklabelPhotosMemories);
             this.tabPage1.Controls.Add(this.pictureBoxSlideshow);
@@ -191,6 +193,22 @@ namespace BasicFacebookFeatures
             this.tabPage1.Size = new System.Drawing.Size(1238, 741);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Profile";
+            // 
+            // comboBoxFriendsFilter
+            // 
+            this.comboBoxFriendsFilter.FormattingEnabled = true;
+            this.comboBoxFriendsFilter.Items.AddRange(new object[] {
+            "Show All",
+            "Friends over 10",
+            "Friends over 18",
+            "Friends over 25",
+            "Friends over 50"});
+            this.comboBoxFriendsFilter.Location = new System.Drawing.Point(6, 596);
+            this.comboBoxFriendsFilter.Name = "comboBoxFriendsFilter";
+            this.comboBoxFriendsFilter.Size = new System.Drawing.Size(159, 34);
+            this.comboBoxFriendsFilter.TabIndex = 89;
+            this.comboBoxFriendsFilter.Text = "Choose filter";
+            this.comboBoxFriendsFilter.SelectedIndexChanged += new System.EventHandler(this.comboBoxFriendsFilter_SelectedIndexChanged);
             // 
             // buttonAlbumdetails
             // 
@@ -250,7 +268,7 @@ namespace BasicFacebookFeatures
             // linkNumOfFriends
             // 
             this.linkNumOfFriends.AutoSize = true;
-            this.linkNumOfFriends.Location = new System.Drawing.Point(204, 592);
+            this.linkNumOfFriends.Location = new System.Drawing.Point(201, 572);
             this.linkNumOfFriends.Name = "linkNumOfFriends";
             this.linkNumOfFriends.Size = new System.Drawing.Size(24, 26);
             this.linkNumOfFriends.TabIndex = 82;
@@ -261,7 +279,7 @@ namespace BasicFacebookFeatures
             // labelNumOfFriends
             // 
             this.labelNumOfFriends.AutoSize = true;
-            this.labelNumOfFriends.Location = new System.Drawing.Point(3, 592);
+            this.labelNumOfFriends.Location = new System.Drawing.Point(3, 572);
             this.labelNumOfFriends.Name = "labelNumOfFriends";
             this.labelNumOfFriends.Size = new System.Drawing.Size(192, 26);
             this.labelNumOfFriends.TabIndex = 81;
@@ -997,6 +1015,7 @@ namespace BasicFacebookFeatures
         private System.Windows.Forms.Button buttonFindCloseFriends;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button buttonAlbumdetails;
+        private System.Windows.Forms.ComboBox comboBoxFriendsFilter;
     }
 }
 
