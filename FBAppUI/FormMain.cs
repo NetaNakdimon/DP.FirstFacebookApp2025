@@ -204,7 +204,7 @@ namespace BasicFacebookFeatures
         }
 
 
-        private void displayPosts(bool i_IsReverse)
+        private void displayPosts(bool isReverse)
         {
             listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Clear()));
 
@@ -216,7 +216,7 @@ namespace BasicFacebookFeatures
 
             // Create PostCollection & Iterator with sorting order
             PostCollection postCollection = new PostCollection(AppManagment.Instance.LoggedInUser.Posts.ToList());
-            IPostIterator iterator = postCollection.CreateIterator(i_IsReverse);
+            IPostIterator iterator = postCollection.CreateIterator(isReverse);
 
             while (iterator.HasNext())
             {
@@ -459,7 +459,7 @@ namespace BasicFacebookFeatures
 
             if (AppManagment.Instance.LoggedInUser != null)
             {
-                new Thread(() => displayFriendsFilter(friend => true)).Start();
+                new Thread(() => displayFriendsFilter(new FriendsFilterStrategy())).Start();
             }
             else
             {
@@ -472,48 +472,35 @@ namespace BasicFacebookFeatures
         private void comboBoxFriendsFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Default: Show all friends
-            Func<User, bool> filterCriteria = friend => true; 
+            FriendsFilterStrategy filterStrategy = new FriendsFilterStrategy();
 
             switch (comboBoxFriendsFilter.SelectedIndex)
             {
                 case 1:
-                    filterCriteria = friend => DateTime.TryParse(friend.Birthday, out DateTime birthday) && CalculateAge(birthday) > 10;
+                    filterStrategy = new Over10FilterStrategy();
                     break;
                 case 2:
-                    filterCriteria = friend => DateTime.TryParse(friend.Birthday, out DateTime birthday) && CalculateAge(birthday) > 18;
+                    filterStrategy = new Over18FilterStrategy();
                     break;
                 case 3:
-                    filterCriteria = friend => DateTime.TryParse(friend.Birthday, out DateTime birthday) && CalculateAge(birthday) > 25;
+                    filterStrategy = new Over25FilterStrategy();
                     break;
                 case 4:
-                    filterCriteria = friend => DateTime.TryParse(friend.Birthday, out DateTime birthday) && CalculateAge(birthday) > 50;
+                    filterStrategy = new Over50FilterStrategy();
                     break;
             }
 
-            displayFriendsFilter(filterCriteria);
+            displayFriendsFilter(filterStrategy);
         }
 
-        // Helper function to calculate age from Birthday
-        private int CalculateAge(DateTime birthDate)
-        {
-            DateTime now = DateTime.Now;
-            int age = now.Year - birthDate.Year;
 
-            if (now < birthDate.AddYears(age))
-            {
-                age--;
-            }
-
-            return age;
-        }
-
-        private void displayFriendsFilter(Func<User, bool> i_Test)
+        private void displayFriendsFilter(FriendsFilterStrategy i_FilterStrategy)
         {
             listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Clear()));
             listBoxFriends.Invoke(new Action(() => listBoxFriends.DisplayMember = "Name"));
             foreach (User friend in AppManagment.Instance.LoggedInUser.Friends)
             {
-                if (i_Test(friend))
+                if (i_FilterStrategy.Filter(friend))
                 {
                     listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Add(friend)));
                 }

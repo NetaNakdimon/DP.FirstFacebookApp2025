@@ -42,6 +42,7 @@
     <Compile Include="AppManagment.cs" />
     <Compile Include="BirthdayManager.cs" />
     <Compile Include="DistanceCalculator.cs" />
+    <Compile Include="FriendsFilterStrategy.cs" />
     <Compile Include="GenderStatsCalculator.cs" />
     <Compile Include="IPostIterator.cs" />
     <Compile Include="PostCollection.cs" />
