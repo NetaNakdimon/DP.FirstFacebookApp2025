@@ -11,7 +11,7 @@ namespace FBLogic
     {
         public override bool Filter(User i_Friend)
         {
-            return DateTime.TryParse(i_Friend.Birthday, out DateTime birthday) && CalculateAge(birthday) > 10; 
+            return DateTime.TryParse(i_Friend.Birthday, out DateTime o_birthday) && CalculateAge(o_birthday) > 10; 
         }
     }
 }

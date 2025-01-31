@@ -14,12 +14,12 @@ namespace FBLogic
             return true;
         }
 
-        internal int CalculateAge(DateTime birthDate)
+        internal int CalculateAge(DateTime i_birthDate)
         {
             DateTime now = DateTime.Now;
-            int age = now.Year - birthDate.Year;
+            int age = now.Year - i_birthDate.Year;
 
-            if (now < birthDate.AddYears(age))
+            if (now < i_birthDate.AddYears(age))
             {
                 age--;
             }

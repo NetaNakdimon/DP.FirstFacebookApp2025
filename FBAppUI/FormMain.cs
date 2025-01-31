@@ -1,19 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
-using FacebookWrapper;
-using System.Drawing.Text;
-using System.Media;
 using FBAppLogic;
 using System.Threading;
-using System.Diagnostics.Eventing.Reader;
-using System.Deployment.Application;
 using FBLogic;
 
 
@@ -41,7 +33,16 @@ namespace BasicFacebookFeatures
 
         private void Instance_UserLoggedOut(object sender, EventArgs e)
         {
-            eraseWhenLogOut();
+            this.Invoke(new Action(() => eraseWhenLogOut()));
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            // Unsubscribe from events to avoid memory leaks
+            AppManagment.Instance.UserLoggedIn -= Instance_UserLoggedIn;
+            AppManagment.Instance.UserLoggedOut -= Instance_UserLoggedOut;
+
+            base.OnFormClosing(e);
         }
 
 
@@ -55,6 +56,8 @@ namespace BasicFacebookFeatures
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             Clipboard.SetText("design.patterns");
+            AppManagment.Instance.Login();
+            displayUserInfoWhenLogin();
         }
 
         private void displayUserInfoWhenLogin()
@@ -204,7 +207,7 @@ namespace BasicFacebookFeatures
         }
 
 
-        private void displayPosts(bool isReverse)
+        private void displayPosts(bool i_isReverse)
         {
             listBoxPosts.Invoke(new Action(() => listBoxPosts.Items.Clear()));
 
@@ -216,7 +219,7 @@ namespace BasicFacebookFeatures
 
             // Create PostCollection & Iterator with sorting order
             PostCollection postCollection = new PostCollection(AppManagment.Instance.LoggedInUser.Posts.ToList());
-            IPostIterator iterator = postCollection.CreateIterator(isReverse);
+            IPostIterator iterator = postCollection.CreateIterator(i_isReverse);
 
             while (iterator.HasNext())
             {
@@ -468,7 +471,6 @@ namespace BasicFacebookFeatures
             }
         }
 
- 
         private void comboBoxFriendsFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Default: Show all friends
@@ -492,7 +494,6 @@ namespace BasicFacebookFeatures
 
             displayFriendsFilter(filterStrategy);
         }
-
 
         private void displayFriendsFilter(FriendsFilterStrategy i_FilterStrategy)
         {
@@ -784,7 +785,6 @@ namespace BasicFacebookFeatures
             }));
         }
 
-
         private void buttonFindCloseFriends_Click(object sender, EventArgs e)
         {
             new Thread(displayNearbyFriends).Start();
@@ -797,7 +797,6 @@ namespace BasicFacebookFeatures
                 MessageBox.Show("Please log in to view nearby friends.");
                 return;
             }
-            //consult with joel
             DistanceCalculator.eCity? userCity = AppManagment.Instance.ConvertToeCity(AppManagment.Instance.LoggedInUser.Hometown);
 
             if (!userCity.HasValue)
