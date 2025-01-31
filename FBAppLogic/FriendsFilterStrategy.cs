@@ -27,36 +27,4 @@ namespace FBLogic
             return age;
         }
     }
-
-    public class Over10FilterStrategy : FriendsFilterStrategy
-    {
-        public override bool Filter(User i_Friend)
-        {
-            return DateTime.TryParse(i_Friend.Birthday, out DateTime birthday) && CalculateAge(birthday) > 10; ;
-        }
-    }
-
-    public class Over18FilterStrategy : FriendsFilterStrategy
-    {
-        public override bool Filter(User i_Friend)
-        {
-            return DateTime.TryParse(i_Friend.Birthday, out DateTime birthday) && CalculateAge(birthday) > 18; ;
-        }
-    }
-
-    public class Over25FilterStrategy : FriendsFilterStrategy
-    {
-        public override bool Filter(User i_Friend)
-        {
-            return DateTime.TryParse(i_Friend.Birthday, out DateTime birthday) && CalculateAge(birthday) > 25; ;
-        }
-    }
-
-    public class Over50FilterStrategy : FriendsFilterStrategy
-    {
-        public override bool Filter(User i_Friend)
-        {
-            return DateTime.TryParse(i_Friend.Birthday, out DateTime birthday) && CalculateAge(birthday) > 50; ;
-        }
-    }
 }

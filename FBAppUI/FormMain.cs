@@ -496,18 +496,27 @@ namespace BasicFacebookFeatures
 
         private void displayFriendsFilter(FriendsFilterStrategy i_FilterStrategy)
         {
-            listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Clear()));
-            listBoxFriends.Invoke(new Action(() => listBoxFriends.DisplayMember = "Name"));
-            foreach (User friend in AppManagment.Instance.LoggedInUser.Friends)
+            if (AppManagment.Instance.LoggedInUser != null)
             {
-                if (i_FilterStrategy.Filter(friend))
+
+                listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Clear()));
+                listBoxFriends.Invoke(new Action(() => listBoxFriends.DisplayMember = "Name"));
+                foreach (User friend in AppManagment.Instance.LoggedInUser.Friends)
                 {
-                    listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Add(friend)));
+                    if (i_FilterStrategy.Filter(friend))
+                    {
+                        listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Add(friend)));
+                    }
+                }
+                if (listBoxFriends.Items.Count == 0)
+                {
+                    listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Add("No friends to show")));
                 }
             }
-            if (listBoxFriends.Items.Count == 0)
+            else
             {
-                listBoxFriends.Invoke(new Action(() => listBoxFriends.Items.Add("No friends to show")));
+                MessageBox.Show("Please log in to see your friends");
+                return;
             }
         }
 

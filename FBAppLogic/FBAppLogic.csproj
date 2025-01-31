@@ -45,6 +45,10 @@
     <Compile Include="FriendsFilterStrategy.cs" />
     <Compile Include="GenderStatsCalculator.cs" />
     <Compile Include="IPostIterator.cs" />
+    <Compile Include="Over10FilterStrategy.cs" />
+    <Compile Include="Over18FilterStrategy.cs" />
+    <Compile Include="Over25FilterStrategy.cs" />
+    <Compile Include="Over50FilterStrategy.cs" />
     <Compile Include="PostCollection.cs" />
     <Compile Include="PostIterator.cs" />
   </ItemGroup>
