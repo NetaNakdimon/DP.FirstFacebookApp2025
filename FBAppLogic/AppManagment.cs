@@ -14,9 +14,9 @@ namespace FBAppLogic
         private LoginResult m_LoginResult;
         private User m_LoggedInUser;
         private static AppManagment m_AppManagmentInstance = null;
-        private static object s_LockObj = new Object();
-        private static object s_LockObj2 = new Object();
-        private static object s_GlobaLock = new Object();
+        readonly static object sr_LockObj = new Object();
+        readonly static object sr_LockObj2 = new Object();
+        readonly static object sr_GlobaLock = new Object();
         private BirthdayManager m_BirthdayManager;
         private List<User> m_FriendsWithBirthdaysToday;
         private GenderStatsCalculator m_GenderStatsCalculator;

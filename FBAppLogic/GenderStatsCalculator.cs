@@ -48,7 +48,7 @@ namespace FBAppLogic
 
             foreach (User friend in m_LoggedInUser.Friends)
             {
-                int? age = GetUserAge(friend); 
+                int? age = getUserAge(friend); 
 
                 if (friend.Gender == User.eGender.male)
                 {
@@ -71,7 +71,7 @@ namespace FBAppLogic
             }
         }
 
-        private int? GetUserAge(User i_User)
+        private int? getUserAge(User i_User)
         {
             if (DateTime.TryParse(i_User.Birthday, out DateTime birthDate))
             {

@@ -17,8 +17,8 @@ namespace BasicFacebookFeatures
         {
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
-            AppManagment.Instance.UserLoggedIn += Instance_UserLoggedIn;
-            AppManagment.Instance.UserLoggedOut += Instance_UserLoggedOut;
+            AppManagment.Instance.UserLoggedIn += instance_UserLoggedIn;
+            AppManagment.Instance.UserLoggedOut += instance_UserLoggedOut;
             if (AppManagment.Instance.LoggedInUser != null)
             {
                 Console.WriteLine("User is already logged in. Updating UI.");
@@ -26,12 +26,12 @@ namespace BasicFacebookFeatures
             }
     }
 
-        private void Instance_UserLoggedIn(object sender, EventArgs e)
+        private void instance_UserLoggedIn(object sender, EventArgs e)
         {
             this.Invoke(new Action(() => displayUserInfoWhenLogin()));
         }
 
-        private void Instance_UserLoggedOut(object sender, EventArgs e)
+        private void instance_UserLoggedOut(object sender, EventArgs e)
         {
             this.Invoke(new Action(() => eraseWhenLogOut()));
         }
@@ -39,8 +39,8 @@ namespace BasicFacebookFeatures
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             // Unsubscribe from events to avoid memory leaks
-            AppManagment.Instance.UserLoggedIn -= Instance_UserLoggedIn;
-            AppManagment.Instance.UserLoggedOut -= Instance_UserLoggedOut;
+            AppManagment.Instance.UserLoggedIn -= instance_UserLoggedIn;
+            AppManagment.Instance.UserLoggedOut -= instance_UserLoggedOut;
 
             base.OnFormClosing(e);
         }
@@ -181,7 +181,7 @@ namespace BasicFacebookFeatures
         }
 
         // Posts methods
-        private void FetchPosts_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void fetchPosts_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (AppManagment.Instance.LoggedInUser != null)
             {
@@ -616,11 +616,11 @@ namespace BasicFacebookFeatures
 
         private void buttonAddMassage_Click(object sender, EventArgs e)
         {
-            SendBirthdayMessageAdaptor(textBoxAddedMassage.Text);
+            sendBirthdayMessageAdaptor(textBoxAddedMassage.Text);
         }
 
 
-        private void SendBirthdayMessageAdaptor(String i_Message)
+        private void sendBirthdayMessageAdaptor(String i_Message)
         {
             try
             {
@@ -743,7 +743,7 @@ namespace BasicFacebookFeatures
         }
 
         // City statistics methods
-        private void FetchCityStats_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        private void fetchCityStats_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
         {
             new Thread(fetchFriendsCityStats).Start();
         }

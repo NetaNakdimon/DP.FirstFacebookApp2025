@@ -36,11 +36,11 @@ namespace FBAppLogic
             addDistance(eCity.Jerusalem, eCity.Ashdod, 40);
         }
 
-        private static void addDistance(eCity i_City1, eCity i_City2, int distance)
+        private static void addDistance(eCity i_City1, eCity i_City2, int i_Distance)
         {
             // Add distance in both directions for symmetry
-            sr_CityDistances[Tuple.Create(i_City1, i_City2)] = distance;
-            sr_CityDistances[Tuple.Create(i_City2, i_City1)] = distance;
+            sr_CityDistances[Tuple.Create(i_City1, i_City2)] = i_Distance;
+            sr_CityDistances[Tuple.Create(i_City2, i_City1)] = i_Distance;
         }
 
         public Dictionary<string, int> GetCityStatistics(List<User> i_Friends)
