@@ -24,7 +24,7 @@ namespace BasicFacebookFeatures
 
                 // Open the main application form upon successful login
                 this.Hide();
-                FacebookFormFactory.CreateForm("MainForm").ShowDialog();
+                FacebookFormFactory.CreateForm(eFormType.MainForm).ShowDialog();
                 this.Close();
             };
 

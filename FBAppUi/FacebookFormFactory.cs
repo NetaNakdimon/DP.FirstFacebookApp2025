@@ -1,40 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 
 namespace BasicFacebookFeatures
 {
+    internal enum eFormType
+    {
+        LoginForm,
+        MainForm,
+        AlbumDetailsForm
+    }
+
     internal class FacebookFormFactory
     {
-        public static Form CreateForm(String i_Form)
+        private static readonly Dictionary<eFormType, Func<Form>> formCreators = new Dictionary<eFormType, Func<Form>>
         {
-            Form newForm = null;
+            { eFormType.LoginForm, () => new LoginForm() },
+            { eFormType.MainForm, () => new FormMain() },
+            { eFormType.AlbumDetailsForm, () => new AlbumDetailsForm() }
+        };
 
-            try
+        public static Form CreateForm(eFormType i_FormType)
+        {
+            if (formCreators.TryGetValue(i_FormType, out Func<Form> createForm))
+            {
+                return createForm();
+            }
 
-            {
-                switch (i_Form)
-            {
-                case "LoginForm":
-                    newForm = new LoginForm();
-                    break;
-                case "MainForm":
-                    newForm = new FormMain();
-                    break;
-                case "AlbumDetailsForm":
-                    newForm = new AlbumDetailsForm();
-                    break;
-            }
-        }
-            catch
-            {
-                MessageBox.Show(@"Not a known form type, please try again");
-            }
-            return newForm;
+            MessageBox.Show(@"Not a known form type, please try again");
+            return null;
         }
     }
 }

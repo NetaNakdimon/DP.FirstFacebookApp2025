@@ -376,7 +376,7 @@ namespace BasicFacebookFeatures
             this.FetchPosts.TabStop = true;
             this.FetchPosts.Text = "Fetch Posts\r";
             this.FetchPosts.UseCompatibleTextRendering = true;
-            this.FetchPosts.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.FetchPosts_LinkClicked);
+            this.FetchPosts.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.fetchPosts_LinkClicked);
             // 
             // listBoxPosts
             // 
@@ -671,7 +671,7 @@ namespace BasicFacebookFeatures
             this.FetchCityStats.TabIndex = 12;
             this.FetchCityStats.TabStop = true;
             this.FetchCityStats.Text = "Fetch Friends City Stats";
-            this.FetchCityStats.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.FetchCityStats_LinkClicked_1);
+            this.FetchCityStats.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.fetchCityStats_LinkClicked_1);
             // 
             // ListBoxFriendsCityStats
             // 

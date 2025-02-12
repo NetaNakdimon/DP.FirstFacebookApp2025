@@ -611,7 +611,7 @@ namespace BasicFacebookFeatures
 
         private void buttonPost_Click(object sender, EventArgs e)
         {
-            SendBirthdayMessageAdaptor(comboBoxOptionalMsg.Text);
+            sendBirthdayMessageAdaptor(comboBoxOptionalMsg.Text);
         }
 
         private void buttonAddMassage_Click(object sender, EventArgs e)
@@ -830,12 +830,11 @@ namespace BasicFacebookFeatures
             this.Invoke(new Action(() => {
                 if (AppManagment.Instance.ChosenAlbum != null)
                 {
-                    FacebookFormFactory.CreateForm("AlbumDetailsForm").ShowDialog();
+                    FacebookFormFactory.CreateForm(eFormType.AlbumDetailsForm).ShowDialog();
                 }
             }));
         }
 
-   
     }
 }
 

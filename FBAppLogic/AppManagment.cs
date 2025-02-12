@@ -34,7 +34,7 @@ namespace FBAppLogic
             {
                 if (m_AppManagmentInstance == null)
                 {
-                    lock (s_LockObj)
+                    lock (sr_LockObj)
                     {
                         if (m_AppManagmentInstance == null)
                         {
@@ -234,7 +234,7 @@ namespace FBAppLogic
         {
             if (m_FriendsWithBirthdaysToday == null)
             {
-                lock (s_LockObj2)
+                lock (sr_LockObj2)
                 {
                     if (m_FriendsWithBirthdaysToday == null)
                     {
@@ -247,7 +247,7 @@ namespace FBAppLogic
 
         public object GlobalLock()
         {
-            return s_GlobaLock;
+            return sr_GlobaLock;
         }
 
         public Album ChosenAlbum

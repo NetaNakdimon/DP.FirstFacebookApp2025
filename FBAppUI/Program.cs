@@ -19,7 +19,8 @@ namespace BasicFacebookFeatures
             FacebookService.s_UseForamttedToStrings = true;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(FacebookFormFactory.CreateForm("LoginForm"));
+            Application.Run(FacebookFormFactory.CreateForm(eFormType.LoginForm));
+
         }
     }
 }
